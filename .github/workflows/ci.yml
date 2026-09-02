@@ -1,0 +1,131 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Same credentials the repo uses locally (.env.test), reachable on the port
+  # the local test database uses too. .env.test itself is gitignored and
+  # never checked out here, so these are set per step below instead of
+  # relied on from the working tree.
+  TEST_DATABASE_URL: postgresql://datalize:datalize@localhost:5434/datalize_test
+  TEST_BETTER_AUTH_SECRET: test-secret-that-is-at-least-32-characters-long
+  TEST_BETTER_AUTH_URL: http://localhost:3000
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: datalize
+          POSTGRES_PASSWORD: datalize
+          POSTGRES_DB: datalize_test
+        ports:
+          - 5434:5432
+        options: >-
+          --health-cmd="pg_isready -U datalize -d datalize_test"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=10
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        # No `version:` here — it's read from package.json's "packageManager"
+        # field (pnpm@10.33.2), which is also what keeps this in sync with
+        # the lockfile without editing this file when that version bumps.
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint (oxlint)
+        run: pnpm lint
+
+      - name: Format check (oxfmt)
+        run: pnpm format:check
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Unit tests
+        run: pnpm test
+
+      - name: Run database migrations
+        run: pnpm db:migrate
+        env:
+          DATABASE_URL: ${{ env.TEST_DATABASE_URL }}
+          ANALYTICAL_DATABASE_URL: ${{ env.TEST_DATABASE_URL }}
+          BETTER_AUTH_SECRET: ${{ env.TEST_BETTER_AUTH_SECRET }}
+          BETTER_AUTH_URL: ${{ env.TEST_BETTER_AUTH_URL }}
+
+      - name: Check schema matches committed migrations (db:check)
+        run: |
+          pnpm db:generate
+          if [ -n "$(git status --porcelain -- src/db/migrations)" ]; then
+            echo "::error::'pnpm db:generate' produced changes under src/db/migrations."
+            echo "::error::The committed migrations do not match src/db/schema — run 'pnpm db:generate' locally and commit the result."
+            git status --porcelain -- src/db/migrations
+            git diff -- src/db/migrations
+            exit 1
+          fi
+        env:
+          DATABASE_URL: ${{ env.TEST_DATABASE_URL }}
+          ANALYTICAL_DATABASE_URL: ${{ env.TEST_DATABASE_URL }}
+          BETTER_AUTH_SECRET: ${{ env.TEST_BETTER_AUTH_SECRET }}
+          BETTER_AUTH_URL: ${{ env.TEST_BETTER_AUTH_URL }}
+
+      - name: Integration tests
+        run: pnpm test:integration
+        env:
+          DATABASE_URL: ${{ env.TEST_DATABASE_URL }}
+          ANALYTICAL_DATABASE_URL: ${{ env.TEST_DATABASE_URL }}
+          BETTER_AUTH_SECRET: ${{ env.TEST_BETTER_AUTH_SECRET }}
+          BETTER_AUTH_URL: ${{ env.TEST_BETTER_AUTH_URL }}
+
+      - name: Build
+        run: pnpm build
+        env:
+          DATABASE_URL: ${{ env.TEST_DATABASE_URL }}
+          ANALYTICAL_DATABASE_URL: ${{ env.TEST_DATABASE_URL }}
+          BETTER_AUTH_SECRET: ${{ env.TEST_BETTER_AUTH_SECRET }}
+          BETTER_AUTH_URL: ${{ env.TEST_BETTER_AUTH_URL }}
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: End-to-end tests
+        run: pnpm test:e2e
+        env:
+          # CI is already set to "true" by the GitHub Actions runner itself;
+          # playwright.config.ts's webServer command and retry/worker
+          # settings branch on it.
+          DATABASE_URL: ${{ env.TEST_DATABASE_URL }}
+          ANALYTICAL_DATABASE_URL: ${{ env.TEST_DATABASE_URL }}
+          BETTER_AUTH_SECRET: ${{ env.TEST_BETTER_AUTH_SECRET }}
+          BETTER_AUTH_URL: ${{ env.TEST_BETTER_AUTH_URL }}
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 14

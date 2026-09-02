@@ -8,6 +8,13 @@
       "when": 1788357975549,
       "tag": "0000_fast_the_fallen",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1788377003666,
+      "tag": "0001_certain_magdalene",
+      "breakpoints": true
     }
   ]
 }

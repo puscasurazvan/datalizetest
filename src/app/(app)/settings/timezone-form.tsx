@@ -22,6 +22,13 @@ export function TimezoneForm({ currentTimezone, availableTimezones, canEdit }: T
   const formError = state && !state.ok ? state.formError : undefined
   const savedTimezone = state && state.ok ? state.data.timezone : undefined
   const timezoneErrorId = fieldErrors.timezone ? "timezone-error" : undefined
+  const timezoneDescribedBy = ["timezone-warning", timezoneErrorId].filter(Boolean).join(" ")
+
+  // A native <select> whose value matches no option silently selects the first
+  // one, so submitting the form unchanged would overwrite the workspace timezone
+  // with whatever sorted first. Surface the stored value instead of swallowing it.
+  const selectedTimezone = savedTimezone ?? currentTimezone
+  const isRecognised = availableTimezones.includes(selectedTimezone)
 
   return (
     <form action={formAction} className="space-y-4">
@@ -30,10 +37,13 @@ export function TimezoneForm({ currentTimezone, availableTimezones, canEdit }: T
         <Select
           id="timezone"
           name="timezone"
-          defaultValue={savedTimezone ?? currentTimezone}
+          defaultValue={selectedTimezone}
           disabled={!canEdit}
-          aria-describedby={`timezone-warning ${timezoneErrorId ?? ""}`.trim()}
+          aria-describedby={timezoneDescribedBy}
         >
+          {!isRecognised && (
+            <option value={selectedTimezone}>{selectedTimezone} — not recognised</option>
+          )}
           {availableTimezones.map((timezone) => (
             <option key={timezone} value={timezone}>
               {timezone}

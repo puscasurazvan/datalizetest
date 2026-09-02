@@ -1,6 +1,7 @@
 import { Pool } from "pg"
 
 import { env } from "@/shared/env"
+import { createLogger } from "@/shared/observability/logger"
 
 /**
  * Analytical pool. Separate from the application pool so a slow or runaway
@@ -16,4 +17,14 @@ export const analyticalPool = new Pool({
   connectionString: env().ANALYTICAL_DATABASE_URL,
   max: 10,
   statement_timeout: ANALYTICAL_STATEMENT_TIMEOUT_MS,
+})
+
+const logger = createLogger()
+
+// See src/db/client.ts for why this listener is required: pg-pool emits
+// `'error'` on the pool when an idle pooled client fails, and an
+// EventEmitter with no `'error'` listener throws that error as an uncaught
+// exception, which here would take down every in-flight interactive query.
+analyticalPool.on("error", (error) => {
+  logger.error("analytical pool: idle client error", { error })
 })

@@ -136,6 +136,14 @@ export const organizationMembers = pgTable(
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   },
   (table) => [
+    // Better Auth's membership writes (crud-members.mjs) are check-then-insert
+    // with no transaction: a double-clicked or double-tabbed accept-invitation
+    // can otherwise create two rows for the same (organization_id, user_id).
+    // This is the database-level backstop docs/decisions/06 #19 requires.
+    uniqueIndex("organization_members_organization_user_idx").on(
+      table.organizationId,
+      table.userId,
+    ),
     index("organization_members_organization_id_idx").on(table.organizationId),
     index("organization_members_user_id_idx").on(table.userId),
   ],

@@ -21,16 +21,34 @@ export interface SelectWorkspacePromptProps {
 export function SelectWorkspacePrompt({ organizations }: SelectWorkspacePromptProps) {
   const router = useRouter()
   const [selectingId, setSelectingId] = useState<string | null>(null)
+  const [error, setError] = useState<string | null>(null)
 
   async function select(organizationId: string) {
+    setError(null)
     setSelectingId(organizationId)
-    await authClient.organization.setActive({ organizationId })
-    router.refresh()
+    try {
+      const { error: switchError } = await authClient.organization.setActive({ organizationId })
+      if (switchError) {
+        setError(switchError.message ?? "Could not open that workspace. Try again.")
+        return
+      }
+      router.refresh()
+    } finally {
+      // Always release the buttons — on success this component is about to
+      // be replaced by the refreshed layout anyway, and on error it is the
+      // user's only way back to a working screen.
+      setSelectingId(null)
+    }
   }
 
   return (
     <div className="w-full max-w-sm space-y-3">
       <p className="text-sm text-muted-foreground">Choose a workspace to continue.</p>
+      {error ? (
+        <p role="alert" className="text-sm text-danger">
+          {error}
+        </p>
+      ) : null}
       <ul className="space-y-2">
         {organizations.map((organization) => (
           <li key={organization.id}>

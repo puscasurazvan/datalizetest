@@ -24,6 +24,7 @@ export interface WorkspaceSwitcherProps {
 export function WorkspaceSwitcher({ organizations, activeOrganizationId }: WorkspaceSwitcherProps) {
   const router = useRouter()
   const [switching, setSwitching] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   async function handleChange(event: ChangeEvent<HTMLSelectElement>) {
     const organizationId = event.target.value
@@ -31,10 +32,22 @@ export function WorkspaceSwitcher({ organizations, activeOrganizationId }: Works
       return
     }
 
+    setError(null)
     setSwitching(true)
-    await authClient.organization.setActive({ organizationId })
-    router.refresh()
-    setSwitching(false)
+    try {
+      const { error: switchError } = await authClient.organization.setActive({ organizationId })
+      if (switchError) {
+        // The <select> is controlled by `activeOrganizationId`, which only
+        // the server can change, so on failure it snaps back to the old
+        // workspace on its own re-render — this message is what tells the
+        // user that was a rejection, not a glitch.
+        setError(switchError.message ?? "Could not switch workspace. Try again.")
+        return
+      }
+      router.refresh()
+    } finally {
+      setSwitching(false)
+    }
   }
 
   return (
@@ -61,6 +74,11 @@ export function WorkspaceSwitcher({ organizations, activeOrganizationId }: Works
       >
         + New workspace
       </Link>
+      {error ? (
+        <p role="alert" className="text-sm text-danger">
+          {error}
+        </p>
+      ) : null}
     </div>
   )
 }

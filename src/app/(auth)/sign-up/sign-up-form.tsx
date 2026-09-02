@@ -51,6 +51,9 @@ export function SignUpForm() {
   const router = useRouter()
   const [state, formAction, pending] = useActionState(signUp, null)
 
+  // Navigation is a side effect of a server response we can't act on
+  // during render (the action result), not something to derive — this is
+  // the one legitimate use of an effect here.
   useEffect(() => {
     if (state?.ok) {
       router.push("/datasets")

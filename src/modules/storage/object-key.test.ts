@@ -72,3 +72,16 @@ describe("ObjectKey.parse", () => {
     expect(result.ok || result.reason.length > 0).toBe(true)
   })
 })
+
+describe("ObjectKey nominality", () => {
+  it("rejects a forged object literal at compile time — a client-supplied string must not be assignable without surviving ObjectKey.parse", () => {
+    // @ts-expect-error -- ObjectKey is nominal; a plain { value } literal must not be assignable to it.
+    const forged: ObjectKey = {
+      value: "org/org_a/uploads/11111111-1111-4111-8111-111111111111.csv",
+    }
+
+    // Keep `forged` reachable so oxlint's no-unused-vars can't hide a
+    // typecheck regression behind a separate lint failure.
+    expect(typeof forged).toBe("object")
+  })
+})

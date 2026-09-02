@@ -30,4 +30,24 @@ describe("parseEnv", () => {
       /BETTER_AUTH_SECRET/,
     )
   })
+
+  // A present-but-blank optional secret (e.g. `TRIGGER_SECRET_KEY=""` from a
+  // freshly copied .env.example, or a Vercel env var declared and left
+  // empty) must parse the same as an absent one. selectJobDispatcher
+  // (src/modules/jobs/index.ts) branches on `=== undefined` only, so `""`
+  // slipping through as `""` would make it construct a TriggerDevDispatcher
+  // with an empty access token instead of falling back to InlineDispatcher.
+  it("normalizes a blank optional secret to undefined, not empty string", () => {
+    expect(parseEnv({ ...valid, TRIGGER_SECRET_KEY: "" }).TRIGGER_SECRET_KEY).toBeUndefined()
+  })
+
+  it("still accepts a real value for an optional secret", () => {
+    expect(parseEnv({ ...valid, TRIGGER_SECRET_KEY: "tr_dev_abc123" }).TRIGGER_SECRET_KEY).toBe(
+      "tr_dev_abc123",
+    )
+  })
+
+  it("normalizes a whitespace-only optional secret to undefined", () => {
+    expect(parseEnv({ ...valid, SENTRY_DSN: "   " }).SENTRY_DSN).toBeUndefined()
+  })
 })

@@ -11,9 +11,10 @@ import type { ActionResult } from "@/shared/validation/action-result"
 import { formErrorsFromZod } from "@/shared/validation/zod-form"
 
 const updateTimezoneSchema = z.object({
-  // Real validation is `assertKnownTimezone` in the organizations service
-  // (pg_timezone_names is the allowlist, docs/decisions/03/04) — this only
-  // rejects an empty submission before that round trip.
+  // Real validation is `assertKnownTimezone` in the organizations service,
+  // against the curated canonical-IANA-zone allowlist in
+  // `canonical-timezones.ts` (docs/decisions/03/04) — this only rejects an
+  // empty submission before that round trip.
   timezone: z.string().min(1, "Choose a timezone"),
 })
 

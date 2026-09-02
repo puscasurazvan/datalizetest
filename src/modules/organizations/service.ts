@@ -7,6 +7,8 @@ import { ROLES, type PolicyContext } from "@/modules/auth/policy"
 import type { RequestContext } from "@/shared/context/request-context"
 import { AppError } from "@/shared/errors"
 
+import { CANONICAL_IANA_TIMEZONES } from "./canonical-timezones"
+
 /**
  * The safe shape an Organization is ever returned to the UI as — never a
  * Drizzle/Better Auth row. Named `OrganizationSummary`, not `Workspace*`:
@@ -74,28 +76,19 @@ export async function createOrganizationForUser(
 }
 
 /**
- * `Intl.supportedValuesOf("timeZone")` is the canonical IANA zone list
- * this module's CLAUDE.md requires: unlike `pg_timezone_names`, it excludes
- * fixed-offset abbreviations (`EST`, `PST8PDT`) and legacy aliases
- * (`Asia/Calcutta`) that are ambiguous or superseded. Computed once at
- * module load — it's a pure function of the ICU data built into the
- * runtime, not of anything in the request.
- */
-const CANONICAL_TIMEZONES = new Set(Intl.supportedValuesOf("timeZone"))
-
-/**
- * The canonical names above, narrowed to the ones this Postgres server's
- * own `pg_timezone_names` also recognises — so a name that passes this
- * never fails at query-compile time when the compiler applies
- * `AT TIME ZONE '<name>'` (docs/decisions/03, #04). Neither list alone is
- * the right allowlist: `pg_timezone_names` is too broad (this module's
- * CLAUDE.md), and the canonical list alone could name a zone this
+ * The canonical names in `./canonical-timezones`, narrowed to the ones this
+ * Postgres server's own `pg_timezone_names` also recognises — so a name
+ * that passes this never fails at query-compile time when the compiler
+ * applies `AT TIME ZONE '<name>'` (docs/decisions/03, #04). Neither list
+ * alone is the right allowlist: `pg_timezone_names` is too broad (this
+ * module's CLAUDE.md — it also lists fixed-offset abbreviations and
+ * legacy aliases), and the canonical list alone could name a zone this
  * server's tzdata build doesn't ship.
  */
 async function knownTimezones(): Promise<Set<string>> {
   const result = await db.execute<{ name: string }>(sql`select name from pg_timezone_names`)
   const postgresTimezones = new Set(result.rows.map((row) => row.name))
-  return new Set([...CANONICAL_TIMEZONES].filter((name) => postgresTimezones.has(name)))
+  return new Set([...CANONICAL_IANA_TIMEZONES].filter((name) => postgresTimezones.has(name)))
 }
 
 /** Every valid timezone name, for the timezone picker. */

@@ -4,6 +4,25 @@ import { z } from "zod"
  * Environment is validated once, at first import, and fails loudly.
  * A missing variable must never reach runtime as `undefined`.
  */
+
+/**
+ * An optional secret/config value: present-and-non-blank, or absent —
+ * never present-but-blank. `z.string().optional()` alone accepts `""`,
+ * which is a real, distinct footgun here: `.env.example` ships these keys
+ * with an empty value (e.g. `TRIGGER_SECRET_KEY=""`), a freshly declared
+ * but unset Vercel env var resolves to `""` too, and callers such as
+ * `selectJobDispatcher` (src/modules/jobs/index.ts) branch on
+ * `=== undefined` to decide "not configured" — so a blank string must
+ * normalize to `undefined` before it ever reaches that check, not merely
+ * fail validation (which would turn a fresh `.env.example` clone into a
+ * boot failure).
+ */
+const optionalSecret = () =>
+  z.preprocess(
+    (value) => (typeof value === "string" && value.trim() === "" ? undefined : value),
+    z.string().min(1).optional(),
+  )
+
 const schema = z.object({
   DATABASE_URL: z.url(),
   ANALYTICAL_DATABASE_URL: z.url(),
@@ -11,16 +30,16 @@ const schema = z.object({
   BETTER_AUTH_SECRET: z.string().min(32),
   BETTER_AUTH_URL: z.url(),
 
-  STORAGE_ENDPOINT: z.string().optional(),
-  STORAGE_REGION: z.string().optional(),
-  STORAGE_BUCKET: z.string().optional(),
-  STORAGE_ACCESS_KEY_ID: z.string().optional(),
-  STORAGE_SECRET_ACCESS_KEY: z.string().optional(),
+  STORAGE_ENDPOINT: optionalSecret(),
+  STORAGE_REGION: optionalSecret(),
+  STORAGE_BUCKET: optionalSecret(),
+  STORAGE_ACCESS_KEY_ID: optionalSecret(),
+  STORAGE_SECRET_ACCESS_KEY: optionalSecret(),
 
-  TRIGGER_SECRET_KEY: z.string().optional(),
-  TRIGGER_PROJECT_ID: z.string().optional(),
+  TRIGGER_SECRET_KEY: optionalSecret(),
+  TRIGGER_PROJECT_ID: optionalSecret(),
 
-  SENTRY_DSN: z.string().optional(),
+  SENTRY_DSN: optionalSecret(),
 
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
 })

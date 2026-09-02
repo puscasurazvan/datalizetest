@@ -89,7 +89,12 @@ const BEARER_TOKEN_RE = /\bBearer\s+[A-Za-z0-9\-._~+/]+=*/gi
 const ANALYTICAL_SCHEMA_RE = /\banalytical\.[a-zA-Z_][a-zA-Z0-9_]*\b/gi
 // A bare physical table id, e.g. "dv_9f8e7d", without the schema prefix.
 const PHYSICAL_TABLE_ID_RE = /\bdv_[0-9a-f]+\b/gi
-const SECRET_QUERY_PARAM_RE = /\b(api[_-]?key|token|secret|password|access[_-]?key)=[^&\s]+/gi
+const SECRET_QUERY_PARAM_RE =
+  /\b(api[_-]?key|token|secret|password|access[_-]?key|x-amz-signature|x-amz-credential|signature|sig)=[^&\s]+/gi
+// Better Auth's password-reset link carries the one-time token as a path segment
+// rather than a query param: GET /reset-password/<token>. No "key=value" shape
+// for SECRET_QUERY_PARAM_RE to catch, so it needs its own pattern.
+const RESET_PASSWORD_TOKEN_PATH_RE = /\/reset-password\/[^/?#\s]+/gi
 
 function wordsOf(key: string): string[] {
   return key
@@ -122,6 +127,7 @@ function scrubString(input: string): string {
     .replace(ANALYTICAL_SCHEMA_RE, "[REDACTED:analytical-schema]")
     .replace(PHYSICAL_TABLE_ID_RE, "[REDACTED:physical-id]")
     .replace(SECRET_QUERY_PARAM_RE, "$1=[REDACTED]")
+    .replace(RESET_PASSWORD_TOKEN_PATH_RE, "/reset-password/[REDACTED]")
 }
 
 function isPlainObject(value: unknown): value is Record<string, unknown> {

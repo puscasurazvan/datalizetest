@@ -9,6 +9,15 @@
  * private constructor — there is no other exported path to an `ObjectKey`,
  * so a client-supplied string cannot become one without first surviving
  * `ObjectKey.parse`.
+ *
+ * `value` is backed by an ES private `#value` field (not just a `private
+ * constructor` parameter property) so the class is nominally typed: a
+ * `private constructor` only restricts `new ObjectKey(...)` and assignment
+ * of the *class*, not the *instance* type, so without the private field a
+ * plain `{ value: "..." }` object literal would still structurally match
+ * `{ readonly value: string }` and be assignable to `ObjectKey` with no
+ * cast — bypassing `ObjectKey.parse` entirely. Mirrors `PresignedUploadUrl`
+ * (./provider.ts), the sibling branded type in this module.
  */
 
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
@@ -24,7 +33,15 @@ export type ObjectKeyParseResult =
   | { readonly ok: false; readonly reason: string }
 
 export class ObjectKey {
-  private constructor(readonly value: string) {}
+  #value: string
+
+  private constructor(value: string) {
+    this.#value = value
+  }
+
+  get value(): string {
+    return this.#value
+  }
 
   /** Mints a fresh, server-generated key for a new upload. */
   static forOrganization(organizationId: string): ObjectKey {

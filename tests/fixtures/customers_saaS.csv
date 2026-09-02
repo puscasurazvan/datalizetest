@@ -1,0 +1,1002 @@
+id,name,email,plan,status,created_at,canceled_at,mrr,country
+c000001,Ken Ito,kenito0@acme.io,enterprise,churned,2025-04-17 06:53:03,2025-11-17 04:02:18,546.46,FR
+c000002,Eli Grant,eligrant1@acme.io,starter,paused,2026-03-30 09:48:09,2025-04-30 22:19:40,1001.46,CA
+c000003,Ken Ito,kenito2@example.com,pro,paused,2025-02-01 03:14:44,,63.08,GB
+c000004,Alex Kim,alexkim3@example.com,enterprise,active,2025-01-17 11:47:15,,346.01,AU
+c000005,Tom Bell,tombell4@corp.test,starter,active,2025-01-23 18:18:46,,N/A,FR
+c000006,Zoe Fox,zoefox5@example.com,pro,active,2025-07-04 14:33:49,,1477.24,AU
+c000007,Tom Bell,tombell6@example.com,starter,active,2025-02-15 09:56:38,,1319.72,CA
+c000008,Ivy Shaw,ivyshaw7@corp.test,starter,paused,2025-09-20 03:09:30,,274.60,US
+c000009,Alex Kim,alexkim8@acme.io,pro,churned,2026-07-01 22:20:59,2025-02-17 04:04:56,"$1,234.56",AU
+c000010,Ana Cruz,anacruz9@mailbox.dev,starter,active,2026-05-15 17:02:40,,241.19,AU
+c000011,Zoe Fox,zoefox10@corp.test,pro,active,2025-07-24 20:57:02,,1192.48,GB
+c000012,Ivy Shaw,ivyshaw11@acme.io,pro,paused,2026-02-27 14:23:29,,1780.40,DE
+0005678,Zoe Fox,zoefox12@acme.io,starter,churned,2025-07-10 11:45:19,2026-04-23 20:28:26,1809.55,US
+c000014,Tom Bell,tombell13@corp.test,starter,paused,2025-04-19 11:08:15,,1399.38,GB
+c000015,Mia Chen,miachen14@example.com,pro,active,2025-05-06 19:52:28,,1257.81,AU
+c000016,Ana Cruz,anacruz15@corp.test,pro,active,2026-06-10 03:08:32,,739.42,US
+c000017,Noa Fisher,noafisher16@mailbox.dev,enterprise,paused,2025-05-08 01:33:51,,978.48,GB
+c000018,Alex Kim,alexkim17@mailbox.dev,enterprise,active,2025-06-17 11:52:21,,673.20,US
+c000019,Max Ng,maxng18@corp.test,pro,paused,2025-04-10 15:08:06,2025-12-08 01:35:19,585.01,DE
+c000020,Mia Chen,miachen19@acme.io,enterprise,active,2025-07-24 08:40:28,,1791.28,GB
+c000021,Tom Bell,tombell20@mailbox.dev,pro,active,2026-03-08 02:30:00,,650.73,GB
+c000022,Ana Cruz,anacruz21@mailbox.dev,starter,active,2026-02-27 13:14:18,,628.45,US
+c000023,Ana Cruz,anacruz22@example.com,pro,active,2025-10-20 18:32:44,,759.86,CA
+c000024,Lea Munoz,leamunoz23@corp.test,pro,active,2026-06-12 12:27:43,,1051.35,AU
+c000025,Lea Munoz,leamunoz24@acme.io,starter,churned,2026-05-07 00:23:24,2026-11-01 01:30:00,779.29,FR
+c000026,Cy Adler,cyadler25@acme.io,enterprise,paused,2026-03-29 02:54:45,2025-02-12 03:48:49,338.60,FR
+c000027,Ivy Shaw,ivyshaw26@corp.test,enterprise,paused,2026-01-20 00:30:30,,1705.93,FR
+c000028,Ray Diaz,raydiaz27@acme.io,enterprise,churned,2025-08-01 08:14:56,2026-07-25 00:27:47,1251.88,GB
+c000029,"O, ""Really"" Big
+Co",eligrant28@example.com,pro,active,2025-02-21 23:39:04,,1295.31,CA
+c000030,Cy Adler,cyadler29@corp.test,pro,churned,2025-03-30 06:03:55,2025-06-16 01:05:26,278.28,US
+c000031,Ana Cruz,anacruz30@acme.io,pro,churned,2026-04-28 11:47:40,2026-04-23 03:40:12,391.85,FR
+c000032,Tom Bell,tombell31@acme.io,pro,active,2025-09-16 10:22:53,,663.84,GB
+c000033,Jo Park,jopark32@mailbox.dev,starter,active,2025-11-30 03:47:29,,1294.75,DE
+c000034,Jo Park,jopark33@example.com,starter,paused,2025-02-12 03:11:57,,860.80,FR
+c000035,Sam Lee,samlee34@corp.test,starter,active,2025-05-20 15:55:26,,1405.53,FR
+c000036,Sam Lee,samlee35@corp.test,enterprise,churned,2026-04-30 04:49:37,2025-11-30 16:12:35,1609.69,FR
+c000037,Jo Park,jopark36@example.com,starter,active,2025-06-09 18:24:51,,1344.28,CA
+c000038,Zoe Fox,zoefox37@corp.test,starter,active,2025-07-25 09:43:12,,568.26,CA
+c000039,Zoe Fox,zoefox38@example.com,enterprise,paused,2025-06-11 21:10:12,,1720.03,AU
+c000040,Ivy Shaw,ivyshaw39@mailbox.dev,enterprise,active,2025-10-28 08:51:51,,1500.50,FR
+c000041,Ivy Shaw,ivyshaw40@mailbox.dev,pro,paused,2026-08-22 11:07:31,,617.44,FR
+c000042,Ivy Shaw,ivyshaw41@corp.test,pro,paused,2025-07-12 17:03:34,,826.49,DE
+c000043,Tom Bell,tombell42@corp.test,pro,paused,2026-02-25 10:38:58,2025-06-24 08:06:40,1922.89,DE
+c000044,Ana Cruz,anacruz43@mailbox.dev,enterprise,churned,2026-03-11 14:47:42,2025-04-24 00:30:13,1693.46,AU
+c000045,Zoe Fox,zoefox44@acme.io,starter,active,2026-06-28 01:48:00,,1350.51,DE
+c000046,Mia Chen,miachen45@mailbox.dev,enterprise,active,2025-01-27 08:05:45,,335.18,US
+c000047,Sam Lee,samlee46@acme.io,enterprise,paused,2026-02-20 11:26:30,2025-01-20 22:46:22,540.54,CA
+c000048,Ana Cruz,anacruz47@corp.test,pro,paused,2026-06-24 23:44:58,2025-03-02 16:02:39,1254.44,GB
+c000049,Tom Bell,tombell48@acme.io,starter,churned,2025-11-12 13:57:55,2025-10-24 18:24:51,1183.85,US
+c000050,Noa Fisher,noafisher49@mailbox.dev,enterprise,active,2025-02-05 17:54:33,,66.31,DE
+c000051,Max Ng,maxng50@example.com,enterprise,active,2026-05-26 17:20:54,,683.23,FR
+c000052,Alex Kim,alexkim51@mailbox.dev,enterprise,active,2025-05-05 07:08:46,,1570.97,FR
+c000053,Jo Park,jopark52@example.com,enterprise,active,2026-06-14 04:26:51,,1584.24,DE
+c000054,Cy Adler,cyadler53@example.com,starter,active,2026-02-15 04:02:11,,413.12,CA
+c000055,Max Ng,maxng54@example.com,pro,churned,2025-12-04 16:50:31,2025-05-05 20:11:45,1844.07,FR
+c000056,Noa Fisher,noafisher55@example.com,enterprise,active,2025-06-22 15:19:48,,94.13,GB
+c000057,Ivy Shaw,ivyshaw56@corp.test,starter,paused,2025-10-05 03:11:53,2026-01-26 17:39:23,1015.03,GB
+c000058,Eli Grant,eligrant57@example.com,starter,paused,2025-05-09 16:34:18,2025-11-06 06:58:09,1239.26,DE
+c000059,Ivy Shaw,ivyshaw58@example.com,enterprise,paused,2025-07-30 13:13:53,2025-11-12 00:12:29,1524.41,DE
+c000060,Tom Bell,tombell59@acme.io,pro,active,2026-06-08 21:50:10,,727.20,DE
+c000061,Max Ng,maxng60@mailbox.dev,starter,churned,2025-02-09 09:02:10,2026-07-02 21:30:50,1526.38,FR
+c000062,Eli Grant,eligrant61@example.com,pro,active,2025-10-20 20:12:05,,1024.90,DE
+c000063,Mia Chen,miachen62@mailbox.dev,starter,churned,2025-01-03 06:04:17,2026-02-25 04:32:24,366.46,DE
+c000064,Ivy Shaw,ivyshaw63@corp.test,starter,churned,2026-07-03 19:02:46,2025-10-08 23:15:47,91.20,FR
+c000065,Tom Bell,tombell64@acme.io,pro,churned,2025-03-15 18:28:24,2026-03-11 15:04:29,1190.14,AU
+c000066,Eli Grant,eligrant65@acme.io,starter,paused,2025-02-07 20:10:02,,973.60,CA
+c000067,Zoe Fox,zoefox66@mailbox.dev,enterprise,churned,2026-08-22 09:43:01,2026-08-19 12:25:06,1934.25,CA
+c000068,Cy Adler,cyadler67@corp.test,starter,active,2026-08-27 17:10:28,,69.56,DE
+c000069,Lea Munoz,leamunoz68@mailbox.dev,enterprise,active,2026-05-27 01:52:32,,907.52,AU
+c000070,Ken Ito,kenito69@acme.io,starter,active,2026-03-17 13:36:12,,100.78,US
+c000071,Max Ng,maxng70@mailbox.dev,pro,churned,2026-08-16 11:19:10,2025-09-07 00:06:55,1585.10,CA
+c000072,Alex Kim,alexkim71@mailbox.dev,enterprise,active,2025-12-27 04:42:06,,1798.93,DE
+c000073,Ray Diaz,raydiaz72@corp.test,pro,active,2025-10-10 11:35:42,,1058.70,AU
+c000074,Jo Park,jopark73@mailbox.dev,starter,churned,2026-04-29 15:23:40,2025-09-21 17:38:17,1192.72,AU
+c000075,Ray Diaz,raydiaz74@mailbox.dev,starter,paused,2025-04-21 05:04:54,,1416.48,FR
+c000076,Zoe Fox,zoefox75@mailbox.dev,enterprise,churned,2025-01-01 02:06:40,2025-02-06 17:21:54,191.13,AU
+c000077,Alex Kim,alexkim76@example.com,pro,active,2026-03-30 00:30:38,,1268.06,US
+c000078,Mia Chen,miachen77@corp.test,pro,active,2026-03-28 12:03:51,,1305.32,US
+c000079,Ken Ito,kenito78@mailbox.dev,enterprise,active,2025-09-10 09:22:11,,1176.32,DE
+c000080,Zoe Fox,zoefox79@example.com,starter,churned,2026-03-22 10:24:44,2025-06-21 10:01:30,1846.60,AU
+c000081,Mia Chen,miachen80@mailbox.dev,pro,churned,2026-08-19 03:15:47,2026-06-26 20:17:56,1386.35,DE
+c000082,Lea Munoz,leamunoz81@mailbox.dev,enterprise,active,2025-04-02 15:45:39,,639.75,AU
+c000083,Tom Bell,tombell82@corp.test,starter,churned,2026-01-02 22:06:59,2026-08-25 03:28:26,501.21,AU
+c000084,Max Ng,maxng83@corp.test,starter,active,2025-08-26 00:31:10,,433.78,GB
+c000085,Cy Adler,cyadler84@mailbox.dev,starter,active,2025-08-10 15:09:19,,891.92,GB
+c000086,Zoe Fox,zoefox85@corp.test,pro,active,2026-06-25 05:41:50,,1174.64,AU
+c000087,Mia Chen,miachen86@mailbox.dev,pro,active,2026-02-06 11:02:53,,1251.31,DE
+c000088,Jo Park,jopark87@example.com,enterprise,active,2025-07-18 13:18:53,,37.91,US
+c000089,Ken Ito,kenito88@acme.io,starter,active,2026-03-02 10:18:22,,273.19,CA
+c000090,Max Ng,maxng89@acme.io,pro,active,2025-08-01 18:50:38,,1231.86,DE
+c000091,Eli Grant,eligrant90@example.com,starter,active,2026-06-22 21:18:02,,1716.99,AU
+c000092,Mia Chen,miachen91@example.com,pro,churned,2026-04-03 05:56:31,2026-07-26 17:16:09,810.53,DE
+c000093,Jo Park,jopark92@corp.test,pro,active,2025-01-22 03:31:27,,1714.90,US
+c000094,Zoe Fox,zoefox93@mailbox.dev,pro,paused,2025-11-16 17:26:39,,1048.77,AU
+c000095,Lea Munoz,leamunoz94@example.com,starter,paused,2025-08-24 21:35:01,,1072.38,DE
+c000096,Ana Cruz,anacruz95@acme.io,pro,churned,2026-06-14 22:09:18,2026-06-20 19:39:50,476.65,FR
+c000097,Tom Bell,tombell96@mailbox.dev,enterprise,active,2025-09-06 11:16:13,,1994.18,GB
+c000098,Mia Chen,miachen97@example.com,starter,active,2025-03-15 16:40:40,,677.93,CA
+c000099,Tom Bell,tombell98@acme.io,pro,paused,2026-03-18 08:58:59,2025-07-31 21:45:47,1498.75,GB
+c000100,Zoe Fox,zoefox99@acme.io,starter,paused,2025-08-18 17:36:51,2026-07-31 13:30:56,87.36,CA
+c000101,Zoe Fox,zoefox100@example.com,pro,paused,2025-04-26 08:47:28,,439.11,AU
+c000102,Mia Chen,miachen101@acme.io,starter,active,2025-02-01 21:51:29,,765.64,DE
+c000103,Mia Chen,miachen102@example.com,enterprise,churned,2025-05-20 16:25:37,2025-03-17 16:20:59,380.00,CA
+c000104,Noa Fisher,noafisher103@corp.test,enterprise,paused,2025-05-30 12:19:53,,1018.07,CA
+c000105,Max Ng,maxng104@example.com,enterprise,paused,2026-07-21 14:56:10,2025-03-24 08:28:01,21.51,AU
+c000106,Ivy Shaw,ivyshaw105@mailbox.dev,starter,churned,2026-02-23 07:53:52,2026-04-28 12:51:47,29.47,AU
+c000107,Max Ng,maxng106@mailbox.dev,pro,active,2025-06-16 19:03:57,,1800.34,AU
+c000108,Zoe Fox,zoefox107@example.com,starter,paused,2025-01-25 01:33:18,,674.19,AU
+c000109,Cy Adler,cyadler108@corp.test,starter,active,2025-06-21 15:42:32,,137.87,FR
+c000110,Zoe Fox,zoefox109@mailbox.dev,pro,active,2025-02-08 21:20:35,,1765.02,CA
+c000111,Ken Ito,kenito110@acme.io,enterprise,active,2025-09-16 14:53:31,,205.28,AU
+c000112,Jo Park,jopark111@example.com,pro,churned,2025-12-06 14:05:34,2025-09-17 08:59:56,810.62,DE
+c000113,Mia Chen,miachen112@mailbox.dev,starter,churned,2026-01-30 22:40:22,2026-01-30 06:41:01,1756.07,AU
+c000114,Tom Bell,tombell113@corp.test,starter,active,2026-02-02 02:45:05,,800.62,GB
+c000115,Cy Adler,cyadler114@corp.test,pro,paused,2026-07-05 16:30:09,2025-10-29 22:19:03,1731.09,GB
+c000116,Tom Bell,tombell115@corp.test,pro,churned,2025-08-05 00:52:24,2026-08-06 00:16:02,123.71,AU
+c000117,Noa Fisher,noafisher116@acme.io,starter,active,2025-08-12 19:53:37,,539.60,GB
+c000118,Alex Kim,alexkim117@mailbox.dev,starter,active,2025-01-24 06:31:15,,1595.02,US
+c000119,Noa Fisher,noafisher118@mailbox.dev,pro,active,2026-01-26 19:19:13,,1182.51,GB
+c000120,Noa Fisher,noafisher119@corp.test,enterprise,churned,2025-10-20 17:27:12,2025-08-12 10:54:11,1196.73,AU
+c000121,Ana Cruz,anacruz120@acme.io,pro,active,2026-02-18 03:43:21,,708.69,GB
+c000122,Ken Ito,kenito121@corp.test,pro,paused,2026-06-14 03:11:29,,1189.64,FR
+c000123,Ray Diaz,raydiaz122@corp.test,starter,active,2026-01-04 10:57:09,,37.56,US
+c000124,Ivy Shaw,ivyshaw123@example.com,starter,active,2025-08-21 21:59:22,,1937.95,DE
+c000125,Ivy Shaw,ivyshaw124@corp.test,enterprise,active,2026-05-17 09:06:48,,730.05,GB
+c000126,Alex Kim,alexkim125@mailbox.dev,enterprise,paused,2025-10-25 12:37:19,2026-01-10 17:02:15,1271.26,GB
+c000127,Lea Munoz,leamunoz126@corp.test,pro,churned,2025-11-08 13:19:21,2026-07-10 00:29:18,814.73,AU
+c000128,Eli Grant,eligrant127@example.com,enterprise,churned,2026-05-23 17:54:02,2025-05-28 15:06:07,237.34,AU
+c000129,Ray Diaz,raydiaz128@mailbox.dev,enterprise,active,2025-08-12 00:34:21,,1069.49,US
+c000130,Ana Cruz,anacruz129@corp.test,enterprise,active,2025-11-20 01:47:40,,392.74,US
+c000131,Lea Munoz,leamunoz130@acme.io,starter,paused,2026-02-07 03:15:52,2025-07-05 04:00:33,414.99,GB
+c000132,Lea Munoz,leamunoz131@corp.test,pro,active,2026-04-04 08:41:42,,350.30,FR
+c000133,Mia Chen,miachen132@mailbox.dev,pro,active,2025-10-17 05:55:42,,979.66,FR
+c000134,Max Ng,maxng133@mailbox.dev,enterprise,churned,2025-03-24 23:49:29,2025-07-20 23:31:17,348.41,AU
+c000135,Sam Lee,samlee134@mailbox.dev,enterprise,active,2025-01-18 18:39:37,,997.89,US
+c000136,Noa Fisher,noafisher135@acme.io,starter,churned,2025-12-07 15:46:36,2025-11-16 21:12:31,1678.42,AU
+c000137,Jo Park,jopark136@example.com,enterprise,churned,2025-11-15 05:04:24,2025-02-19 03:36:02,544.32,GB
+c000138,Eli Grant,eligrant137@acme.io,starter,active,2026-01-14 20:51:44,,1460.39,CA
+c000139,Cy Adler,cyadler138@acme.io,enterprise,paused,2026-03-04 18:17:40,,726.08,GB
+c000140,Alex Kim,alexkim139@mailbox.dev,pro,active,2026-08-13 01:05:36,,1937.49,CA
+c000141,Cy Adler,cyadler140@example.com,enterprise,active,2025-07-02 10:08:14,,1032.24,FR
+c000142,Cy Adler,cyadler141@corp.test,enterprise,paused,2026-08-28 07:40:27,,1718.29,FR
+c000143,Lea Munoz,leamunoz142@acme.io,pro,active,2025-08-12 22:46:41,,400.25,CA
+c000144,Max Ng,maxng143@mailbox.dev,starter,churned,2025-06-30 21:34:54,2025-01-13 14:53:46,292.75,GB
+c000145,Cy Adler,cyadler144@corp.test,pro,active,2026-07-01 02:10:16,,1488.05,GB
+c000146,Ana Cruz,anacruz145@example.com,pro,paused,2026-03-03 19:07:34,,1675.35,CA
+c000147,Ivy Shaw,ivyshaw146@example.com,starter,active,2025-05-18 23:51:51,,1919.51,US
+c000148,Zoe Fox,zoefox147@corp.test,pro,paused,2026-07-30 17:27:48,,367.84,GB
+c000149,Tom Bell,tombell148@corp.test,pro,paused,2025-02-08 17:48:41,2026-01-10 14:45:23,772.62,US
+c000150,Ken Ito,kenito149@corp.test,starter,active,2025-01-21 21:21:44,,388.16,GB
+c000151,Cy Adler,cyadler150@corp.test,pro,active,2025-07-22 10:11:22,,1011.19,GB
+c000152,Max Ng,maxng151@mailbox.dev,pro,active,2026-08-16 06:30:30,,1070.64,US
+c000153,Lea Munoz,leamunoz152@mailbox.dev,pro,active,2025-03-30 13:37:11,,1099.61,AU
+c000154,Ana Cruz,anacruz153@example.com,starter,active,2025-09-03 07:32:06,,679.55,FR
+c000155,Mia Chen,miachen154@example.com,pro,churned,2025-03-23 00:44:33,2025-01-15 13:27:16,564.15,GB
+c000156,Mia Chen,miachen155@corp.test,enterprise,churned,2025-09-11 06:30:40,2026-01-21 10:02:27,438.05,AU
+c000157,Jo Park,jopark156@mailbox.dev,enterprise,active,2026-01-08 15:59:13,,685.31,FR
+c000158,Zoe Fox,zoefox157@acme.io,pro,active,2025-08-14 18:20:49,,921.07,US
+c000159,Tom Bell,tombell158@acme.io,starter,active,2025-07-14 12:18:53,,485.72,CA
+c000160,Alex Kim,alexkim159@acme.io,enterprise,churned,2025-10-06 04:25:15,2025-02-23 15:06:37,1125.55,US
+c000161,Jo Park,jopark160@corp.test,starter,active,2025-09-05 03:51:17,,1538.22,FR
+c000162,Tom Bell,tombell161@corp.test,pro,active,2025-05-25 21:04:20,,1375.43,AU
+c000163,Cy Adler,cyadler162@corp.test,enterprise,churned,2025-04-24 17:36:00,2025-04-22 23:16:41,244.19,AU
+c000164,Ivy Shaw,ivyshaw163@acme.io,pro,active,2026-01-03 23:56:43,,1747.45,GB
+c000165,Mia Chen,miachen164@corp.test,enterprise,churned,2025-01-08 13:48:08,2025-11-17 15:28:23,1838.00,GB
+c000166,Sam Lee,samlee165@example.com,pro,active,2026-05-23 23:58:57,,1712.65,FR
+c000167,Alex Kim,alexkim166@corp.test,pro,churned,2025-07-21 15:02:16,2025-10-21 09:32:12,1590.70,CA
+c000168,Eli Grant,eligrant167@acme.io,starter,active,2025-10-27 17:58:53,,429.56,CA
+c000169,Zoe Fox,zoefox168@mailbox.dev,enterprise,churned,2026-03-26 11:55:58,2025-06-24 04:12:13,317.58,US
+c000170,Alex Kim,alexkim169@corp.test,starter,active,2025-02-16 23:16:34,,575.30,DE
+c000171,Mia Chen,miachen170@example.com,enterprise,paused,2025-10-19 15:38:26,2025-08-17 13:29:26,170.75,AU
+c000172,Zoe Fox,zoefox171@example.com,starter,active,2025-01-22 02:12:24,,380.72,CA
+c000173,Ivy Shaw,ivyshaw172@acme.io,starter,active,2026-04-04 19:43:10,,233.25,US
+c000174,Mia Chen,miachen173@corp.test,pro,active,2025-03-03 18:00:48,,1933.92,FR
+c000175,Cy Adler,cyadler174@acme.io,pro,active,2025-03-04 05:46:48,,1593.74,CA
+c000176,Jo Park,jopark175@corp.test,enterprise,churned,2025-09-18 22:01:40,2025-06-18 17:53:23,1398.36,GB
+c000177,Jo Park,jopark176@mailbox.dev,enterprise,active,2026-07-26 05:48:54,,356.58,AU
+c000178,Ray Diaz,raydiaz177@acme.io,pro,active,2025-11-07 07:08:35,,1947.83,CA
+c000179,Mia Chen,miachen178@example.com,starter,active,2026-05-02 13:06:31,,1027.44,US
+c000180,Noa Fisher,noafisher179@mailbox.dev,enterprise,active,2026-02-01 21:51:18,,1461.81,AU
+c000181,Jo Park,jopark180@corp.test,pro,active,2026-08-12 22:14:38,,1567.62,FR
+c000182,Jo Park,jopark181@acme.io,starter,paused,2026-08-05 11:19:42,,1909.29,GB
+c000183,Jo Park,jopark182@mailbox.dev,pro,active,2025-04-06 21:32:51,,1076.36,US
+c000184,Cy Adler,cyadler183@corp.test,pro,active,2025-10-11 05:08:13,,904.11,GB
+c000185,Ana Cruz,anacruz184@acme.io,starter,paused,2025-03-24 08:45:48,2025-02-13 19:08:08,335.67,AU
+c000186,Mia Chen,miachen185@mailbox.dev,pro,paused,2025-09-04 18:46:29,,1097.93,DE
+c000187,Alex Kim,alexkim186@acme.io,starter,paused,2026-04-19 14:42:08,,1015.55,GB
+c000188,Ana Cruz,anacruz187@mailbox.dev,enterprise,active,2026-07-28 12:18:35,,1868.06,US
+c000189,Ray Diaz,raydiaz188@corp.test,pro,active,2025-01-20 06:56:27,,1621.51,AU
+c000190,Noa Fisher,noafisher189@example.com,starter,active,2025-05-08 07:52:32,,534.17,AU
+c000191,Sam Lee,samlee190@acme.io,starter,active,2025-04-30 23:50:00,,475.81,AU
+c000192,Max Ng,maxng191@acme.io,enterprise,active,2026-06-27 16:46:42,,1052.88,CA
+c000193,Sam Lee,samlee192@corp.test,pro,active,2026-04-27 22:10:49,,1306.24,US
+c000194,Sam Lee,samlee193@example.com,enterprise,churned,2025-08-14 23:38:20,2026-04-01 04:12:34,339.26,GB
+c000195,Sam Lee,samlee194@corp.test,starter,active,2026-02-28 09:37:12,,918.12,DE
+c000196,Sam Lee,samlee195@mailbox.dev,pro,churned,2026-03-09 18:56:46,2025-01-14 08:07:29,641.59,DE
+c000197,Ivy Shaw,ivyshaw196@example.com,enterprise,churned,2026-04-15 10:10:15,2025-12-28 23:42:53,1078.30,AU
+c000198,Jo Park,jopark197@example.com,enterprise,active,2026-08-24 10:43:07,,1718.14,FR
+c000199,Alex Kim,alexkim198@corp.test,enterprise,active,2025-02-14 23:41:57,,1881.62,DE
+c000200,Jo Park,jopark199@mailbox.dev,pro,active,2025-04-22 00:19:08,,1835.68,AU
+c000201,Alex Kim,alexkim200@corp.test,pro,active,2026-04-06 07:40:06,,1870.99,FR
+c000202,Lea Munoz,leamunoz201@example.com,enterprise,paused,2026-03-17 17:55:26,2026-05-09 11:12:52,1780.24,FR
+c000203,Zoe Fox,zoefox202@acme.io,starter,paused,2026-08-10 06:39:19,2026-03-23 20:28:29,1229.76,FR
+c000204,Ivy Shaw,ivyshaw203@example.com,pro,active,2026-01-23 17:02:19,,339.53,US
+c000205,Sam Lee,samlee204@acme.io,starter,active,2026-05-08 10:32:33,,234.40,FR
+c000206,Alex Kim,alexkim205@example.com,enterprise,active,2026-04-23 12:25:16,,480.43,GB
+c000207,Max Ng,maxng206@mailbox.dev,pro,paused,2026-02-12 13:21:22,,767.16,FR
+c000208,Tom Bell,tombell207@example.com,pro,paused,2025-04-15 14:42:42,2026-07-14 00:07:39,1611.99,GB
+c000209,Alex Kim,alexkim208@mailbox.dev,enterprise,active,2026-04-24 04:31:27,,136.22,CA
+c000210,Mia Chen,miachen209@example.com,enterprise,paused,2026-02-19 15:01:15,,1260.79,DE
+c000211,Alex Kim,alexkim210@acme.io,enterprise,active,2026-02-18 07:56:42,,1452.15,FR
+c000212,Jo Park,jopark211@corp.test,pro,paused,2026-04-07 16:58:17,2026-06-14 14:25:56,1158.91,US
+c000213,Jo Park,jopark212@mailbox.dev,enterprise,active,2025-12-05 16:42:41,,640.68,FR
+c000214,Sam Lee,samlee213@acme.io,pro,active,2025-03-19 02:08:14,,380.03,CA
+c000215,Jo Park,jopark214@example.com,enterprise,active,2025-07-14 01:50:29,,113.06,FR
+c000216,Ken Ito,kenito215@mailbox.dev,starter,churned,2026-05-06 23:24:01,2025-03-23 06:18:12,1584.33,US
+c000217,Mia Chen,miachen216@acme.io,pro,active,2025-02-09 13:47:43,,967.13,DE
+c000218,Ivy Shaw,ivyshaw217@acme.io,enterprise,churned,2026-04-28 10:55:24,2025-11-26 01:14:11,1854.93,FR
+c000219,Jo Park,jopark218@corp.test,enterprise,active,2025-08-31 16:57:25,,1891.04,DE
+c000220,Zoe Fox,zoefox219@acme.io,starter,active,2025-07-27 11:32:22,,1798.88,GB
+c000221,Max Ng,maxng220@corp.test,pro,active,2026-03-11 07:02:02,,650.58,CA
+c000222,Ken Ito,kenito221@corp.test,pro,active,2025-08-11 03:12:22,,637.38,CA
+c000223,Noa Fisher,noafisher222@acme.io,enterprise,active,2025-01-27 15:28:29,,1146.66,AU
+c000224,Tom Bell,tombell223@mailbox.dev,enterprise,churned,2026-02-25 11:29:11,2025-10-07 04:03:30,776.99,GB
+c000225,Eli Grant,eligrant224@example.com,pro,churned,2025-01-31 03:54:41,2026-04-03 19:04:23,1340.05,DE
+c000226,Tom Bell,tombell225@example.com,pro,active,2026-07-23 12:01:28,,1985.99,GB
+c000227,Eli Grant,eligrant226@example.com,enterprise,churned,2026-01-28 02:42:33,2025-01-11 22:40:02,1928.11,GB
+c000228,Alex Kim,alexkim227@example.com,starter,paused,2026-06-04 09:02:32,2025-01-30 06:30:38,32.31,AU
+c000229,Noa Fisher,noafisher228@corp.test,enterprise,active,2026-06-11 17:33:01,,1904.77,CA
+c000230,Jo Park,jopark229@corp.test,starter,active,2025-12-03 05:58:41,,611.80,FR
+c000231,Max Ng,maxng230@acme.io,starter,churned,2026-05-16 16:51:14,2026-02-12 06:17:04,1362.30,FR
+c000232,Ken Ito,kenito231@mailbox.dev,pro,active,2025-05-06 22:01:27,,247.78,GB
+c000233,Jo Park,jopark232@example.com,starter,paused,2025-08-30 14:14:21,,1387.89,DE
+c000234,Eli Grant,eligrant233@corp.test,starter,paused,2026-07-30 04:46:22,,390.24,DE
+c000235,Ana Cruz,anacruz234@acme.io,enterprise,active,2025-06-18 15:43:37,,1336.59,DE
+c000236,Mia Chen,miachen235@example.com,starter,active,2025-09-25 17:05:57,,236.02,AU
+c000237,Ana Cruz,anacruz236@example.com,pro,active,2026-02-10 17:23:19,,293.96,US
+c000238,Max Ng,maxng237@mailbox.dev,pro,paused,2025-08-05 13:49:47,2025-10-29 01:50:30,270.07,CA
+c000239,Max Ng,maxng238@example.com,starter,active,2025-06-29 07:21:18,,1135.41,CA
+c000240,Max Ng,maxng239@example.com,pro,active,2026-07-08 12:41:32,,735.76,GB
+c000241,Jo Park,jopark240@example.com,enterprise,active,2026-08-24 22:39:30,,357.74,DE
+c000242,Eli Grant,eligrant241@mailbox.dev,pro,active,2026-07-02 11:37:24,,61.44,FR
+c000243,Ken Ito,kenito242@mailbox.dev,enterprise,paused,2026-07-04 15:57:40,2026-08-19 08:00:32,677.40,GB
+c000244,Max Ng,maxng243@example.com,enterprise,active,2025-03-24 01:09:28,,1377.28,DE
+c000245,Max Ng,maxng244@corp.test,pro,active,2026-05-16 21:51:31,,1756.63,DE
+c000246,Zoe Fox,zoefox245@acme.io,starter,active,2025-10-05 08:05:14,,170.56,FR
+c000247,Zoe Fox,zoefox246@example.com,enterprise,active,2025-03-18 00:05:42,,1860.59,US
+c000248,Max Ng,maxng247@example.com,starter,churned,2025-01-18 16:41:07,2026-01-29 16:57:39,1865.84,AU
+c000249,Zoe Fox,zoefox248@example.com,pro,active,2025-12-01 22:45:07,,24.42,GB
+c000250,Mia Chen,miachen249@mailbox.dev,enterprise,active,2026-01-17 08:46:25,,288.36,US
+c000251,Ken Ito,kenito250@example.com,pro,active,2026-03-05 03:03:32,,922.81,DE
+c000252,Cy Adler,cyadler251@corp.test,enterprise,active,2025-04-26 06:08:59,,1757.87,CA
+c000253,Ray Diaz,raydiaz252@mailbox.dev,pro,active,2025-06-12 05:40:32,,968.21,AU
+c000254,Cy Adler,cyadler253@acme.io,pro,churned,2025-01-04 06:24:08,2025-02-25 20:02:10,53.25,US
+c000255,Lea Munoz,leamunoz254@mailbox.dev,enterprise,active,2025-05-19 16:04:33,,1548.01,US
+c000256,Mia Chen,miachen255@acme.io,enterprise,active,2025-01-14 02:53:57,,1262.21,DE
+c000257,Max Ng,maxng256@example.com,enterprise,active,2026-02-26 14:55:13,,1982.18,DE
+c000258,Eli Grant,eligrant257@example.com,enterprise,active,2026-07-15 04:24:54,,597.86,US
+c000259,Noa Fisher,noafisher258@mailbox.dev,starter,paused,2026-07-20 17:24:25,,1558.24,FR
+c000260,Ken Ito,kenito259@mailbox.dev,starter,active,2025-07-11 11:27:46,,156.10,CA
+c000261,Cy Adler,cyadler260@example.com,starter,churned,2025-03-26 16:32:13,2026-07-20 14:58:18,1648.60,DE
+c000262,Max Ng,maxng261@corp.test,pro,paused,2025-01-22 18:10:13,2025-04-23 05:14:55,1222.63,US
+c000263,Lea Munoz,leamunoz262@mailbox.dev,pro,active,2026-01-28 15:50:22,,1079.34,AU
+c000264,Ivy Shaw,ivyshaw263@mailbox.dev,pro,active,2025-02-13 19:40:16,,968.11,CA
+c000265,Zoe Fox,zoefox264@corp.test,enterprise,active,2026-07-06 02:40:58,,1455.91,AU
+c000266,Alex Kim,alexkim265@acme.io,pro,active,2026-02-26 03:13:33,,930.73,AU
+c000267,Mia Chen,miachen266@example.com,pro,active,2026-08-19 09:00:00,,87.58,FR
+c000268,Ivy Shaw,ivyshaw267@mailbox.dev,enterprise,active,2025-06-24 08:25:14,,416.70,US
+c000269,Zoe Fox,zoefox268@example.com,starter,paused,2026-01-07 05:15:02,2025-10-16 23:13:06,301.91,US
+c000270,Ken Ito,kenito269@example.com,starter,active,2025-03-08 06:23:01,,456.51,US
+c000271,Ivy Shaw,ivyshaw270@example.com,enterprise,active,2026-06-13 09:41:15,,180.63,US
+c000272,Zoe Fox,zoefox271@acme.io,enterprise,active,2026-06-14 03:10:09,,1779.83,GB
+c000273,Alex Kim,alexkim272@acme.io,starter,paused,2025-02-05 23:53:24,2025-12-30 12:15:07,1072.06,CA
+c000274,Cy Adler,cyadler273@acme.io,pro,active,2026-07-17 05:37:31,,26.81,CA
+c000275,Noa Fisher,noafisher274@mailbox.dev,enterprise,active,2025-04-17 09:16:39,,1632.81,FR
+c000276,Alex Kim,alexkim275@example.com,pro,active,2025-08-21 08:23:30,,989.85,FR
+c000277,Max Ng,maxng276@acme.io,starter,active,2026-06-09 21:48:16,,907.54,CA
+c000278,Noa Fisher,noafisher277@corp.test,pro,churned,2025-05-02 11:54:34,2025-12-21 12:30:15,436.14,GB
+c000279,Eli Grant,eligrant278@acme.io,pro,churned,2026-08-12 01:57:24,2026-02-21 02:21:22,13.83,AU
+c000280,Lea Munoz,leamunoz279@mailbox.dev,enterprise,active,2025-12-08 16:39:44,,1084.42,GB
+c000281,Lea Munoz,leamunoz280@acme.io,enterprise,paused,2026-04-26 17:36:03,,140.79,DE
+c000282,Jo Park,jopark281@corp.test,enterprise,active,2026-05-17 22:33:53,,595.23,FR
+c000283,Ray Diaz,raydiaz282@mailbox.dev,enterprise,paused,2026-01-24 21:56:57,,1332.30,GB
+c000284,Ken Ito,kenito283@mailbox.dev,enterprise,active,2025-07-04 16:21:48,,1387.21,FR
+c000285,Ray Diaz,raydiaz284@mailbox.dev,enterprise,active,2025-08-07 22:27:55,,1978.73,GB
+c000286,Sam Lee,samlee285@example.com,enterprise,paused,2025-11-20 10:23:34,2025-12-17 04:48:36,69.05,CA
+c000287,Ivy Shaw,ivyshaw286@corp.test,enterprise,paused,2026-02-15 04:13:55,2025-12-06 16:33:01,1613.79,DE
+c000288,Sam Lee,samlee287@corp.test,pro,active,2025-06-07 04:13:43,,1401.12,US
+c000289,Sam Lee,samlee288@mailbox.dev,pro,active,2025-01-10 15:52:04,,1604.46,CA
+c000290,Ken Ito,kenito289@mailbox.dev,starter,active,2025-07-18 23:37:53,,360.33,AU
+c000291,Tom Bell,tombell290@example.com,enterprise,active,2025-01-17 22:59:11,,695.07,US
+c000292,Mia Chen,miachen291@example.com,starter,active,2026-04-27 09:03:49,,168.66,AU
+c000293,Lea Munoz,leamunoz292@mailbox.dev,starter,active,2025-06-28 06:52:30,,1699.17,CA
+c000294,Zoe Fox,zoefox293@acme.io,pro,churned,2025-12-14 00:42:47,2026-05-25 00:34:33,740.88,CA
+c000295,Ana Cruz,anacruz294@corp.test,enterprise,paused,2026-01-12 16:17:32,,185.98,US
+c000296,Ken Ito,kenito295@corp.test,starter,churned,2025-04-01 12:38:25,2026-08-09 09:15:42,1384.55,DE
+c000297,Ana Cruz,anacruz296@mailbox.dev,enterprise,active,2026-07-29 11:07:50,,243.00,DE
+c000298,Max Ng,maxng297@corp.test,pro,churned,2026-02-14 08:37:09,2025-03-02 20:22:07,1537.35,AU
+c000299,Ken Ito,kenito298@corp.test,starter,active,2025-07-23 04:11:30,,1291.83,GB
+c000300,Tom Bell,tombell299@example.com,enterprise,active,2026-03-13 02:30:15,,565.14,US
+c000301,Eli Grant,eligrant300@mailbox.dev,starter,active,2025-02-14 00:58:59,,1719.29,FR
+c000302,Mia Chen,miachen301@acme.io,starter,active,2025-12-21 07:42:53,,358.13,FR
+c000303,Jo Park,jopark302@example.com,starter,active,2025-04-23 14:14:43,,776.99,CA
+c000304,Jo Park,jopark303@acme.io,starter,active,2026-08-22 21:27:53,,197.85,CA
+c000305,Jo Park,jopark304@acme.io,starter,active,2025-12-23 08:47:03,,844.45,CA
+c000306,Zoe Fox,zoefox305@corp.test,starter,active,2026-05-09 02:28:15,,1419.75,CA
+c000307,Max Ng,maxng306@mailbox.dev,enterprise,active,2026-06-11 04:50:31,,579.53,GB
+c000308,Ivy Shaw,ivyshaw307@mailbox.dev,starter,active,2026-06-09 04:28:00,,1602.45,GB
+c000309,Zoe Fox,zoefox308@corp.test,pro,active,2025-11-02 19:30:46,,1124.37,AU
+c000310,Noa Fisher,noafisher309@corp.test,starter,active,2026-03-26 00:27:28,,1500.06,AU
+c000311,Ken Ito,kenito310@example.com,starter,paused,2025-08-06 18:38:42,,223.17,DE
+c000312,Tom Bell,tombell311@example.com,starter,churned,2025-09-03 11:13:55,2026-02-05 11:50:07,107.83,CA
+c000313,Ray Diaz,raydiaz312@mailbox.dev,starter,active,2025-05-28 05:09:16,,1825.09,FR
+c000314,Sam Lee,samlee313@mailbox.dev,starter,active,2026-05-12 04:07:35,,87.68,DE
+c000315,Ken Ito,kenito314@example.com,enterprise,churned,2025-08-18 04:54:03,2025-05-20 01:56:53,1930.22,US
+c000316,Max Ng,maxng315@acme.io,starter,churned,2025-05-31 07:38:20,2026-03-05 08:02:47,897.82,FR
+c000317,Jo Park,jopark316@corp.test,enterprise,paused,2026-08-30 04:53:00,,272.49,GB
+c000318,Tom Bell,tombell317@mailbox.dev,starter,active,2025-10-05 17:50:15,,1664.70,FR
+c000319,Cy Adler,cyadler318@example.com,enterprise,active,2025-04-10 18:58:16,,767.48,GB
+c000320,Ana Cruz,anacruz319@mailbox.dev,pro,active,2026-08-24 06:47:43,,683.65,GB
+c000321,Alex Kim,alexkim320@mailbox.dev,enterprise,active,2025-08-12 18:14:49,,1475.17,US
+c000322,Lea Munoz,leamunoz321@acme.io,pro,active,2025-12-01 23:04:44,,1518.69,DE
+c000323,Lea Munoz,leamunoz322@acme.io,pro,paused,2026-03-09 20:55:25,2026-04-25 15:25:21,1158.32,AU
+c000324,Lea Munoz,leamunoz323@corp.test,starter,active,2026-06-10 18:32:04,,710.32,DE
+c000325,Alex Kim,alexkim324@corp.test,starter,active,2025-04-29 11:30:02,,787.82,GB
+c000326,Ivy Shaw,ivyshaw325@mailbox.dev,starter,churned,2026-01-08 01:39:54,2026-06-11 04:48:08,1359.12,CA
+c000327,Alex Kim,alexkim326@corp.test,pro,active,2026-05-21 18:26:33,,1502.19,FR
+c000328,Alex Kim,alexkim327@example.com,enterprise,active,2025-12-18 17:57:19,,1894.41,DE
+c000329,Tom Bell,tombell328@corp.test,pro,active,2025-11-10 01:45:14,,565.92,CA
+c000330,Sam Lee,samlee329@example.com,pro,paused,2025-05-25 13:39:04,,1606.90,US
+c000331,Tom Bell,tombell330@corp.test,starter,active,2025-05-01 13:27:05,,462.00,CA
+c000332,Lea Munoz,leamunoz331@corp.test,pro,churned,2025-02-07 03:47:37,2025-03-03 14:18:34,762.26,GB
+c000333,Lea Munoz,leamunoz332@mailbox.dev,starter,active,2025-11-19 21:17:31,,486.87,GB
+c000334,Jo Park,jopark333@corp.test,pro,active,2026-08-24 07:56:34,,78.58,GB
+c000335,Ken Ito,kenito334@example.com,enterprise,paused,2026-05-12 22:11:34,2025-02-14 17:22:15,1299.53,AU
+c000336,Cy Adler,cyadler335@example.com,starter,churned,2025-04-14 06:44:32,2025-09-14 16:22:28,175.70,DE
+c000337,Max Ng,maxng336@mailbox.dev,starter,paused,2025-03-09 06:20:02,2026-08-07 23:55:48,1090.68,FR
+c000338,Jo Park,jopark337@mailbox.dev,enterprise,active,2025-04-07 22:17:54,,1270.37,GB
+c000339,Noa Fisher,noafisher338@corp.test,starter,active,2026-06-14 15:25:32,,415.90,AU
+c000340,Lea Munoz,leamunoz339@example.com,enterprise,churned,2025-05-22 05:20:45,2025-06-28 15:14:05,391.37,US
+c000341,Alex Kim,alexkim340@example.com,enterprise,active,2025-07-30 08:23:05,,1678.75,CA
+c000342,Lea Munoz,leamunoz341@mailbox.dev,starter,churned,2026-01-27 23:34:07,2026-06-29 19:42:39,1105.92,DE
+c000343,Ken Ito,kenito342@example.com,pro,active,2025-07-19 06:12:39,,1404.43,DE
+c000344,Jo Park,jopark343@corp.test,starter,paused,2025-02-17 13:47:29,,178.68,US
+c000345,Alex Kim,alexkim344@corp.test,starter,active,2026-08-31 19:45:39,,1469.67,FR
+c000346,Ken Ito,kenito345@corp.test,starter,active,2025-05-22 08:11:47,,1222.07,CA
+c000347,Cy Adler,cyadler346@corp.test,pro,active,2026-02-13 07:22:15,,1031.40,CA
+c000348,Tom Bell,tombell347@corp.test,enterprise,active,2025-04-04 04:51:33,,1233.62,AU
+c000349,Ray Diaz,raydiaz348@example.com,enterprise,active,2025-01-19 14:31:06,,416.92,US
+c000350,Ken Ito,kenito349@example.com,starter,active,2026-03-13 16:58:22,,1087.85,CA
+c000351,Mia Chen,miachen350@mailbox.dev,enterprise,active,2026-04-09 01:53:30,,1105.13,DE
+c000352,Ivy Shaw,ivyshaw351@mailbox.dev,starter,paused,2025-06-30 22:51:42,,1863.71,DE
+c000353,Tom Bell,tombell352@corp.test,enterprise,active,2025-07-21 02:16:00,,1351.65,FR
+c000354,Ray Diaz,raydiaz353@corp.test,enterprise,active,2026-07-31 11:54:44,,1235.38,CA
+c000355,Ken Ito,kenito354@mailbox.dev,starter,active,2025-06-03 14:26:15,,90.55,CA
+c000356,Ana Cruz,anacruz355@corp.test,pro,active,2026-04-06 16:55:01,,1718.07,AU
+c000357,Max Ng,maxng356@example.com,enterprise,active,2026-02-20 23:19:16,,482.03,AU
+c000358,Cy Adler,cyadler357@acme.io,pro,paused,2025-05-05 08:04:30,2025-12-24 19:55:36,1657.59,US
+c000359,Alex Kim,alexkim358@mailbox.dev,pro,churned,2025-07-18 08:13:29,2025-06-20 08:45:03,1506.80,US
+c000360,Max Ng,maxng359@acme.io,pro,paused,2025-01-01 19:01:12,,602.29,GB
+c000361,Mia Chen,miachen360@mailbox.dev,pro,paused,2025-01-07 03:12:12,,661.62,US
+c000362,Ana Cruz,anacruz361@corp.test,starter,paused,2025-05-26 12:57:12,2026-06-29 12:24:05,1259.21,AU
+c000363,Mia Chen,miachen362@acme.io,enterprise,churned,2026-07-20 13:41:43,2025-03-23 06:24:22,263.58,US
+c000364,Tom Bell,tombell363@mailbox.dev,pro,paused,2026-06-15 10:01:47,2026-01-05 21:19:20,170.47,GB
+c000365,Ray Diaz,raydiaz364@example.com,pro,active,2026-05-30 19:05:10,,1214.21,GB
+c000366,Ray Diaz,raydiaz365@corp.test,enterprise,churned,2026-04-29 19:23:03,2026-03-25 10:23:06,1343.95,FR
+c000367,Max Ng,maxng366@corp.test,enterprise,active,2026-04-07 04:44:45,,1533.47,FR
+c000368,Noa Fisher,noafisher367@mailbox.dev,pro,active,2025-06-10 01:29:52,,1624.07,FR
+c000369,Ken Ito,kenito368@acme.io,enterprise,active,2025-08-23 23:04:32,,768.96,GB
+c000370,Mia Chen,miachen369@acme.io,starter,active,2026-08-03 20:18:53,,1050.12,DE
+c000371,Ivy Shaw,ivyshaw370@example.com,enterprise,active,2026-06-02 21:55:18,,1375.82,AU
+c000372,Ken Ito,kenito371@corp.test,pro,active,2025-12-24 23:04:14,,635.77,GB
+c000373,Mia Chen,miachen372@acme.io,enterprise,paused,2025-02-03 16:58:38,2025-08-25 12:27:17,1648.74,CA
+c000374,Alex Kim,alexkim373@mailbox.dev,pro,churned,2025-10-06 06:30:49,2026-07-10 04:36:38,501.53,AU
+c000375,Jo Park,jopark374@mailbox.dev,pro,active,2025-09-15 08:09:10,,987.28,GB
+c000376,Noa Fisher,noafisher375@example.com,starter,churned,2025-01-16 18:21:26,2025-04-22 19:55:48,1251.49,GB
+c000377,Mia Chen,miachen376@acme.io,starter,active,2025-01-27 11:28:22,,1474.31,CA
+c000378,Cy Adler,cyadler377@example.com,pro,paused,2026-08-03 11:00:17,,1873.20,AU
+c000379,Eli Grant,eligrant378@acme.io,enterprise,active,2025-12-18 11:06:23,,1932.11,DE
+c000380,Cy Adler,cyadler379@mailbox.dev,starter,active,2026-01-15 06:06:38,,1823.65,AU
+c000381,Sam Lee,samlee380@acme.io,enterprise,active,2026-03-27 18:41:05,,1960.61,DE
+c000382,Sam Lee,samlee381@corp.test,starter,churned,2026-08-07 22:30:55,2026-02-17 03:51:51,767.11,DE
+c000383,Ray Diaz,raydiaz382@example.com,pro,active,2025-12-21 23:21:34,,736.35,GB
+c000384,Max Ng,maxng383@mailbox.dev,pro,paused,2025-09-16 11:59:01,2026-05-05 07:17:39,1839.08,US
+c000385,Max Ng,maxng384@acme.io,enterprise,active,2025-11-27 22:14:34,,626.19,DE
+c000386,Ray Diaz,raydiaz385@acme.io,enterprise,paused,2025-03-19 02:59:35,,978.91,FR
+c000387,Ken Ito,kenito386@mailbox.dev,starter,active,2026-05-16 19:22:40,,1151.15,AU
+c000388,Eli Grant,eligrant387@acme.io,pro,churned,2026-08-23 01:31:33,2026-01-25 16:33:48,831.10,DE
+c000389,Mia Chen,miachen388@acme.io,pro,active,2025-08-31 08:34:32,,816.40,GB
+c000390,Noa Fisher,noafisher389@example.com,starter,active,2025-05-08 16:19:06,,114.68,AU
+c000391,Max Ng,maxng390@corp.test,enterprise,churned,2026-07-31 14:08:26,2025-07-15 20:49:46,642.82,DE
+c000392,Sam Lee,samlee391@corp.test,pro,paused,2025-01-25 16:57:48,2025-10-23 12:23:48,627.30,FR
+c000393,Lea Munoz,leamunoz392@mailbox.dev,pro,churned,2025-07-10 13:59:39,2026-08-02 23:05:06,336.24,DE
+c000394,Alex Kim,alexkim393@example.com,enterprise,paused,2025-09-27 07:50:29,,418.72,CA
+c000395,Eli Grant,eligrant394@example.com,pro,paused,2025-02-18 03:17:29,,1560.01,FR
+c000396,Eli Grant,eligrant395@mailbox.dev,pro,active,2026-01-25 22:38:45,,529.71,CA
+c000397,Alex Kim,alexkim396@corp.test,pro,active,2025-07-27 09:06:32,,1535.26,GB
+c000398,Noa Fisher,noafisher397@example.com,pro,active,2025-11-21 06:26:34,,414.63,GB
+c000399,Jo Park,jopark398@example.com,starter,active,2025-03-07 00:02:51,,1460.52,CA
+c000400,Ken Ito,kenito399@acme.io,enterprise,churned,2025-04-14 03:27:23,2025-11-25 11:00:57,511.22,US
+c000401,Mia Chen,miachen400@mailbox.dev,pro,churned,2025-02-20 00:34:35,2025-12-29 12:53:24,496.58,US
+c000402,Lea Munoz,leamunoz401@corp.test,starter,churned,2025-10-07 18:32:30,2025-02-15 20:46:16,1773.60,GB
+c000403,Mia Chen,miachen402@mailbox.dev,enterprise,active,2025-11-12 03:08:24,,1511.64,GB
+c000404,Max Ng,maxng403@mailbox.dev,enterprise,churned,2025-08-16 04:33:23,2026-01-18 05:53:43,1209.19,GB
+c000405,Ray Diaz,raydiaz404@acme.io,enterprise,active,2025-10-20 09:27:04,,141.86,CA
+c000406,Ray Diaz,raydiaz405@example.com,enterprise,paused,2025-05-09 01:16:54,2026-03-14 10:37:02,137.94,US
+c000407,Lea Munoz,leamunoz406@corp.test,pro,paused,2025-06-21 10:33:36,2025-04-18 08:06:09,351.14,DE
+c000408,Zoe Fox,zoefox407@corp.test,enterprise,active,2025-02-05 07:33:37,,1894.25,DE
+c000409,Alex Kim,alexkim408@corp.test,starter,active,2026-02-23 15:07:55,,1692.74,FR
+c000410,Cy Adler,cyadler409@corp.test,pro,churned,2025-08-30 19:21:53,2025-01-16 08:50:03,1699.04,DE
+c000411,Ivy Shaw,ivyshaw410@example.com,pro,active,2025-04-11 10:12:33,,1170.63,GB
+c000412,Zoe Fox,zoefox411@corp.test,pro,active,2026-08-26 03:34:33,,1478.54,CA
+c000413,Ken Ito,kenito412@acme.io,starter,active,2026-02-27 14:45:49,,1770.01,US
+c000414,Tom Bell,tombell413@corp.test,pro,paused,2026-03-22 06:09:19,,1510.02,US
+c000415,Mia Chen,miachen414@acme.io,starter,paused,2025-04-20 14:14:24,,1841.91,GB
+c000416,Zoe Fox,zoefox415@mailbox.dev,enterprise,active,2025-07-04 06:20:51,,1930.47,DE
+c000417,Sam Lee,samlee416@acme.io,pro,active,2026-04-30 00:30:20,,1064.23,FR
+c000418,Ken Ito,kenito417@acme.io,pro,paused,2025-04-02 10:58:51,,1005.39,DE
+c000419,Ray Diaz,raydiaz418@acme.io,starter,churned,2025-11-29 05:48:44,2025-12-16 06:29:21,1084.34,FR
+c000420,Jo Park,jopark419@corp.test,starter,active,2025-07-27 11:59:12,,1899.45,AU
+c000421,Zoe Fox,zoefox420@acme.io,starter,churned,2025-08-31 04:33:30,2025-10-26 18:08:51,1596.36,DE
+c000422,Max Ng,maxng421@example.com,pro,churned,2025-09-28 21:23:52,2025-11-02 23:34:05,791.34,FR
+c000423,Alex Kim,alexkim422@mailbox.dev,pro,active,2025-07-03 23:03:43,,681.88,DE
+c000424,Alex Kim,alexkim423@acme.io,enterprise,active,2026-03-12 21:10:34,,159.96,DE
+c000425,Alex Kim,alexkim424@corp.test,pro,paused,2026-07-26 07:28:51,2026-04-14 03:07:38,1770.05,FR
+c000426,Max Ng,maxng425@corp.test,pro,active,2026-04-03 04:14:40,,836.77,CA
+c000427,Alex Kim,alexkim426@acme.io,enterprise,active,2025-09-01 15:03:36,,516.83,AU
+c000428,Jo Park,jopark427@acme.io,starter,churned,2026-06-21 12:54:32,2026-06-23 08:28:42,493.34,AU
+c000429,Zoe Fox,zoefox428@corp.test,enterprise,active,2025-07-07 06:53:46,,1124.11,GB
+c000430,Alex Kim,alexkim429@corp.test,starter,active,2026-05-11 04:29:47,,1901.98,GB
+c000431,Noa Fisher,noafisher430@acme.io,pro,active,2025-11-03 04:49:29,,96.32,FR
+c000432,Ray Diaz,raydiaz431@corp.test,pro,active,2025-12-14 23:05:33,,1711.40,DE
+c000433,Cy Adler,cyadler432@acme.io,starter,active,2026-02-21 03:27:03,,1339.80,US
+c000434,Max Ng,maxng433@example.com,enterprise,active,2026-05-29 03:01:58,,1345.82,GB
+c000435,Ray Diaz,raydiaz434@example.com,pro,churned,2025-06-30 10:50:33,2025-05-28 18:33:57,1071.34,AU
+c000436,Eli Grant,eligrant435@example.com,starter,churned,2025-10-21 15:31:15,2025-12-29 16:06:17,1023.15,FR
+c000437,Lea Munoz,leamunoz436@mailbox.dev,enterprise,churned,2025-12-04 07:13:52,2026-04-09 14:19:28,69.33,FR
+c000438,Lea Munoz,leamunoz437@example.com,pro,active,2026-02-24 04:08:21,,935.94,GB
+c000439,Tom Bell,tombell438@acme.io,starter,paused,2026-02-08 15:45:28,2026-07-07 15:11:20,727.49,CA
+c000440,Noa Fisher,noafisher439@mailbox.dev,enterprise,paused,2025-12-10 18:51:41,2025-08-08 07:29:40,1364.88,CA
+c000441,Mia Chen,miachen440@example.com,enterprise,active,2025-02-13 13:28:41,,236.09,DE
+c000442,Ivy Shaw,ivyshaw441@example.com,enterprise,paused,2026-01-17 09:27:37,,411.98,US
+c000443,Alex Kim,alexkim442@mailbox.dev,enterprise,churned,2025-03-28 21:32:10,2026-04-03 00:34:41,1822.02,US
+c000444,Ana Cruz,anacruz443@acme.io,pro,active,2025-09-28 00:24:54,,1851.63,DE
+c000445,Noa Fisher,noafisher444@example.com,starter,active,2025-01-21 19:22:43,,179.81,FR
+c000446,Alex Kim,alexkim445@example.com,starter,churned,2026-07-20 23:25:18,2026-06-26 07:42:17,1743.05,DE
+c000447,Ivy Shaw,ivyshaw446@acme.io,enterprise,churned,2025-12-20 13:00:08,2025-10-23 05:00:38,1142.62,AU
+c000448,Ana Cruz,anacruz447@corp.test,pro,churned,2026-07-24 03:13:17,2025-01-26 23:20:07,113.12,AU
+c000449,Ivy Shaw,ivyshaw448@mailbox.dev,pro,paused,2025-01-08 18:43:04,2026-01-20 07:11:26,1202.48,DE
+c000450,Max Ng,maxng449@example.com,pro,churned,2026-02-20 06:11:41,2025-03-31 01:06:29,1080.80,CA
+c000451,Lea Munoz,leamunoz450@mailbox.dev,starter,active,2025-02-04 07:54:37,,382.70,US
+c000452,Max Ng,maxng451@acme.io,pro,active,2026-08-05 16:26:35,,1350.40,AU
+c000453,Ivy Shaw,ivyshaw452@acme.io,pro,paused,2025-04-01 16:05:44,2025-11-30 20:19:07,1830.23,CA
+c000454,Ray Diaz,raydiaz453@acme.io,pro,active,2026-04-23 22:30:51,,766.84,US
+c000455,Max Ng,maxng454@acme.io,enterprise,active,2025-09-22 23:22:49,,1281.70,DE
+c000456,Ken Ito,kenito455@mailbox.dev,pro,paused,2026-01-19 09:27:11,2026-07-04 03:17:49,1914.55,US
+c000457,Ana Cruz,anacruz456@example.com,pro,active,2026-05-27 01:21:45,,672.99,GB
+c000458,Ana Cruz,anacruz457@corp.test,starter,active,2025-04-10 06:42:56,,1097.68,CA
+c000459,Sam Lee,samlee458@acme.io,starter,active,2026-05-09 22:50:39,,402.60,CA
+c000460,Alex Kim,alexkim459@mailbox.dev,pro,active,2025-07-19 03:14:27,,1680.27,GB
+c000461,Ana Cruz,anacruz460@mailbox.dev,pro,paused,2026-06-23 06:11:09,2025-06-19 00:56:22,191.15,CA
+c000462,Eli Grant,eligrant461@corp.test,starter,active,2026-06-13 00:13:31,,1301.90,AU
+c000463,Max Ng,maxng462@acme.io,pro,active,2025-12-19 06:43:03,,1371.74,GB
+c000464,Alex Kim,alexkim463@example.com,enterprise,active,2025-12-08 14:46:33,,625.33,US
+c000465,Jo Park,jopark464@mailbox.dev,starter,churned,2026-07-31 05:33:24,2026-07-30 19:02:34,1582.44,GB
+c000466,Ana Cruz,anacruz465@acme.io,starter,paused,2025-12-11 11:16:39,,673.76,CA
+c000467,Ivy Shaw,ivyshaw466@mailbox.dev,enterprise,paused,2026-02-19 05:08:00,2026-05-05 15:16:23,1599.07,GB
+c000468,Jo Park,jopark467@mailbox.dev,pro,paused,2026-07-25 01:55:11,,1945.99,GB
+c000469,Ken Ito,kenito468@mailbox.dev,starter,paused,2025-02-05 00:59:07,,903.51,GB
+c000470,Ana Cruz,anacruz469@corp.test,starter,paused,2025-09-12 18:31:07,,1009.83,US
+c000471,Noa Fisher,noafisher470@corp.test,starter,active,2025-03-24 16:18:50,,1336.44,CA
+c000472,Max Ng,maxng471@acme.io,pro,active,2026-08-14 22:26:04,,1683.95,GB
+c000473,Mia Chen,miachen472@example.com,pro,churned,2025-08-25 16:24:16,2025-11-09 20:10:44,1142.16,DE
+c000474,Noa Fisher,noafisher473@example.com,pro,active,2026-01-09 13:39:01,,1903.84,AU
+c000475,Ray Diaz,raydiaz474@corp.test,enterprise,active,2026-08-22 23:49:47,,985.34,FR
+c000476,Sam Lee,samlee475@corp.test,starter,active,2026-08-06 12:11:45,,1609.77,FR
+c000477,Lea Munoz,leamunoz476@mailbox.dev,starter,active,2025-04-29 03:08:23,,911.39,DE
+c000478,Tom Bell,tombell477@corp.test,enterprise,active,2026-03-20 22:26:31,,1638.81,DE
+c000479,Ken Ito,kenito478@example.com,enterprise,paused,2025-02-28 11:28:20,,1974.42,CA
+c000480,Noa Fisher,noafisher479@mailbox.dev,starter,active,2025-04-04 16:11:56,,1489.14,AU
+c000481,Zoe Fox,zoefox480@acme.io,pro,paused,2025-07-13 12:11:26,2026-01-05 10:45:54,1155.69,FR
+c000482,Jo Park,jopark481@acme.io,starter,active,2025-08-25 10:52:48,,1970.80,FR
+c000483,Jo Park,jopark482@mailbox.dev,starter,active,2026-02-13 14:00:26,,1951.69,AU
+c000484,Lea Munoz,leamunoz483@example.com,starter,active,2025-12-24 15:07:03,,928.63,GB
+c000485,Zoe Fox,zoefox484@acme.io,starter,paused,2025-05-04 21:14:59,,20.59,AU
+c000486,Jo Park,jopark485@mailbox.dev,starter,paused,2025-05-20 05:57:16,2026-04-28 05:22:58,923.28,DE
+c000487,Sam Lee,samlee486@mailbox.dev,pro,active,2026-07-11 07:49:34,,1995.07,AU
+c000488,Sam Lee,samlee487@mailbox.dev,enterprise,active,2026-06-11 02:32:45,,912.11,GB
+c000489,Lea Munoz,leamunoz488@example.com,starter,active,2025-08-03 22:03:15,,1253.14,GB
+c000490,Cy Adler,cyadler489@corp.test,starter,paused,2025-08-06 02:58:59,2025-04-30 12:28:03,966.46,DE
+c000491,Noa Fisher,noafisher490@mailbox.dev,pro,paused,2026-06-23 02:33:20,2025-11-14 09:24:18,1515.02,CA
+c000492,Noa Fisher,noafisher491@acme.io,enterprise,paused,2025-10-02 23:53:58,,1076.98,CA
+c000493,Ray Diaz,raydiaz492@example.com,enterprise,active,2025-02-03 23:20:13,,1533.38,FR
+c000494,Max Ng,maxng493@acme.io,enterprise,active,2025-09-18 17:06:38,,244.84,AU
+c000495,Eli Grant,eligrant494@example.com,pro,active,2025-04-06 14:21:29,,328.24,FR
+c000496,Ray Diaz,raydiaz495@example.com,pro,active,2025-10-31 13:46:23,,1199.67,AU
+c000497,Jo Park,jopark496@acme.io,starter,active,2025-08-23 18:23:46,,814.03,GB
+c000498,Ken Ito,kenito497@mailbox.dev,pro,churned,2025-10-29 17:26:51,2025-02-28 20:01:27,287.64,CA
+c000499,Noa Fisher,noafisher498@mailbox.dev,starter,paused,2025-12-09 12:02:20,,41.24,FR
+c000500,Lea Munoz,leamunoz499@mailbox.dev,starter,active,2025-01-27 21:36:21,,213.03,AU
+c000501,Eli Grant,eligrant500@example.com,starter,churned,2025-02-21 11:32:02,2025-09-19 07:10:19,491.36,AU
+c000502,Tom Bell,tombell501@acme.io,pro,active,2025-10-31 06:24:36,,204.75,DE
+c000503,Ray Diaz,raydiaz502@example.com,pro,churned,2025-12-06 17:26:27,2026-08-16 19:32:03,935.99,DE
+c000504,Tom Bell,tombell503@example.com,starter,active,2025-05-09 06:20:31,,1869.94,GB
+c000505,Alex Kim,alexkim504@example.com,pro,active,2026-06-18 13:14:32,,616.20,GB
+c000506,Sam Lee,samlee505@acme.io,pro,churned,2025-04-03 17:01:00,2025-07-09 23:29:07,1563.32,AU
+c000507,Sam Lee,samlee506@acme.io,enterprise,churned,2025-05-15 19:42:12,2025-05-27 18:30:03,295.39,FR
+c000508,Mia Chen,miachen507@corp.test,pro,active,2025-08-10 16:00:08,,1808.92,DE
+c000509,Alex Kim,alexkim508@mailbox.dev,pro,active,2025-08-25 18:14:31,,1010.46,US
+c000510,Ivy Shaw,ivyshaw509@corp.test,enterprise,paused,2025-07-31 22:58:16,2025-09-24 20:05:04,1364.96,GB
+c000511,Alex Kim,alexkim510@example.com,enterprise,active,2025-01-16 18:24:19,,1499.07,US
+c000512,Eli Grant,eligrant511@mailbox.dev,starter,active,2025-04-29 20:49:58,,768.03,CA
+c000513,Lea Munoz,leamunoz512@corp.test,enterprise,active,2026-04-07 10:43:51,,617.26,FR
+c000514,Tom Bell,tombell513@mailbox.dev,pro,active,2025-04-23 12:26:17,,1196.16,CA
+c000515,Ken Ito,kenito514@mailbox.dev,pro,active,2025-02-22 12:41:23,,867.27,GB
+c000516,Noa Fisher,noafisher515@corp.test,pro,active,2025-11-24 19:35:51,,1820.89,FR
+c000517,Eli Grant,eligrant516@example.com,enterprise,churned,2026-08-22 08:09:33,2026-06-11 09:36:53,1171.64,GB
+c000518,Max Ng,maxng517@corp.test,pro,active,2025-09-04 05:15:28,,1068.22,FR
+c000519,Ken Ito,kenito518@acme.io,starter,active,2025-01-08 09:58:33,,219.41,DE
+c000520,Max Ng,maxng519@corp.test,enterprise,active,2025-12-06 13:11:46,,860.71,GB
+c000521,Max Ng,maxng520@acme.io,starter,paused,2026-04-29 03:59:23,,1086.72,US
+c000522,Max Ng,maxng521@example.com,starter,active,2026-05-08 14:06:51,,1397.23,US
+c000523,Jo Park,jopark522@mailbox.dev,starter,active,2025-03-10 11:34:27,,122.87,FR
+c000524,Eli Grant,eligrant523@acme.io,pro,churned,2025-03-16 10:52:07,2026-01-18 11:48:27,133.33,CA
+c000525,Noa Fisher,noafisher524@mailbox.dev,pro,paused,2025-08-18 23:26:39,2026-06-18 17:02:03,1284.18,DE
+c000526,Ivy Shaw,ivyshaw525@acme.io,starter,paused,2026-02-20 22:03:29,,1160.86,AU
+c000527,Cy Adler,cyadler526@example.com,starter,paused,2025-06-24 22:30:42,,1862.03,CA
+c000528,Cy Adler,cyadler527@mailbox.dev,starter,paused,2025-10-21 03:54:38,,1424.21,FR
+c000529,Jo Park,jopark528@corp.test,starter,churned,2025-05-14 22:59:18,2025-03-08 23:53:20,451.22,GB
+c000530,Ivy Shaw,ivyshaw529@acme.io,enterprise,paused,2025-09-01 19:18:39,2025-11-26 23:45:25,1300.15,FR
+c000531,Ana Cruz,anacruz530@mailbox.dev,pro,churned,2025-03-10 00:57:50,2025-05-09 07:33:09,690.03,AU
+c000532,Eli Grant,eligrant531@mailbox.dev,starter,paused,2026-04-11 13:18:54,,769.50,DE
+c000533,Noa Fisher,noafisher532@corp.test,pro,active,2025-02-24 09:36:30,,157.78,DE
+c000534,Eli Grant,eligrant533@acme.io,starter,paused,2026-08-19 01:56:11,2026-07-15 19:47:56,419.96,AU
+c000535,Alex Kim,alexkim534@example.com,pro,paused,2025-07-14 06:20:21,,1297.59,FR
+c000536,Cy Adler,cyadler535@mailbox.dev,pro,active,2025-09-09 20:35:08,,892.58,CA
+c000537,Jo Park,jopark536@mailbox.dev,starter,paused,2025-11-02 00:41:47,2025-05-23 04:39:17,1050.72,DE
+c000538,Alex Kim,alexkim537@corp.test,starter,churned,2025-11-13 05:20:38,2026-08-20 04:21:37,113.34,AU
+c000539,Sam Lee,samlee538@mailbox.dev,pro,active,2025-06-11 08:31:31,,74.90,CA
+c000540,Noa Fisher,noafisher539@corp.test,pro,active,2026-01-11 17:46:29,,245.43,GB
+c000541,Mia Chen,miachen540@example.com,pro,paused,2025-02-04 17:53:05,2026-07-25 21:37:36,383.08,US
+c000542,Ray Diaz,raydiaz541@mailbox.dev,enterprise,paused,2025-11-30 01:08:35,2026-06-04 19:56:03,1779.67,AU
+c000543,Tom Bell,tombell542@example.com,pro,paused,2026-07-15 10:45:33,2026-04-22 19:29:52,1864.49,GB
+c000544,Sam Lee,samlee543@corp.test,pro,active,2026-04-30 01:01:15,,36.66,GB
+c000545,Ana Cruz,anacruz544@example.com,starter,paused,2025-04-24 00:51:14,,1435.92,FR
+c000546,Max Ng,maxng545@mailbox.dev,enterprise,paused,2026-01-23 13:00:10,2025-07-10 12:44:06,1927.66,DE
+c000547,Jo Park,jopark546@mailbox.dev,starter,active,2026-08-26 05:41:36,,1136.09,AU
+c000548,Noa Fisher,noafisher547@corp.test,starter,active,2025-04-13 05:43:52,,1388.50,AU
+c000549,Ana Cruz,anacruz548@example.com,enterprise,active,2025-07-25 04:43:06,,1028.68,CA
+c000550,Max Ng,maxng549@mailbox.dev,enterprise,churned,2025-11-04 09:21:46,2025-06-08 16:03:50,1706.67,US
+c000551,Sam Lee,samlee550@corp.test,pro,active,2026-04-04 23:44:50,,1641.39,DE
+c000552,Ken Ito,kenito551@acme.io,starter,active,2026-08-16 16:02:36,,40.64,US
+c000553,Cy Adler,cyadler552@example.com,starter,active,2026-03-24 07:34:30,,321.81,FR
+c000554,Max Ng,maxng553@corp.test,enterprise,active,2026-06-21 17:11:01,,1318.94,DE
+c000555,Cy Adler,cyadler554@corp.test,starter,active,2026-03-07 11:50:26,,1743.69,DE
+c000556,Ana Cruz,anacruz555@example.com,pro,paused,2026-03-05 06:14:40,2026-01-08 02:29:25,895.51,GB
+c000557,Tom Bell,tombell556@acme.io,enterprise,active,2025-05-18 17:34:43,,480.50,AU
+c000558,Eli Grant,eligrant557@mailbox.dev,enterprise,active,2026-01-06 11:09:13,,282.19,DE
+c000559,Zoe Fox,zoefox558@acme.io,starter,paused,2025-01-31 07:27:47,,992.68,DE
+c000560,Eli Grant,eligrant559@corp.test,enterprise,churned,2025-08-18 01:52:27,2025-03-07 22:44:13,835.33,US
+c000561,Mia Chen,miachen560@acme.io,enterprise,paused,2025-01-18 20:54:17,,1906.69,GB
+c000562,Mia Chen,miachen561@acme.io,starter,paused,2026-08-20 09:41:28,,192.15,GB
+c000563,Cy Adler,cyadler562@acme.io,enterprise,churned,2025-04-16 11:03:07,2026-02-04 09:50:30,509.87,GB
+c000564,Mia Chen,miachen563@example.com,starter,paused,2026-05-01 04:21:02,,1922.22,AU
+c000565,Ana Cruz,anacruz564@corp.test,enterprise,paused,2025-07-21 05:15:56,2026-03-17 03:34:31,584.50,DE
+c000566,Mia Chen,miachen565@example.com,pro,active,2025-10-25 08:48:48,,779.12,CA
+c000567,Zoe Fox,zoefox566@mailbox.dev,pro,churned,2026-06-19 19:52:15,2026-07-03 19:20:49,727.20,AU
+c000568,Ray Diaz,raydiaz567@acme.io,pro,active,2026-06-04 09:51:23,,1143.32,US
+c000569,Ray Diaz,raydiaz568@acme.io,pro,active,2026-05-01 16:49:19,,1354.98,GB
+c000570,Eli Grant,eligrant569@example.com,pro,churned,2025-08-20 19:24:27,2025-06-22 03:15:48,1413.92,GB
+c000571,Sam Lee,samlee570@mailbox.dev,pro,active,2026-06-12 19:46:08,,501.73,CA
+c000572,Tom Bell,tombell571@example.com,enterprise,active,2026-04-01 07:44:22,,979.29,GB
+c000573,Zoe Fox,zoefox572@acme.io,pro,churned,2025-08-05 21:02:48,2025-02-07 15:03:24,1415.61,FR
+c000574,Eli Grant,eligrant573@example.com,starter,paused,2026-07-09 15:16:11,,1455.83,CA
+c000575,Mia Chen,miachen574@corp.test,starter,active,2026-05-20 19:44:08,,362.85,US
+c000576,Mia Chen,miachen575@corp.test,pro,active,2025-01-28 17:56:25,,16.03,CA
+c000577,Ana Cruz,anacruz576@corp.test,starter,active,2025-08-07 15:59:42,,1922.00,US
+c000578,Eli Grant,eligrant577@acme.io,pro,paused,2025-07-16 15:12:06,2026-06-06 04:06:09,52.47,CA
+c000579,Noa Fisher,noafisher578@corp.test,pro,active,2025-02-11 18:52:38,,154.28,CA
+c000580,Alex Kim,alexkim579@mailbox.dev,enterprise,active,2025-11-28 16:22:23,,1694.95,DE
+c000581,Ivy Shaw,ivyshaw580@corp.test,pro,active,2026-06-19 12:45:27,,1767.02,US
+c000582,Ana Cruz,anacruz581@example.com,enterprise,active,2026-04-22 09:04:13,,1944.39,DE
+c000583,Tom Bell,tombell582@acme.io,starter,active,2025-06-14 21:23:23,,1715.34,FR
+c000584,Ken Ito,kenito583@mailbox.dev,starter,paused,2025-05-12 16:50:10,2026-08-13 01:37:37,938.16,US
+c000585,Lea Munoz,leamunoz584@corp.test,starter,churned,2026-04-18 21:50:38,2026-03-16 06:03:50,1848.56,GB
+c000586,Ana Cruz,anacruz585@corp.test,pro,paused,2025-03-10 16:48:51,,247.92,CA
+c000587,Alex Kim,alexkim586@corp.test,enterprise,paused,2026-02-07 09:45:04,2025-04-05 13:32:56,837.37,CA
+c000588,Ray Diaz,raydiaz587@example.com,enterprise,paused,2026-07-20 01:37:09,,705.52,DE
+c000589,Max Ng,maxng588@example.com,starter,active,2025-06-22 10:46:34,,922.33,DE
+c000590,Tom Bell,tombell589@mailbox.dev,enterprise,paused,2026-08-07 05:04:00,,412.90,GB
+c000591,Noa Fisher,noafisher590@acme.io,pro,active,2026-07-07 17:19:21,,590.12,CA
+c000592,Max Ng,maxng591@acme.io,enterprise,active,2026-03-08 15:41:36,,111.07,GB
+c000593,Eli Grant,eligrant592@example.com,pro,active,2025-10-09 06:27:30,,965.45,FR
+c000594,Eli Grant,eligrant593@mailbox.dev,pro,active,2025-04-01 20:23:00,,23.42,CA
+c000595,Lea Munoz,leamunoz594@example.com,starter,active,2026-06-06 16:55:19,,1032.80,US
+c000596,Tom Bell,tombell595@corp.test,pro,paused,2026-05-30 14:45:34,,951.97,GB
+c000597,Ken Ito,kenito596@example.com,starter,active,2025-10-06 13:01:27,,44.21,AU
+c000598,Ivy Shaw,ivyshaw597@mailbox.dev,starter,active,2026-03-23 11:40:49,,1633.00,AU
+c000599,Alex Kim,alexkim598@corp.test,pro,active,2025-12-09 21:17:21,,1411.44,DE
+c000600,Ivy Shaw,ivyshaw599@example.com,pro,active,2025-05-14 04:04:35,,1191.84,CA
+c000601,Tom Bell,tombell600@acme.io,enterprise,churned,2026-08-16 09:27:10,2026-04-06 09:00:25,1060.16,US
+c000602,Alex Kim,alexkim601@mailbox.dev,pro,churned,2026-05-07 22:05:13,2026-01-15 18:26:03,1752.84,FR
+c000603,Ivy Shaw,ivyshaw602@mailbox.dev,starter,churned,2025-09-06 17:48:05,2025-09-08 05:18:25,33.25,AU
+c000604,Cy Adler,cyadler603@corp.test,pro,paused,2025-04-01 07:58:00,,1882.95,FR
+c000605,Max Ng,maxng604@mailbox.dev,pro,active,2025-09-11 04:48:27,,98.33,US
+c000606,Eli Grant,eligrant605@example.com,starter,active,2025-02-05 07:47:02,,253.86,GB
+c000607,Sam Lee,samlee606@example.com,enterprise,churned,2025-06-07 23:06:42,2025-10-30 23:57:53,693.73,GB
+c000608,Cy Adler,cyadler607@example.com,starter,paused,2025-12-03 15:50:40,,971.81,AU
+c000609,Alex Kim,alexkim608@mailbox.dev,pro,active,2025-11-23 05:44:44,,662.06,GB
+c000610,Ivy Shaw,ivyshaw609@mailbox.dev,starter,active,2025-12-20 20:24:01,,737.17,GB
+c000611,Zoe Fox,zoefox610@mailbox.dev,starter,churned,2025-08-06 03:11:26,2025-04-24 04:02:41,1645.05,FR
+c000612,Eli Grant,eligrant611@example.com,starter,churned,2026-07-16 18:57:03,2025-02-03 13:35:57,243.14,US
+c000613,Eli Grant,eligrant612@mailbox.dev,enterprise,active,2025-02-01 13:52:36,,235.37,AU
+c000614,Mia Chen,miachen613@mailbox.dev,starter,active,2026-06-29 21:14:08,,693.42,AU
+c000615,Ivy Shaw,ivyshaw614@corp.test,enterprise,active,2026-02-22 18:29:38,,737.78,CA
+c000616,Ken Ito,kenito615@corp.test,enterprise,active,2026-06-19 05:30:14,,1552.93,US
+c000617,Zoe Fox,zoefox616@example.com,starter,active,2025-05-22 03:19:40,,440.71,FR
+c000618,Max Ng,maxng617@example.com,starter,churned,2025-09-23 18:57:26,2025-04-30 10:16:53,1380.95,US
+c000619,Ivy Shaw,ivyshaw618@acme.io,pro,paused,2025-11-15 18:10:22,2025-05-15 05:01:53,424.33,AU
+c000620,Alex Kim,alexkim619@corp.test,pro,churned,2026-06-18 08:21:42,2025-03-11 19:12:19,935.63,GB
+c000621,Cy Adler,cyadler620@corp.test,pro,active,2026-07-31 16:48:01,,717.46,US
+c000622,Cy Adler,cyadler621@example.com,pro,paused,2026-02-16 01:21:21,2025-08-14 09:58:21,1367.91,AU
+c000623,Max Ng,maxng622@acme.io,starter,active,2026-01-16 06:36:01,,679.78,CA
+c000624,Ivy Shaw,ivyshaw623@example.com,enterprise,active,2026-04-25 16:55:21,,399.15,DE
+c000625,Ray Diaz,raydiaz624@acme.io,pro,churned,2026-02-26 23:52:44,2026-01-16 19:43:26,835.56,CA
+c000626,Tom Bell,tombell625@example.com,starter,active,2025-11-30 21:31:15,,1879.16,FR
+c000627,Cy Adler,cyadler626@corp.test,pro,active,2026-06-25 18:36:41,,1150.01,GB
+c000628,Max Ng,maxng627@acme.io,enterprise,active,2025-08-04 22:13:16,,1678.50,US
+c000629,Ray Diaz,raydiaz628@acme.io,starter,active,2025-09-30 00:02:00,,1118.07,US
+c000630,Lea Munoz,leamunoz629@corp.test,pro,active,2026-08-30 06:55:55,,557.84,CA
+c000631,Cy Adler,cyadler630@example.com,pro,paused,2025-12-04 02:46:53,,1341.18,CA
+c000632,Max Ng,maxng631@acme.io,enterprise,active,2026-08-17 06:39:11,,912.72,FR
+c000633,Cy Adler,cyadler632@mailbox.dev,starter,active,2025-04-11 13:58:24,,753.28,AU
+c000634,Eli Grant,eligrant633@corp.test,pro,paused,2026-04-01 17:50:42,2026-08-03 00:07:42,1989.52,GB
+c000635,Cy Adler,cyadler634@mailbox.dev,starter,active,2025-01-29 16:46:52,,1141.53,FR
+c000636,Jo Park,jopark635@acme.io,enterprise,churned,2025-03-25 13:28:05,2025-07-14 16:55:02,483.16,US
+c000637,Ken Ito,kenito636@corp.test,pro,churned,2026-04-02 14:47:01,2026-06-24 03:59:50,1979.64,FR
+c000638,Noa Fisher,noafisher637@corp.test,enterprise,churned,2026-03-08 19:22:29,2026-08-09 17:12:56,557.66,FR
+c000639,Cy Adler,cyadler638@mailbox.dev,starter,paused,2025-05-18 17:40:11,2026-06-12 01:29:25,1814.50,GB
+c000640,Ken Ito,kenito639@mailbox.dev,starter,active,2026-06-08 00:20:48,,116.22,DE
+c000641,Lea Munoz,leamunoz640@corp.test,pro,active,2026-08-27 03:05:53,,1745.71,FR
+c000642,Cy Adler,cyadler641@corp.test,enterprise,active,2026-02-23 19:26:56,,548.94,GB
+c000643,Ivy Shaw,ivyshaw642@example.com,pro,churned,2025-07-05 23:21:25,2026-03-03 04:21:30,1105.92,CA
+c000644,Eli Grant,eligrant643@corp.test,pro,active,2026-08-23 08:47:58,,1898.96,US
+c000645,Max Ng,maxng644@example.com,starter,active,2026-01-11 06:30:02,,158.26,CA
+c000646,Noa Fisher,noafisher645@example.com,pro,active,2025-03-10 06:08:42,,490.86,FR
+c000647,Ana Cruz,anacruz646@mailbox.dev,enterprise,active,2026-05-28 00:38:08,,1544.76,FR
+c000648,Max Ng,maxng647@mailbox.dev,starter,churned,2025-12-07 19:10:51,2026-07-15 14:51:46,1730.06,AU
+c000649,Sam Lee,samlee648@corp.test,enterprise,active,2026-04-28 12:44:20,,617.78,AU
+c000650,Sam Lee,samlee649@acme.io,enterprise,active,2025-05-11 15:59:59,,1229.42,DE
+c000651,Lea Munoz,leamunoz650@mailbox.dev,pro,active,2026-06-23 17:57:23,,543.23,DE
+c000652,Zoe Fox,zoefox651@example.com,starter,active,2025-05-27 09:17:38,,141.13,CA
+c000653,Noa Fisher,noafisher652@mailbox.dev,enterprise,active,2026-02-28 07:05:44,,375.51,CA
+c000654,Sam Lee,samlee653@corp.test,enterprise,active,2025-12-24 23:01:35,,1750.33,CA
+c000655,Ivy Shaw,ivyshaw654@example.com,starter,active,2025-03-14 22:26:41,,405.83,GB
+c000656,Eli Grant,eligrant655@example.com,starter,churned,2025-02-22 14:22:13,2025-09-30 13:21:51,581.42,AU
+c000657,Ray Diaz,raydiaz656@corp.test,pro,active,2025-08-18 05:03:55,,414.07,CA
+c000658,Zoe Fox,zoefox657@mailbox.dev,pro,active,2026-07-31 19:42:29,,251.62,CA
+c000659,Sam Lee,samlee658@acme.io,enterprise,churned,2026-01-16 23:13:55,2025-01-16 01:12:23,1794.16,GB
+c000660,Alex Kim,alexkim659@mailbox.dev,enterprise,active,2026-07-01 06:03:47,,1592.84,CA
+c000661,Max Ng,maxng660@example.com,pro,churned,2025-02-14 11:20:02,2025-07-19 13:57:46,1490.36,CA
+c000662,Noa Fisher,noafisher661@mailbox.dev,enterprise,active,2025-08-05 00:58:53,,347.55,AU
+c000663,Alex Kim,alexkim662@acme.io,pro,active,2025-10-13 06:01:48,,1433.32,DE
+c000664,Tom Bell,tombell663@corp.test,pro,active,2025-12-09 21:40:44,,1741.03,US
+c000665,Max Ng,maxng664@example.com,enterprise,churned,2025-03-16 23:45:30,2026-03-18 23:42:38,570.05,DE
+c000666,Alex Kim,alexkim665@corp.test,starter,active,2025-12-02 04:03:00,,1082.60,CA
+c000667,Jo Park,jopark666@example.com,starter,paused,2025-08-25 12:56:45,2025-08-04 02:02:42,785.84,US
+c000668,Sam Lee,samlee667@mailbox.dev,enterprise,churned,2026-03-09 08:52:50,2025-11-28 12:45:39,353.89,US
+c000669,Lea Munoz,leamunoz668@mailbox.dev,enterprise,paused,2025-06-28 09:12:43,2025-12-16 14:13:44,336.25,DE
+c000670,Eli Grant,eligrant669@example.com,pro,active,2026-01-16 08:36:51,,1386.96,DE
+c000671,Ana Cruz,anacruz670@mailbox.dev,enterprise,active,2025-02-01 20:50:43,,404.18,FR
+c000672,Ken Ito,kenito671@example.com,enterprise,active,2025-04-11 14:15:53,,1179.93,AU
+c000673,Ray Diaz,raydiaz672@corp.test,pro,active,2026-08-18 12:00:11,,1785.89,DE
+c000674,Lea Munoz,leamunoz673@mailbox.dev,starter,active,2025-07-02 04:21:50,,1516.51,GB
+c000675,Cy Adler,cyadler674@example.com,enterprise,active,2026-07-09 12:16:33,,1339.23,AU
+c000676,Lea Munoz,leamunoz675@acme.io,starter,churned,2026-06-25 14:47:04,2025-03-04 11:45:01,1070.60,AU
+c000677,Noa Fisher,noafisher676@mailbox.dev,enterprise,active,2025-03-26 18:58:08,,1373.13,FR
+c000678,Noa Fisher,noafisher677@corp.test,enterprise,active,2025-10-12 07:30:41,,140.78,GB
+c000679,Ray Diaz,raydiaz678@mailbox.dev,pro,paused,2025-12-12 18:04:09,2026-02-24 23:22:47,700.11,AU
+c000680,Tom Bell,tombell679@example.com,pro,paused,2026-01-15 17:52:06,2025-12-16 08:27:52,26.54,AU
+c000681,Eli Grant,eligrant680@mailbox.dev,starter,paused,2025-07-31 17:49:02,,141.64,GB
+c000682,Alex Kim,alexkim681@acme.io,starter,churned,2025-09-07 08:33:20,2025-04-25 11:32:28,716.98,GB
+c000683,Ken Ito,kenito682@acme.io,starter,paused,2025-05-05 21:54:37,,866.78,FR
+c000684,Eli Grant,eligrant683@corp.test,pro,active,2025-12-25 06:40:09,,283.52,DE
+c000685,Tom Bell,tombell684@mailbox.dev,enterprise,active,2025-10-04 01:24:45,,1918.80,DE
+c000686,Ivy Shaw,ivyshaw685@example.com,pro,paused,2026-01-10 15:06:52,,1380.42,DE
+c000687,Noa Fisher,noafisher686@mailbox.dev,starter,churned,2025-01-02 18:50:00,2025-09-05 12:05:34,320.18,GB
+c000688,Alex Kim,alexkim687@example.com,enterprise,churned,2026-05-30 12:28:32,2026-02-18 22:30:54,1229.50,DE
+c000689,Ana Cruz,anacruz688@mailbox.dev,pro,active,2026-02-06 11:59:35,,1009.92,FR
+c000690,Ray Diaz,raydiaz689@acme.io,starter,churned,2026-02-28 22:17:55,2026-08-25 04:09:16,545.91,US
+c000691,Jo Park,jopark690@mailbox.dev,enterprise,churned,2026-07-13 15:34:31,2025-08-30 16:57:44,317.46,AU
+c000692,Ana Cruz,anacruz691@corp.test,enterprise,active,2025-12-10 21:39:15,,872.38,FR
+c000693,Eli Grant,eligrant692@mailbox.dev,starter,paused,2025-04-24 16:13:01,,534.52,GB
+c000694,Tom Bell,tombell693@mailbox.dev,pro,paused,2026-05-06 11:35:36,2025-12-02 10:37:10,199.09,AU
+c000695,Alex Kim,alexkim694@mailbox.dev,pro,active,2025-10-29 02:52:55,,1651.94,CA
+c000696,Mia Chen,miachen695@example.com,pro,active,2025-11-12 09:55:29,,1587.93,FR
+c000697,Lea Munoz,leamunoz696@example.com,pro,active,2026-08-27 09:22:01,,1466.47,CA
+c000698,Zoe Fox,zoefox697@example.com,starter,active,2026-08-18 09:21:12,,474.51,GB
+c000699,Ivy Shaw,ivyshaw698@mailbox.dev,pro,active,2025-12-24 17:38:15,,1525.65,AU
+c000700,Ken Ito,kenito699@corp.test,enterprise,active,2026-07-19 01:35:56,,1146.11,CA
+c000701,Ana Cruz,anacruz700@mailbox.dev,enterprise,active,2026-04-19 11:41:22,,1833.37,FR
+c000702,Ray Diaz,raydiaz701@acme.io,starter,active,2025-07-04 06:58:26,,635.25,GB
+c000703,Max Ng,maxng702@mailbox.dev,starter,active,2025-10-10 17:47:12,,1644.02,FR
+c000704,Ivy Shaw,ivyshaw703@mailbox.dev,starter,active,2025-12-02 06:16:57,,1116.23,US
+c000705,Ken Ito,kenito704@mailbox.dev,pro,active,2025-12-08 08:54:13,,865.33,AU
+c000706,Alex Kim,alexkim705@example.com,starter,active,2025-01-20 03:36:12,,1134.06,GB
+c000707,Mia Chen,miachen706@acme.io,enterprise,active,2026-01-26 12:56:59,,88.78,GB
+c000708,Ana Cruz,anacruz707@mailbox.dev,starter,active,2025-02-10 13:04:03,,200.10,FR
+c000709,Ken Ito,kenito708@example.com,starter,active,2026-06-02 04:23:56,,933.83,FR
+c000710,Mia Chen,miachen709@mailbox.dev,pro,paused,2025-09-15 00:07:55,,1518.78,DE
+c000711,Ken Ito,kenito710@example.com,pro,active,2025-07-07 08:09:47,,1229.97,DE
+c000712,Ana Cruz,anacruz711@corp.test,starter,churned,2025-01-25 00:12:18,2026-04-09 23:46:38,20.16,FR
+c000713,Alex Kim,alexkim712@example.com,enterprise,paused,2026-06-27 17:35:33,,1531.01,GB
+c000714,Eli Grant,eligrant713@corp.test,pro,active,2025-08-16 04:36:58,,630.88,FR
+c000715,Sam Lee,samlee714@acme.io,starter,active,2025-12-06 09:34:58,,243.42,AU
+c000716,Mia Chen,miachen715@mailbox.dev,pro,active,2026-02-01 03:37:32,,1641.14,FR
+c000717,Lea Munoz,leamunoz716@acme.io,starter,paused,2026-08-17 15:10:47,,1711.36,CA
+c000718,Mia Chen,miachen717@corp.test,starter,active,2026-08-18 02:57:38,,257.30,DE
+c000719,Sam Lee,samlee718@corp.test,pro,churned,2026-03-12 01:04:49,2026-08-09 07:54:36,1204.06,FR
+c000720,Alex Kim,alexkim719@corp.test,pro,churned,2026-05-14 20:39:45,2026-05-11 00:59:34,1383.24,FR
+c000721,Eli Grant,eligrant720@example.com,starter,active,2025-11-29 15:05:42,,619.22,AU
+c000722,Ken Ito,kenito721@example.com,enterprise,active,2025-08-17 20:15:28,,396.54,AU
+c000723,Lea Munoz,leamunoz722@example.com,enterprise,active,2025-04-24 04:29:44,,180.29,CA
+c000724,Max Ng,maxng723@example.com,pro,paused,2025-03-03 05:51:51,2026-03-01 03:57:28,1407.93,AU
+c000725,Zoe Fox,zoefox724@example.com,enterprise,paused,2026-02-11 21:19:57,,296.64,FR
+c000726,Lea Munoz,leamunoz725@acme.io,enterprise,active,2026-01-10 14:31:08,,1680.95,FR
+c000727,Cy Adler,cyadler726@acme.io,pro,active,2025-05-09 16:35:42,,1720.16,FR
+c000728,Sam Lee,samlee727@corp.test,enterprise,paused,2026-06-05 05:11:48,,1571.92,GB
+c000729,Ken Ito,kenito728@acme.io,enterprise,paused,2025-08-28 23:05:21,,526.14,CA
+c000730,Mia Chen,miachen729@acme.io,starter,active,2026-02-16 07:50:38,,679.47,CA
+c000731,Lea Munoz,leamunoz730@example.com,pro,paused,2025-08-26 17:47:59,,66.65,GB
+c000732,Alex Kim,alexkim731@acme.io,starter,active,2025-12-29 03:29:29,,270.79,CA
+c000733,Mia Chen,miachen732@acme.io,enterprise,active,2025-02-10 14:27:00,,520.52,GB
+c000734,Zoe Fox,zoefox733@acme.io,enterprise,paused,2025-11-30 19:58:07,2025-07-14 19:14:23,29.93,CA
+c000735,Noa Fisher,noafisher734@example.com,starter,churned,2026-06-01 21:36:04,2025-04-02 18:53:50,593.01,AU
+c000736,Jo Park,jopark735@mailbox.dev,starter,paused,2025-11-27 13:16:52,,380.86,GB
+c000737,Lea Munoz,leamunoz736@mailbox.dev,pro,active,2026-03-11 22:38:27,,916.81,FR
+c000738,Sam Lee,samlee737@example.com,enterprise,active,2025-04-29 21:08:32,,184.19,CA
+c000739,Jo Park,jopark738@mailbox.dev,enterprise,active,2026-03-07 20:59:04,,522.46,GB
+c000740,Sam Lee,samlee739@example.com,enterprise,active,2026-06-16 22:51:03,,115.85,CA
+c000741,Ray Diaz,raydiaz740@corp.test,enterprise,active,2025-06-16 23:43:32,,1399.91,CA
+c000742,Jo Park,jopark741@mailbox.dev,starter,active,2025-03-12 12:46:37,,153.06,DE
+c000743,Noa Fisher,noafisher742@acme.io,starter,paused,2025-04-30 18:16:55,2025-11-06 14:57:12,739.65,CA
+c000744,Ana Cruz,anacruz743@corp.test,starter,active,2025-02-13 22:24:15,,194.00,CA
+c000745,Sam Lee,samlee744@acme.io,pro,active,2025-07-18 21:39:32,,1715.76,AU
+c000746,Ana Cruz,anacruz745@corp.test,starter,churned,2025-11-23 16:35:27,2026-04-09 00:59:11,1040.81,FR
+c000747,Jo Park,jopark746@acme.io,pro,churned,2025-05-22 03:48:05,2025-06-02 08:03:49,1046.99,DE
+c000748,Eli Grant,eligrant747@example.com,starter,active,2026-08-29 03:22:05,,149.03,AU
+c000749,Alex Kim,alexkim748@acme.io,pro,active,2025-11-05 00:50:44,,1766.96,CA
+c000750,Noa Fisher,noafisher749@example.com,enterprise,active,2026-04-04 07:45:22,,314.91,GB
+c000751,Tom Bell,tombell750@corp.test,starter,churned,2026-04-26 00:29:59,2025-08-22 23:48:32,265.08,US
+c000752,Lea Munoz,leamunoz751@acme.io,pro,active,2025-10-22 11:39:42,,1925.90,GB
+c000753,Cy Adler,cyadler752@mailbox.dev,pro,paused,2025-01-05 14:33:38,2026-06-11 19:57:05,1013.12,CA
+c000754,Alex Kim,alexkim753@corp.test,enterprise,active,2026-02-17 04:06:49,,41.21,DE
+c000755,Ana Cruz,anacruz754@corp.test,enterprise,active,2025-10-20 07:19:58,,166.79,FR
+c000756,Zoe Fox,zoefox755@corp.test,starter,active,2026-05-16 05:40:03,,1355.03,CA
+c000757,Zoe Fox,zoefox756@mailbox.dev,starter,paused,2025-06-04 11:17:21,2025-03-17 05:16:24,219.34,CA
+c000758,Ken Ito,kenito757@corp.test,starter,churned,2025-10-22 08:02:59,2025-09-19 22:25:38,1425.75,CA
+c000759,Ana Cruz,anacruz758@corp.test,pro,churned,2026-02-26 11:48:53,2025-03-30 10:06:08,1302.71,DE
+c000760,Sam Lee,samlee759@example.com,starter,paused,2026-01-19 21:01:33,,1921.75,CA
+c000761,Lea Munoz,leamunoz760@acme.io,starter,active,2026-07-09 11:25:53,,23.10,GB
+c000762,Ray Diaz,raydiaz761@corp.test,pro,active,2025-03-31 00:34:33,,465.70,GB
+c000763,Max Ng,maxng762@mailbox.dev,pro,active,2025-03-29 04:48:23,,1503.22,US
+c000764,Zoe Fox,zoefox763@example.com,enterprise,paused,2025-05-08 03:09:25,2025-08-27 16:23:34,1911.46,CA
+c000765,Zoe Fox,zoefox764@corp.test,pro,active,2025-10-06 16:57:34,,165.88,FR
+c000766,Alex Kim,alexkim765@mailbox.dev,enterprise,active,2025-10-06 20:03:23,,1781.86,AU
+c000767,Noa Fisher,noafisher766@mailbox.dev,pro,churned,2025-04-25 00:42:20,2025-08-31 16:35:21,11.41,FR
+c000768,Sam Lee,samlee767@mailbox.dev,starter,paused,2026-07-27 00:53:45,2025-06-23 06:27:01,827.11,GB
+c000769,Ray Diaz,raydiaz768@acme.io,pro,paused,2025-06-24 03:12:34,,700.16,CA
+c000770,Mia Chen,miachen769@acme.io,enterprise,active,2026-05-13 14:16:17,,315.69,US
+c000771,Alex Kim,alexkim770@acme.io,enterprise,active,2025-05-23 19:29:57,,694.40,DE
+c000772,Max Ng,maxng771@corp.test,pro,active,2025-01-05 16:14:19,,1291.04,CA
+c000773,Tom Bell,tombell772@acme.io,starter,paused,2025-11-22 11:02:11,2025-02-13 11:19:16,256.34,US
+c000774,Sam Lee,samlee773@corp.test,starter,paused,2025-09-20 15:24:12,,908.44,CA
+c000775,Jo Park,jopark774@mailbox.dev,enterprise,active,2025-11-28 04:14:00,,1328.05,GB
+c000776,Ivy Shaw,ivyshaw775@acme.io,enterprise,active,2026-02-06 03:20:03,,391.99,CA
+c000777,Alex Kim,alexkim776@acme.io,starter,active,2025-08-16 17:12:38,,569.49,FR
+c000778,Mia Chen,miachen777@mailbox.dev,starter,active,2025-08-06 13:19:47,,1701.73,US
+c000779,Lea Munoz,leamunoz778@acme.io,pro,active,2025-01-31 00:30:00,,1177.85,DE
+c000780,Cy Adler,cyadler779@acme.io,enterprise,churned,2026-07-12 22:00:35,2026-05-24 16:14:15,863.77,AU
+c000781,Ray Diaz,raydiaz780@acme.io,enterprise,active,2026-03-31 16:02:34,,614.00,DE
+c000782,Ken Ito,kenito781@mailbox.dev,pro,active,2025-08-24 13:19:39,,1440.53,GB
+c000783,Ana Cruz,anacruz782@corp.test,pro,active,2025-09-19 06:43:12,,406.85,US
+c000784,Ray Diaz,raydiaz783@corp.test,pro,active,2026-01-11 15:03:47,,1411.64,US
+c000785,Ken Ito,kenito784@corp.test,starter,active,2025-11-16 07:54:26,,1806.14,DE
+c000786,Max Ng,maxng785@mailbox.dev,pro,paused,2026-05-20 12:34:14,2025-01-16 14:50:19,1141.48,DE
+c000787,Lea Munoz,leamunoz786@acme.io,pro,churned,2025-02-03 20:51:21,2025-12-21 13:36:01,54.35,AU
+c000788,Lea Munoz,leamunoz787@mailbox.dev,enterprise,active,2026-05-16 20:45:53,,90.71,FR
+c000789,Ivy Shaw,ivyshaw788@corp.test,starter,active,2025-10-10 16:28:48,,1941.77,FR
+c000790,Ray Diaz,raydiaz789@acme.io,pro,active,2026-02-04 17:39:13,,1702.39,FR
+c000791,Ken Ito,kenito790@acme.io,enterprise,active,2026-02-16 17:05:26,,946.00,AU
+c000792,Sam Lee,samlee791@mailbox.dev,pro,active,2026-03-09 11:31:17,,1316.02,FR
+c000793,Tom Bell,tombell792@acme.io,starter,active,2026-05-04 20:33:38,,1954.90,US
+c000794,Mia Chen,miachen793@mailbox.dev,pro,active,2025-12-15 21:33:23,,1606.46,GB
+c000795,Ken Ito,kenito794@mailbox.dev,starter,active,2026-05-20 07:28:08,,547.34,DE
+c000796,Zoe Fox,zoefox795@mailbox.dev,starter,active,2026-02-21 19:28:24,,480.55,FR
+c000797,Zoe Fox,zoefox796@example.com,enterprise,active,2025-07-13 19:54:21,,625.41,FR
+c000798,Ana Cruz,anacruz797@corp.test,enterprise,active,2026-06-02 15:59:15,,1257.38,FR
+c000799,Mia Chen,miachen798@acme.io,starter,active,2026-04-25 15:36:58,,1924.47,FR
+c000800,Alex Kim,alexkim799@example.com,pro,active,2026-05-31 13:36:23,,84.64,DE
+c000801,Tom Bell,tombell800@acme.io,starter,active,2025-04-19 01:53:13,,1269.10,FR
+c000802,Zoe Fox,zoefox801@example.com,enterprise,active,2025-02-04 15:14:13,,1091.71,AU
+c000803,Cy Adler,cyadler802@corp.test,enterprise,active,2025-12-05 15:16:23,,675.63,AU
+c000804,Jo Park,jopark803@example.com,starter,active,2025-01-24 00:15:19,,1976.34,FR
+c000805,Lea Munoz,leamunoz804@mailbox.dev,enterprise,paused,2026-06-12 09:00:57,,1163.87,AU
+c000806,Lea Munoz,leamunoz805@example.com,starter,active,2025-11-13 15:03:42,,1241.49,CA
+c000807,Ana Cruz,anacruz806@acme.io,pro,churned,2026-08-20 08:13:04,2026-04-16 03:19:18,495.55,GB
+c000808,Mia Chen,miachen807@acme.io,pro,active,2025-03-20 10:37:50,,559.53,US
+c000809,Noa Fisher,noafisher808@mailbox.dev,pro,churned,2025-11-28 00:16:58,2025-09-30 13:03:19,1444.88,FR
+c000810,Eli Grant,eligrant809@mailbox.dev,pro,active,2026-07-30 22:22:46,,1943.46,DE
+c000811,Mia Chen,miachen810@example.com,starter,paused,2025-07-01 11:06:03,2026-01-19 07:28:21,456.73,CA
+c000812,Sam Lee,samlee811@example.com,enterprise,paused,2025-06-11 09:03:52,2025-10-19 17:03:28,1488.53,US
+c000813,Cy Adler,cyadler812@corp.test,starter,churned,2026-03-13 04:10:04,2026-07-05 06:07:43,825.08,CA
+c000814,Alex Kim,alexkim813@example.com,starter,active,2025-03-08 20:57:52,,1991.84,US
+c000815,Ray Diaz,raydiaz814@mailbox.dev,pro,active,2025-01-23 01:49:20,,26.04,FR
+c000816,Zoe Fox,zoefox815@example.com,pro,paused,2026-06-24 13:28:42,,589.91,DE
+c000817,Max Ng,maxng816@acme.io,pro,paused,2025-12-02 03:25:00,2025-04-02 01:44:55,993.57,CA
+c000818,Jo Park,jopark817@acme.io,starter,active,2026-03-08 10:59:33,,627.46,US
+c000819,Eli Grant,eligrant818@example.com,pro,active,2026-08-24 08:03:22,,1534.59,DE
+c000820,Ken Ito,kenito819@corp.test,pro,active,2026-07-09 17:45:23,,1794.90,US
+c000821,Ivy Shaw,ivyshaw820@corp.test,pro,churned,2026-01-03 05:46:17,2026-06-03 12:34:36,862.15,US
+c000822,Mia Chen,miachen821@example.com,pro,churned,2025-12-14 00:52:30,2025-07-24 08:26:16,517.21,CA
+c000823,Ana Cruz,anacruz822@corp.test,starter,active,2025-07-20 20:04:04,,353.48,AU
+c000824,Mia Chen,miachen823@acme.io,starter,active,2025-04-13 18:28:38,,1322.32,FR
+c000825,Ray Diaz,raydiaz824@mailbox.dev,pro,active,2026-08-16 04:28:33,,197.23,CA
+c000826,Alex Kim,alexkim825@mailbox.dev,enterprise,active,2025-09-24 16:01:46,,1133.68,DE
+c000827,Sam Lee,samlee826@example.com,pro,active,2025-04-28 22:50:33,,1183.16,GB
+c000828,Eli Grant,eligrant827@acme.io,starter,churned,2025-11-06 11:09:10,2026-03-05 23:22:52,815.42,US
+c000829,Cy Adler,cyadler828@example.com,starter,active,2026-04-18 05:37:34,,1290.42,FR
+c000830,Tom Bell,tombell829@corp.test,starter,paused,2025-08-20 19:32:04,2025-04-26 01:58:18,381.60,GB
+c000831,Sam Lee,samlee830@mailbox.dev,starter,active,2025-02-05 06:31:24,,1936.46,US
+c000832,Cy Adler,cyadler831@mailbox.dev,enterprise,churned,2025-06-04 10:40:55,2025-04-15 08:19:52,703.52,US
+c000833,Jo Park,jopark832@mailbox.dev,starter,churned,2026-01-25 01:03:10,2025-06-21 10:19:09,233.27,DE
+c000834,Lea Munoz,leamunoz833@corp.test,enterprise,active,2026-05-09 10:03:00,,532.09,US
+c000835,Mia Chen,miachen834@mailbox.dev,starter,paused,2025-04-23 18:02:08,,1177.14,FR
+c000836,Cy Adler,cyadler835@example.com,pro,active,2026-01-04 22:57:50,,1062.14,FR
+c000837,Lea Munoz,leamunoz836@corp.test,pro,churned,2026-07-25 10:33:58,2025-07-25 22:52:33,36.69,US
+c000838,Tom Bell,tombell837@example.com,enterprise,active,2025-02-12 12:24:19,,817.10,DE
+c000839,Eli Grant,eligrant838@corp.test,pro,active,2026-04-17 16:43:18,,48.99,DE
+c000840,Jo Park,jopark839@mailbox.dev,starter,active,2025-03-29 15:24:53,,251.23,CA
+c000841,Sam Lee,samlee840@mailbox.dev,pro,active,2026-04-09 03:29:54,,1214.77,AU
+c000842,Noa Fisher,noafisher841@corp.test,pro,active,2026-04-10 07:37:41,,1098.59,AU
+c000843,Eli Grant,eligrant842@corp.test,enterprise,paused,2025-11-02 02:37:01,,1802.97,AU
+c000844,Tom Bell,tombell843@mailbox.dev,enterprise,active,2026-07-25 00:09:37,,1928.79,FR
+c000845,Eli Grant,eligrant844@acme.io,enterprise,active,2025-02-10 12:57:49,,96.20,DE
+c000846,Noa Fisher,noafisher845@example.com,starter,churned,2025-02-13 22:50:20,2026-06-15 07:04:18,665.43,CA
+c000847,Jo Park,jopark846@mailbox.dev,pro,churned,2025-03-22 02:22:38,2026-06-20 01:32:10,912.29,DE
+c000848,Noa Fisher,noafisher847@acme.io,enterprise,paused,2026-08-30 08:47:18,2026-07-23 08:45:50,1044.60,FR
+c000849,Mia Chen,miachen848@corp.test,pro,active,2025-05-23 01:11:53,,719.44,GB
+c000850,Ray Diaz,raydiaz849@corp.test,starter,churned,2026-05-24 17:39:44,2025-12-17 15:37:45,921.58,AU
+c000851,Ana Cruz,anacruz850@corp.test,enterprise,active,2025-11-15 13:52:46,,1585.50,CA
+c000852,Ken Ito,kenito851@mailbox.dev,pro,active,2026-06-14 20:20:54,,1146.43,GB
+c000853,Max Ng,maxng852@corp.test,pro,active,2025-09-20 17:53:00,,688.71,AU
+c000854,Ray Diaz,raydiaz853@example.com,starter,active,2025-06-26 02:15:58,,1758.33,GB
+c000855,Zoe Fox,zoefox854@acme.io,pro,active,2026-08-08 01:21:38,,456.04,DE
+c000856,Alex Kim,alexkim855@corp.test,pro,churned,2026-07-16 05:48:01,2026-07-28 19:37:39,600.89,GB
+c000857,Alex Kim,alexkim856@corp.test,starter,active,2025-01-30 14:46:57,,710.45,DE
+c000858,Max Ng,maxng857@corp.test,enterprise,active,2025-04-07 14:52:21,,769.94,CA
+c000859,Zoe Fox,zoefox858@acme.io,enterprise,active,2025-07-22 18:38:05,,296.79,AU
+c000860,Cy Adler,cyadler859@corp.test,enterprise,active,2025-10-08 22:46:44,,1267.16,GB
+c000861,Ana Cruz,anacruz860@corp.test,enterprise,churned,2026-06-24 14:50:09,2026-02-20 04:05:55,1948.93,AU
+c000862,Cy Adler,cyadler861@mailbox.dev,starter,churned,2025-08-13 01:54:27,2026-04-05 06:57:43,1532.10,CA
+c000863,Ray Diaz,raydiaz862@acme.io,starter,active,2025-07-30 05:48:13,,136.65,FR
+c000864,Zoe Fox,zoefox863@mailbox.dev,pro,churned,2025-08-17 04:31:59,2025-06-14 22:25:16,1261.34,DE
+c000865,Max Ng,maxng864@acme.io,enterprise,active,2026-04-23 00:38:10,,1241.55,FR
+c000866,Ray Diaz,raydiaz865@mailbox.dev,pro,active,2026-04-09 10:23:59,,552.86,FR
+c000867,Mia Chen,miachen866@example.com,starter,paused,2026-04-16 10:09:00,2025-12-07 03:16:36,1105.15,FR
+c000868,Ken Ito,kenito867@example.com,pro,churned,2025-10-04 00:38:33,2025-03-01 14:06:00,1423.74,FR
+c000869,Lea Munoz,leamunoz868@example.com,starter,paused,2025-06-03 16:32:20,2025-06-27 22:00:11,318.45,DE
+c000870,Ivy Shaw,ivyshaw869@example.com,pro,active,2026-04-21 06:16:38,,840.12,FR
+c000871,Mia Chen,miachen870@example.com,enterprise,active,2026-01-21 10:39:00,,182.68,FR
+c000872,Noa Fisher,noafisher871@acme.io,starter,paused,2025-12-22 06:39:04,2025-11-12 13:42:38,1666.88,GB
+c000873,Sam Lee,samlee872@example.com,starter,active,2025-06-12 12:15:38,,582.38,DE
+c000874,Max Ng,maxng873@example.com,starter,churned,2025-01-31 20:16:09,2026-04-13 16:49:04,68.83,GB
+c000875,Lea Munoz,leamunoz874@example.com,enterprise,paused,2026-04-22 03:34:40,2025-02-15 19:44:08,356.11,DE
+c000876,Cy Adler,cyadler875@mailbox.dev,enterprise,active,2026-01-29 16:10:55,,610.74,FR
+c000877,Ken Ito,kenito876@mailbox.dev,pro,paused,2025-03-27 09:43:56,,1142.93,FR
+c000878,Lea Munoz,leamunoz877@example.com,starter,active,2025-12-30 17:22:40,,30.18,AU
+c000879,Eli Grant,eligrant878@example.com,enterprise,active,2025-09-27 23:11:25,,1997.66,DE
+c000880,Cy Adler,cyadler879@example.com,enterprise,paused,2026-07-31 09:53:27,,171.60,AU
+c000881,Ray Diaz,raydiaz880@acme.io,pro,churned,2026-03-03 02:50:32,2025-11-28 18:18:00,1220.44,DE
+c000882,Mia Chen,miachen881@mailbox.dev,starter,active,2025-02-05 07:54:06,,1151.44,FR
+c000883,Jo Park,jopark882@mailbox.dev,pro,paused,2026-05-17 05:16:56,2026-01-22 06:46:52,1715.14,US
+c000884,Alex Kim,alexkim883@example.com,pro,paused,2025-06-25 15:03:36,2025-12-03 18:05:41,928.53,DE
+c000885,Mia Chen,miachen884@acme.io,pro,paused,2025-06-25 12:47:12,2025-10-21 20:33:34,821.73,FR
+c000886,Lea Munoz,leamunoz885@example.com,enterprise,active,2025-07-15 22:33:45,,1252.93,GB
+c000887,Noa Fisher,noafisher886@acme.io,pro,active,2025-02-19 04:23:13,,68.02,AU
+c000888,Max Ng,maxng887@corp.test,enterprise,active,2026-08-30 10:46:06,,1432.82,DE
+c000889,Max Ng,maxng888@example.com,starter,active,2025-08-03 17:42:15,,1554.94,US
+c000890,Sam Lee,samlee889@example.com,pro,churned,2026-02-27 10:41:38,2025-11-25 19:07:45,905.90,US
+c000891,Ray Diaz,raydiaz890@acme.io,pro,churned,2025-09-07 05:38:10,2025-02-07 23:47:12,1373.23,GB
+c000892,Lea Munoz,leamunoz891@mailbox.dev,pro,active,2025-01-28 11:56:01,,338.01,DE
+c000893,Alex Kim,alexkim892@example.com,starter,churned,2025-08-28 17:03:55,2026-01-24 06:57:08,1686.13,GB
+c000894,Noa Fisher,noafisher893@mailbox.dev,enterprise,churned,2025-04-17 00:26:27,2025-07-09 22:26:21,335.45,CA
+c000895,Noa Fisher,noafisher894@mailbox.dev,pro,active,2025-06-24 20:07:27,,1501.34,DE
+c000896,Sam Lee,samlee895@acme.io,pro,active,2026-08-05 07:35:44,,1444.90,GB
+c000897,Max Ng,maxng896@acme.io,enterprise,active,2025-12-20 00:00:05,,223.01,CA
+c000898,Zoe Fox,zoefox897@corp.test,starter,paused,2025-01-30 13:38:09,,1897.19,GB
+c000899,Mia Chen,miachen898@corp.test,enterprise,active,2025-10-28 18:41:26,,545.06,DE
+c000900,Alex Kim,alexkim899@corp.test,pro,active,2025-01-08 15:21:12,,463.72,CA
+c000901,Eli Grant,eligrant900@example.com,pro,paused,2025-02-06 09:27:49,2026-08-14 04:55:26,1488.45,FR
+c000902,Jo Park,jopark901@mailbox.dev,pro,active,2026-08-20 23:46:14,,553.43,CA
+c000903,Sam Lee,samlee902@example.com,pro,active,2025-08-08 14:23:07,,901.36,FR
+c000904,Tom Bell,tombell903@corp.test,pro,active,2025-05-27 08:33:54,,780.14,CA
+c000905,Ana Cruz,anacruz904@corp.test,pro,active,2025-06-05 09:07:31,,710.98,CA
+c000906,Jo Park,jopark905@mailbox.dev,enterprise,churned,2026-06-01 20:51:47,2025-08-22 03:37:16,544.94,GB
+c000907,Alex Kim,alexkim906@acme.io,starter,active,2025-08-08 00:29:11,,1438.25,CA
+c000908,Zoe Fox,zoefox907@example.com,pro,active,2026-04-05 11:24:03,,1326.75,US
+c000909,Jo Park,jopark908@acme.io,enterprise,active,2026-02-15 17:44:46,,1695.53,GB
+c000910,Lea Munoz,leamunoz909@mailbox.dev,pro,active,2026-01-09 07:43:38,,608.04,GB
+c000911,Tom Bell,tombell910@example.com,pro,active,2025-01-15 17:13:29,,1257.77,US
+c000912,Noa Fisher,noafisher911@mailbox.dev,enterprise,active,2026-05-22 18:38:03,,1145.32,US
+c000913,Ivy Shaw,ivyshaw912@example.com,pro,active,2026-02-08 04:52:11,,14.33,GB
+c000914,Sam Lee,samlee913@mailbox.dev,starter,churned,2026-06-06 09:20:21,2025-12-14 08:57:29,246.54,CA
+c000915,Ray Diaz,raydiaz914@acme.io,starter,active,2025-01-08 21:58:00,,717.96,GB
+c000916,Tom Bell,tombell915@acme.io,enterprise,active,2026-06-14 07:25:50,,263.42,DE
+c000917,Ana Cruz,anacruz916@mailbox.dev,pro,paused,2025-02-15 05:02:02,,1456.80,DE
+c000918,Lea Munoz,leamunoz917@example.com,pro,paused,2025-06-27 04:25:47,2026-06-03 22:53:49,244.13,CA
+c000919,Ana Cruz,anacruz918@acme.io,pro,active,2026-03-21 07:50:09,,546.43,AU
+c000920,Zoe Fox,zoefox919@corp.test,pro,active,2025-12-28 19:04:22,,1327.83,FR
+c000921,Ken Ito,kenito920@corp.test,enterprise,active,2025-05-17 20:47:58,,1111.91,CA
+c000922,Zoe Fox,zoefox921@example.com,pro,active,2025-06-21 22:03:55,,1758.10,GB
+c000923,Eli Grant,eligrant922@corp.test,enterprise,churned,2025-03-05 15:02:11,2026-05-14 10:38:16,800.57,FR
+c000924,Alex Kim,alexkim923@example.com,pro,active,2025-04-29 19:57:52,,219.35,FR
+c000925,Ray Diaz,raydiaz924@corp.test,pro,churned,2025-04-12 14:05:23,2026-01-22 08:23:49,749.27,GB
+c000926,Ken Ito,kenito925@acme.io,pro,active,2026-02-04 07:51:22,,1343.69,FR
+c000927,Ivy Shaw,ivyshaw926@example.com,starter,active,2025-04-13 06:29:35,,1719.17,US
+c000928,Zoe Fox,zoefox927@mailbox.dev,enterprise,churned,2025-09-19 05:43:16,2025-05-13 17:38:02,26.50,US
+c000929,Tom Bell,tombell928@corp.test,starter,active,2025-10-20 12:15:22,,585.08,AU
+c000930,Mia Chen,miachen929@example.com,pro,churned,2025-11-15 07:04:15,2025-01-10 01:41:08,204.77,US
+c000931,Sam Lee,samlee930@acme.io,starter,active,2025-07-28 15:18:46,,1100.82,FR
+c000932,Alex Kim,alexkim931@example.com,pro,paused,2026-05-28 01:49:00,,43.02,FR
+c000933,Ken Ito,kenito932@mailbox.dev,enterprise,churned,2025-09-19 18:00:47,2026-08-18 02:48:20,788.66,GB
+c000934,Mia Chen,miachen933@example.com,pro,churned,2026-08-03 00:21:16,2026-07-05 02:07:34,12.36,AU
+c000935,Cy Adler,cyadler934@mailbox.dev,enterprise,churned,2026-07-07 20:02:40,2026-07-27 11:24:00,1621.24,DE
+c000936,Eli Grant,eligrant935@mailbox.dev,enterprise,churned,2025-11-28 03:39:30,2026-08-29 06:58:42,427.61,US
+c000937,Cy Adler,cyadler936@acme.io,pro,active,2026-04-13 11:37:11,,537.93,US
+c000938,Zoe Fox,zoefox937@example.com,enterprise,active,2025-06-14 05:45:55,,665.63,FR
+c000939,Ana Cruz,anacruz938@acme.io,pro,active,2025-04-13 08:21:46,,352.24,FR
+c000940,Jo Park,jopark939@example.com,starter,active,2025-06-05 05:30:55,,1078.93,DE
+c000941,Ivy Shaw,ivyshaw940@corp.test,enterprise,active,2025-12-19 12:40:09,,1731.04,GB
+c000942,Ken Ito,kenito941@mailbox.dev,pro,active,2026-05-15 07:51:51,,331.36,DE
+c000943,Tom Bell,tombell942@mailbox.dev,enterprise,churned,2025-03-29 00:49:53,2025-01-10 18:18:39,50.44,FR
+c000944,Ivy Shaw,ivyshaw943@mailbox.dev,pro,active,2026-02-12 00:50:31,,1533.83,AU
+c000945,Zoe Fox,zoefox944@acme.io,enterprise,churned,2025-12-25 09:27:35,2026-06-14 20:11:50,1327.05,AU
+c000946,Sam Lee,samlee945@corp.test,starter,active,2026-04-23 09:41:54,,218.58,US
+c000947,Max Ng,maxng946@example.com,starter,active,2026-04-13 01:43:39,,163.31,FR
+c000948,Eli Grant,eligrant947@mailbox.dev,pro,active,2025-07-21 16:22:46,,712.98,DE
+c000949,Ana Cruz,anacruz948@acme.io,pro,active,2025-02-05 12:55:30,,68.90,DE
+c000950,Cy Adler,cyadler949@mailbox.dev,enterprise,active,2025-12-11 20:15:35,,1225.79,DE
+c000951,Ken Ito,kenito950@corp.test,enterprise,active,2026-06-19 03:15:03,,1265.81,AU
+c000952,Sam Lee,samlee951@acme.io,enterprise,active,2026-07-05 16:59:04,,1344.45,CA
+c000953,Ivy Shaw,ivyshaw952@corp.test,pro,active,2025-09-29 13:02:39,,1526.76,US
+c000954,Jo Park,jopark953@mailbox.dev,pro,active,2025-03-27 00:01:39,,804.05,DE
+c000955,Sam Lee,samlee954@corp.test,starter,active,2026-04-28 07:49:31,,1265.85,CA
+c000956,Mia Chen,miachen955@corp.test,starter,paused,2026-07-29 23:22:31,,844.42,US
+c000957,Sam Lee,samlee956@acme.io,enterprise,active,2026-07-09 12:31:54,,525.55,GB
+c000958,Lea Munoz,leamunoz957@example.com,starter,active,2026-02-02 20:33:40,,1788.82,DE
+c000959,Sam Lee,samlee958@mailbox.dev,starter,active,2025-07-21 22:14:56,,1951.20,GB
+c000960,Tom Bell,tombell959@mailbox.dev,enterprise,churned,2026-05-10 18:21:21,2025-01-10 05:04:31,1406.87,AU
+c000961,Max Ng,maxng960@corp.test,starter,active,2025-12-29 03:24:51,,1220.14,US
+c000962,Lea Munoz,leamunoz961@corp.test,starter,active,2026-04-06 10:57:02,,932.10,AU
+c000963,Sam Lee,samlee962@mailbox.dev,enterprise,churned,2025-11-16 11:23:17,2026-08-04 04:11:53,1102.11,DE
+c000964,Tom Bell,tombell963@example.com,pro,active,2025-07-07 17:48:12,,1339.39,US
+c000965,Ana Cruz,anacruz964@corp.test,enterprise,active,2025-08-20 16:25:13,,1796.00,AU
+c000966,Alex Kim,alexkim965@acme.io,pro,active,2026-06-07 17:27:45,,1507.76,DE
+c000967,Ana Cruz,anacruz966@example.com,starter,churned,2025-10-26 13:32:49,2025-02-27 12:06:58,245.92,CA
+c000968,Lea Munoz,leamunoz967@acme.io,pro,active,2026-06-10 02:22:18,,17.81,DE
+c000969,Alex Kim,alexkim968@example.com,enterprise,paused,2025-03-30 17:07:37,2026-05-23 16:54:43,1579.22,DE
+c000970,Ken Ito,kenito969@corp.test,enterprise,active,2025-10-14 03:26:09,,1949.22,GB
+c000971,Ray Diaz,raydiaz970@example.com,pro,active,2025-11-12 20:05:50,,1217.03,CA
+c000972,Mia Chen,miachen971@example.com,enterprise,paused,2026-08-22 10:52:31,,404.25,CA
+c000973,Sam Lee,samlee972@corp.test,pro,active,2026-01-07 00:09:45,,1561.01,GB
+c000974,Ray Diaz,raydiaz973@acme.io,pro,active,2025-04-13 19:20:33,,1805.48,DE
+c000975,Alex Kim,alexkim974@mailbox.dev,pro,paused,2026-05-23 05:52:38,2025-12-18 01:08:09,998.25,FR
+c000976,Ken Ito,kenito975@acme.io,pro,active,2025-02-27 22:39:51,,844.98,US
+c000977,Ken Ito,kenito976@acme.io,pro,active,2026-05-23 12:54:50,,70.17,GB
+c000978,Noa Fisher,noafisher977@mailbox.dev,enterprise,paused,2025-06-04 09:58:42,2026-03-13 22:23:00,842.62,US
+c000979,Tom Bell,tombell978@mailbox.dev,enterprise,churned,2025-02-21 05:42:38,2025-06-03 13:12:05,1951.78,AU
+c000980,Jo Park,jopark979@example.com,starter,active,2026-04-22 14:00:22,,749.56,AU
+c000981,Eli Grant,eligrant980@corp.test,enterprise,paused,2025-05-29 01:38:56,2025-04-08 08:41:43,58.75,AU
+c000982,Max Ng,maxng981@acme.io,pro,churned,2026-02-06 08:34:29,2025-05-19 12:51:22,1159.24,DE
+c000983,Zoe Fox,zoefox982@example.com,starter,churned,2026-04-09 15:30:21,2025-05-09 00:32:52,146.94,US
+c000984,Zoe Fox,zoefox983@corp.test,starter,paused,2025-09-24 10:39:51,2025-08-06 17:24:16,663.89,FR
+c000985,Noa Fisher,noafisher984@corp.test,starter,paused,2025-06-25 04:58:56,,1296.19,US
+c000986,Jo Park,jopark985@mailbox.dev,enterprise,active,2026-01-09 18:10:48,,1256.25,GB
+c000987,Tom Bell,tombell986@example.com,pro,active,2025-06-16 18:26:36,,1349.36,AU
+c000988,Sam Lee,samlee987@acme.io,enterprise,active,2026-03-04 18:26:47,,258.35,AU
+c000989,Cy Adler,cyadler988@example.com,starter,active,2025-12-30 19:02:28,,823.36,FR
+c000990,Ivy Shaw,ivyshaw989@acme.io,pro,active,2026-05-30 02:07:10,,1757.14,DE
+c000991,Alex Kim,alexkim990@corp.test,enterprise,active,2025-10-01 19:23:23,,23.37,DE
+c000992,Ray Diaz,raydiaz991@corp.test,enterprise,paused,2025-02-19 10:19:31,,341.65,AU
+c000993,Noa Fisher,noafisher992@corp.test,pro,churned,2025-11-02 15:38:55,2025-01-13 20:37:54,540.57,CA
+c000994,Ana Cruz,anacruz993@acme.io,enterprise,churned,2025-04-07 13:05:51,2025-02-06 16:19:03,230.96,CA
+c000995,Ray Diaz,raydiaz994@mailbox.dev,starter,active,2025-06-14 02:46:59,,594.40,FR
+c000996,Cy Adler,cyadler995@acme.io,enterprise,paused,2025-04-29 23:10:35,,1496.87,AU
+c000997,Eli Grant,eligrant996@mailbox.dev,pro,paused,2025-09-28 12:46:47,,1382.95,GB
+c000998,Jo Park,jopark997@example.com,enterprise,churned,2026-07-17 23:42:06,2026-02-27 23:34:44,1659.91,GB
+c000999,Ana Cruz,anacruz998@corp.test,enterprise,active,2025-10-07 05:57:33,,683.33,AU
+c001000,Noa Fisher,noafisher999@acme.io,starter,active,2026-07-26 02:26:56,,767.05,AU

@@ -1,0 +1,6 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "semi": false,
+  "quoteProps": "as-needed",
+  "ignorePatterns": [".next/**", "node_modules/**", "src/db/migrations/**", "pnpm-lock.yaml"]
+}

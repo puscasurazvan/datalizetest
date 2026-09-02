@@ -1,0 +1,38 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: datalize-postgres
+    environment:
+      POSTGRES_USER: datalize
+      POSTGRES_PASSWORD: datalize
+      POSTGRES_DB: datalize
+    ports:
+      - "5433:5432"
+    volumes:
+      - datalize-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U datalize -d datalize"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  # Separate database for the test suite so a test run never truncates dev data.
+  postgres-test:
+    image: postgres:16-alpine
+    container_name: datalize-postgres-test
+    environment:
+      POSTGRES_USER: datalize
+      POSTGRES_PASSWORD: datalize
+      POSTGRES_DB: datalize_test
+    ports:
+      - "5434:5432"
+    tmpfs:
+      - /var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U datalize -d datalize_test"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+volumes:
+  datalize-pgdata:

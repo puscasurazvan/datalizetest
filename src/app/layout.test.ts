@@ -4,8 +4,9 @@ import { describe, expect, it, vi } from "vitest"
 // which isn't available (and isn't the point) in a unit test that only cares
 // about the `metadata` export sitting alongside the font calls in this file.
 vi.mock("next/font/google", () => ({
-  Geist: () => ({ variable: "--font-geist-sans" }),
-  Geist_Mono: () => ({ variable: "--font-geist-mono" }),
+  Familjen_Grotesk: () => ({ variable: "--font-familjen-grotesk" }),
+  Newsreader: () => ({ variable: "--font-newsreader" }),
+  Sometype_Mono: () => ({ variable: "--font-sometype-mono" }),
 }))
 
 const { metadata } = await import("./layout")

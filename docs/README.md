@@ -26,6 +26,8 @@ docs/reference/       Source material. Superseded where decisions disagree.
 
 Four further decisions were taken that the review did not list: timezone and date-granularity behaviour ([decisions/03](decisions/03-timezone-and-date-granularity.md)), datetime storage and naive-timestamp interpretation ([ADR 0004](adr/0004-naive-csv-timestamps-use-organization-timezone.md), [decisions/04](decisions/04-datetime-import-and-storage.md)), the three hard query limits ([decisions/05](decisions/05-query-limits.md)), and the Slice 1 implementation defaults — the role permission matrix, the three-pool database contract, the import job state machine and reconciler, the advisory-lock fix, and the benchmark gate ([decisions/06](decisions/06-slice-1-implementation-defaults.md)).
 
+Decision 06 item 15's benchmark gate was run against the real import pipeline and the dev database; the measured numbers, the pass/fail verdict, and the one finding it surfaced (naive-timestamp conversion cost, unrelated to load strategy) are in [decisions/08](decisions/08-storage-benchmark.md).
+
 ## Known-superseded snippets in reference material
 
 `Datalize.md` describes production expansion — billing, API keys, public dashboards, scheduled reports, Redis — as MVP scope. It is a long-term product reference, not a build plan.

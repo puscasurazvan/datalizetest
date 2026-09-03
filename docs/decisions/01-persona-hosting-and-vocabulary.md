@@ -128,6 +128,28 @@ The Slice 1 spike must explicitly benchmark:
 
 ---
 
+## Ceiling Conflict — Resolved
+
+The three fixtures at 1,000,000 rows measure 70-93 MB, not 50 MB. The two stated
+ceilings cannot both hold for these schemas: ADR 0004 mandates 19-20 character
+timestamps and two of the three fixtures carry two datetime columns, so a million
+rows simply does not fit in 50 MB.
+
+**A file is rejected when it exceeds EITHER bound.** Both limits stand as written --
+50 MB and 1,000,000 rows -- and whichever binds first for a given file is the one
+that rejects it. In practice the byte ceiling binds first for wide or
+timestamp-heavy data and the row ceiling binds first for narrow data.
+
+Two consequences that must not be lost:
+
+- The rejection message names which bound was hit and the measured value, because
+  "file too large" against a 30 MB file with 1.2 million rows is a support ticket.
+- The benchmark gate measures whichever bound binds first for each fixture, not a
+  hypothetical file at both limits simultaneously. A 50 MB file of these schemas
+  carries roughly 550,000-700,000 rows, and that is the real shape to measure.
+
+Raising either ceiling is an evidence-driven decision after the gate, not before.
+
 ## Decision 2 — Job Runtime and Hosting
 
 ### Hosting

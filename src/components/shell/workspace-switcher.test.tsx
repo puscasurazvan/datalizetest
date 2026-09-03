@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import "@testing-library/jest-dom/vitest"
-import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react"
+import { cleanup, render, screen, waitFor } from "@testing-library/react"
 import { afterEach, describe, expect, it, vi } from "vitest"
 
 interface SetActiveResult {
@@ -22,6 +22,8 @@ vi.mock("@/modules/auth/client", () => ({
   },
 }))
 
+import userEvent from "@testing-library/user-event"
+
 import { WorkspaceSwitcher } from "@/components/shell/workspace-switcher"
 
 const ORGANIZATIONS = [
@@ -39,8 +41,11 @@ describe("WorkspaceSwitcher", () => {
   it("refreshes after a successful switch", async () => {
     setActiveMock.mockResolvedValue({ data: { organizationId: "org-2" }, error: null })
 
+    const user = userEvent.setup()
     render(<WorkspaceSwitcher organizations={ORGANIZATIONS} activeOrganizationId="org-1" />)
-    fireEvent.change(screen.getByLabelText("Switch workspace"), { target: { value: "org-2" } })
+
+    await user.click(screen.getByLabelText("Switch workspace"))
+    await user.click(await screen.findByRole("option", { name: "Beta" }))
 
     await waitFor(() => expect(refreshMock).toHaveBeenCalledTimes(1))
   })
@@ -55,8 +60,11 @@ describe("WorkspaceSwitcher", () => {
       },
     })
 
+    const user = userEvent.setup()
     render(<WorkspaceSwitcher organizations={ORGANIZATIONS} activeOrganizationId="org-1" />)
-    fireEvent.change(screen.getByLabelText("Switch workspace"), { target: { value: "org-2" } })
+
+    await user.click(screen.getByLabelText("Switch workspace"))
+    await user.click(await screen.findByRole("option", { name: "Beta" }))
 
     await waitFor(() =>
       expect(screen.getByRole("alert")).toHaveTextContent(

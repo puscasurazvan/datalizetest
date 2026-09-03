@@ -72,7 +72,7 @@ export function SignUpForm() {
           name="name"
           autoComplete="name"
           required
-          invalid={Boolean(fieldErrors.name)}
+          aria-invalid={Boolean(fieldErrors.name)}
           aria-describedby={fieldErrors.name ? "name-error" : undefined}
         />
         <FieldError id="name-error" message={fieldErrors.name} />
@@ -85,7 +85,7 @@ export function SignUpForm() {
           type="email"
           autoComplete="email"
           required
-          invalid={Boolean(fieldErrors.email)}
+          aria-invalid={Boolean(fieldErrors.email)}
           aria-describedby={fieldErrors.email ? "email-error" : undefined}
         />
         <FieldError id="email-error" message={fieldErrors.email} />
@@ -98,7 +98,7 @@ export function SignUpForm() {
           type="password"
           autoComplete="new-password"
           required
-          invalid={Boolean(fieldErrors.password)}
+          aria-invalid={Boolean(fieldErrors.password)}
           aria-describedby={fieldErrors.password ? "password-error" : undefined}
         />
         <FieldError id="password-error" message={fieldErrors.password} />

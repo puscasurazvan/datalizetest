@@ -64,7 +64,7 @@ export function SignInForm() {
           type="email"
           autoComplete="email"
           required
-          invalid={Boolean(fieldErrors.email)}
+          aria-invalid={Boolean(fieldErrors.email)}
           aria-describedby={fieldErrors.email ? "email-error" : undefined}
         />
         <FieldError id="email-error" message={fieldErrors.email} />
@@ -77,7 +77,7 @@ export function SignInForm() {
           type="password"
           autoComplete="current-password"
           required
-          invalid={Boolean(fieldErrors.password)}
+          aria-invalid={Boolean(fieldErrors.password)}
           aria-describedby={fieldErrors.password ? "password-error" : undefined}
         />
         <FieldError id="password-error" message={fieldErrors.password} />

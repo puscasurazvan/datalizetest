@@ -28,7 +28,15 @@ export function SignOutButton() {
 
   return (
     <div className="flex items-center gap-2">
-      <Button variant="secondary" disabled={pending} onClick={() => void handleSignOut()}>
+      <Button
+        variant="secondary"
+        disabled={pending}
+        // `Button` is a plain unmemoized wrapper around a native `<button>`
+        // (src/components/ui/button.tsx), so there is no memoized child for a fresh closure to
+        // defeat.
+        // oxlint-disable-next-line react-perf/jsx-no-new-function-as-prop
+        onClick={() => void handleSignOut()}
+      >
         {pending ? "Signing out…" : "Sign out"}
       </Button>
       {error ? (

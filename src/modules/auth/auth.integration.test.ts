@@ -1,11 +1,22 @@
 import { randomUUID } from "node:crypto"
 
-import { inArray } from "drizzle-orm"
+import { eq, inArray } from "drizzle-orm"
 import { afterAll, describe, expect, it } from "vitest"
 
 import { applicationPool, db } from "@/db/client"
-import { organizationMembers, organizations, users } from "@/db/schema"
+import {
+  analyticalTables,
+  datasets,
+  datasetVersions,
+  organizationMembers,
+  organizations,
+  sessions,
+  users,
+} from "@/db/schema"
 import { env } from "@/shared/env"
+
+import { countRegisteredTables } from "@/modules/analytical-store/registered-tables"
+import { resolveInitialActiveOrganizationId } from "@/modules/organizations/initial-active-organization"
 
 import { auth } from "./auth"
 
@@ -48,6 +59,24 @@ describe("auth organization plugin role vocabulary (integration)", () => {
   const createdOrganizationIds: string[] = []
 
   afterAll(async () => {
+    // Every signUpOwner() call below now also creates a personal
+    // Organization (docs/decisions/06 #14's signup hook, wired in
+    // auth.ts) — one this file never explicitly tracks in
+    // `createdOrganizationIds`. `organization_members` rows cascade away
+    // when their `users` row is deleted, but the `organizations` row
+    // itself has no such cascade, so it would otherwise survive as an
+    // orphan. Found here by membership rather than by name, since this
+    // file has no other way to know the personal org's id.
+    if (createdUserIds.length > 0) {
+      const personalOrgMemberships = await db
+        .select({ organizationId: organizationMembers.organizationId })
+        .from(organizationMembers)
+        .where(inArray(organizationMembers.userId, createdUserIds))
+      for (const { organizationId } of personalOrgMemberships) {
+        createdOrganizationIds.push(organizationId)
+      }
+    }
+
     if (createdOrganizationIds.length > 0) {
       await db
         .delete(organizationMembers)
@@ -57,7 +86,9 @@ describe("auth organization plugin role vocabulary (integration)", () => {
     if (createdUserIds.length > 0) {
       await db.delete(users).where(inArray(users.id, createdUserIds))
     }
-    await applicationPool.end()
+    // Pool stays open — the "signup creates a personal Organization"
+    // describe block below shares this file and needs it; that block's
+    // own afterAll ends it.
   })
 
   /**
@@ -263,5 +294,289 @@ describe("auth organization plugin role vocabulary (integration)", () => {
         body: { userId: memberUser.user.id, role: invalidRole, organizationId: organization.id },
       }),
     ).rejects.toMatchObject({ status: "BAD_REQUEST" })
+  })
+})
+
+// Confirmed defect this covers: no signup path created a personal
+// Organization — a new user reached the app with zero Organizations and
+// had to hand-create a workspace before reaching any product surface.
+// docs/decisions/06 #14/#19, this module's own CLAUDE.md: "A user signing
+// up with no organization gets a personal one and becomes its owner."
+describe("signup creates a personal Organization (integration)", () => {
+  const createdUserIds: string[] = []
+
+  afterAll(async () => {
+    if (createdUserIds.length > 0) {
+      const memberships = await db
+        .select({ organizationId: organizationMembers.organizationId })
+        .from(organizationMembers)
+        .where(inArray(organizationMembers.userId, createdUserIds))
+      const organizationIds = memberships.map((m) => m.organizationId)
+      if (organizationIds.length > 0) {
+        await db
+          .delete(organizationMembers)
+          .where(inArray(organizationMembers.organizationId, organizationIds))
+        await db.delete(organizations).where(inArray(organizations.id, organizationIds))
+      }
+      await db.delete(users).where(inArray(users.id, createdUserIds))
+    }
+  })
+
+  it("email/password sign-up gets exactly one personal Organization, with the user as owner", async () => {
+    const email = `personal-org-${randomUUID()}@example.test`
+    const signedUp = await auth.api.signUpEmail({
+      body: { email, password: "correct-horse-battery-staple", name: "Personal Org Test User" },
+    })
+    createdUserIds.push(signedUp.user.id)
+
+    const memberships = await db
+      .select()
+      .from(organizationMembers)
+      .where(eq(organizationMembers.userId, signedUp.user.id))
+
+    expect(memberships).toHaveLength(1)
+    expect(memberships[0]?.role).toBe("owner")
+
+    const [org] = await db
+      .select()
+      .from(organizations)
+      .where(eq(organizations.id, memberships[0]?.organizationId ?? ""))
+    expect(org).toBeDefined()
+    expect(org?.name.toLowerCase()).toContain("workspace")
+  })
+
+  it("is idempotent per user — createPersonalOrganizationForUser called twice for the same user creates only one", async () => {
+    const email = `personal-org-idempotent-${randomUUID()}@example.test`
+    const signedUp = await auth.api.signUpEmail({
+      body: {
+        email,
+        password: "correct-horse-battery-staple",
+        name: "Personal Org Idempotent Test User",
+      },
+    })
+    createdUserIds.push(signedUp.user.id)
+
+    const { createPersonalOrganizationForUser } =
+      await import("@/modules/organizations/personal-organization")
+    // Simulates the "hook invoked twice for the same row" case the doc
+    // comment on createPersonalOrganizationForUser calls out — the hook
+    // itself only ever fires once per real signup, so this drives the
+    // function directly rather than trying to force Better Auth to
+    // double-fire its own hook.
+    await createPersonalOrganizationForUser(signedUp.user.id, email)
+
+    const memberships = await db
+      .select()
+      .from(organizationMembers)
+      .where(eq(organizationMembers.userId, signedUp.user.id))
+    expect(memberships).toHaveLength(1)
+  })
+
+  it("a first-time social sign-in (email match to no existing user) gets a personal Organization too", async () => {
+    // The hook fires on every users row Better Auth inserts, regardless of
+    // which sign-up path created it (auth.ts's own doc comment on
+    // databaseHooks.user.create.after) — this drives the hook's own
+    // function directly against a user shaped like one OAuth would create
+    // (no password), rather than standing up a real OAuth provider in a
+    // test.
+    const email = `personal-org-social-${randomUUID()}@example.test`
+    const userId = randomUUID()
+    await db.insert(users).values({ id: userId, name: "Social Sign-In Test User", email })
+    createdUserIds.push(userId)
+
+    const { createPersonalOrganizationForUser } =
+      await import("@/modules/organizations/personal-organization")
+    await createPersonalOrganizationForUser(userId, email)
+
+    const memberships = await db
+      .select()
+      .from(organizationMembers)
+      .where(eq(organizationMembers.userId, userId))
+    expect(memberships).toHaveLength(1)
+    expect(memberships[0]?.role).toBe("owner")
+  })
+})
+
+// The session hook in auth.ts, not the user hook above: creating the personal
+// Organization is only half of docs/decisions/06 #14 — the new session has to
+// actually start inside it, or the user lands on the workspace picker holding
+// exactly one workspace.
+describe("a new session starts in the user's sole Organization (integration)", () => {
+  const createdUserIds: string[] = []
+
+  afterAll(async () => {
+    const memberships = await db
+      .select({ organizationId: organizationMembers.organizationId })
+      .from(organizationMembers)
+      .where(inArray(organizationMembers.userId, createdUserIds))
+    const organizationIds = memberships.map((m) => m.organizationId)
+    await db.delete(sessions).where(inArray(sessions.userId, createdUserIds))
+    if (organizationIds.length > 0) {
+      await db
+        .delete(organizationMembers)
+        .where(inArray(organizationMembers.organizationId, organizationIds))
+      await db.delete(organizations).where(inArray(organizations.id, organizationIds))
+    }
+    await db.delete(users).where(inArray(users.id, createdUserIds))
+  })
+
+  const password = "correct-horse-battery-staple"
+
+  it("stamps activeOrganizationId on the session created at sign-in", async () => {
+    const email = `active-org-${randomUUID()}@example.test`
+    const signedUp = await auth.api.signUpEmail({
+      body: { email, password, name: "Active Org Test User" },
+    })
+    createdUserIds.push(signedUp.user.id)
+
+    const [membership] = await db
+      .select({ organizationId: organizationMembers.organizationId })
+      .from(organizationMembers)
+      .where(eq(organizationMembers.userId, signedUp.user.id))
+    expect(membership).toBeDefined()
+
+    await auth.api.signInEmail({ body: { email, password } })
+
+    const userSessions = await db
+      .select({ activeOrganizationId: sessions.activeOrganizationId })
+      .from(sessions)
+      .where(eq(sessions.userId, signedUp.user.id))
+
+    expect(userSessions.length).toBeGreaterThan(0)
+    expect(userSessions.some((s) => s.activeOrganizationId === membership?.organizationId)).toBe(
+      true,
+    )
+  })
+
+  // Documents the ordering, so a future reader does not "fix" the hook to
+  // cover sign-up: Better Auth creates the session BEFORE `user.create.after`
+  // runs, so the personal Organization does not exist when the hook fires.
+  // `OpenSoleWorkspace` (src/components/shell/open-sole-workspace.tsx) is what
+  // covers this case, on the client, where the session cookie can be set.
+  it("leaves the sign-up session's activeOrganizationId null, because the Organization does not exist yet", async () => {
+    const email = `active-org-signup-${randomUUID()}@example.test`
+    const signedUp = await auth.api.signUpEmail({
+      body: { email, password, name: "Signup Ordering Test User" },
+    })
+    createdUserIds.push(signedUp.user.id)
+
+    const userSessions = await db
+      .select({ activeOrganizationId: sessions.activeOrganizationId })
+      .from(sessions)
+      .where(eq(sessions.userId, signedUp.user.id))
+
+    expect(userSessions).toHaveLength(1)
+    expect(userSessions[0]?.activeOrganizationId).toBeNull()
+  })
+
+  it("abstains when the user belongs to more than one Organization", async () => {
+    const email = `active-org-multi-${randomUUID()}@example.test`
+    const signedUp = await auth.api.signUpEmail({
+      body: { email, password, name: "Multi Org Test User" },
+    })
+    createdUserIds.push(signedUp.user.id)
+
+    // A second membership makes the choice ambiguous, so no default is picked.
+    const secondOrganizationId = randomUUID()
+    await db.insert(organizations).values({
+      id: secondOrganizationId,
+      name: "Second workspace",
+      slug: `second-${secondOrganizationId}`,
+    })
+    await db.insert(organizationMembers).values({
+      id: randomUUID(),
+      organizationId: secondOrganizationId,
+      userId: signedUp.user.id,
+      role: "viewer",
+    })
+
+    await expect(resolveInitialActiveOrganizationId(signedUp.user.id)).resolves.toBeUndefined()
+  })
+})
+
+// analytical_tables.dataset_version_id is ON DELETE RESTRICT, so Postgres
+// blocks a workspace delete that would orphan loaded rows. The hook exists so
+// the user is told why, instead of seeing a bare foreign-key violation.
+describe("deleting a workspace that still holds loaded data (integration)", () => {
+  const datasetId = randomUUID()
+  const datasetVersionId = randomUUID()
+  const createdUserIds: string[] = []
+  let organizationId = ""
+
+  afterAll(async () => {
+    await db.delete(analyticalTables).where(eq(analyticalTables.datasetVersionId, datasetVersionId))
+    await db.delete(datasetVersions).where(eq(datasetVersions.id, datasetVersionId))
+    await db.delete(datasets).where(eq(datasets.id, datasetId))
+    if (createdUserIds.length > 0) {
+      await db.delete(sessions).where(inArray(sessions.userId, createdUserIds))
+      await db
+        .delete(organizationMembers)
+        .where(inArray(organizationMembers.userId, createdUserIds))
+      if (organizationId !== "") {
+        await db.delete(organizations).where(eq(organizations.id, organizationId))
+      }
+      await db.delete(users).where(inArray(users.id, createdUserIds))
+    }
+    // Last describe in this file owns the shared pool's teardown.
+    await applicationPool.end()
+  })
+
+  it("is refused with a message naming the reason, not a foreign-key violation", async () => {
+    const email = `workspace-delete-${randomUUID()}@example.test`
+    const { headers, response } = await auth.api.signUpEmail({
+      body: { email, password: "correct-horse-battery-staple", name: "Workspace Delete User" },
+      returnHeaders: true,
+    })
+    createdUserIds.push(response.user.id)
+    const cookie = headers.get("set-cookie")
+    expect(cookie).not.toBeNull()
+    const ownerHeaders = new Headers({ cookie: cookie?.split(";")[0] ?? "" })
+
+    // The personal Organization the signup hook created.
+    const [membership] = await db
+      .select({ organizationId: organizationMembers.organizationId })
+      .from(organizationMembers)
+      .where(eq(organizationMembers.userId, response.user.id))
+    expect(membership).toBeDefined()
+    organizationId = membership?.organizationId ?? ""
+
+    await db.insert(datasets).values({
+      id: datasetId,
+      organizationId,
+      name: "Loaded dataset",
+      createdByUserId: response.user.id,
+    })
+    await db.insert(datasetVersions).values({
+      id: datasetVersionId,
+      organizationId,
+      datasetId,
+      versionNumber: 1,
+      status: "COMPLETED",
+      timezoneUsedForNaiveTimestamps: "UTC",
+    })
+    await db.insert(analyticalTables).values({
+      datasetVersionId,
+      organizationId,
+      schemaName: "analytical",
+      tableName: `dv_${datasetVersionId.replace(/-/g, "")}`,
+    })
+
+    await expect(countRegisteredTables(organizationId)).resolves.toBe(1)
+
+    // The hook refuses before Postgres has to, so the user gets a reason.
+    await expect(
+      auth.api.deleteOrganization({ body: { organizationId }, headers: ownerHeaders }),
+    ).rejects.toThrow(/still holds 1 loaded dataset/)
+
+    // And the workspace is still there.
+    const [survivor] = await db
+      .select({ id: organizations.id })
+      .from(organizations)
+      .where(eq(organizations.id, organizationId))
+    expect(survivor).toBeDefined()
+  })
+
+  it("counts zero for a workspace with no loaded data", async () => {
+    await expect(countRegisteredTables(randomUUID())).resolves.toBe(0)
   })
 })

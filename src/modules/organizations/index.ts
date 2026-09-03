@@ -10,3 +10,4 @@ export {
   toPolicyContext,
   updateOrganizationTimezone,
 } from "./service"
+export { createPersonalOrganizationForUser } from "./personal-organization"

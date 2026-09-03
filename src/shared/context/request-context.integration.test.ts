@@ -26,7 +26,7 @@ vi.mock("next/headers", () => ({
 import { applicationPool, db } from "@/db/client"
 import { organizationMembers, organizations, users } from "@/db/schema"
 
-import { createRequestContext } from "./request-context"
+import { createRequestContext, createRequestContextForJob } from "./request-context"
 
 function fakeSession(userId: string, activeOrganizationId: string | null): Session {
   const now = new Date()
@@ -97,7 +97,8 @@ describe("createRequestContext (integration)", () => {
     await db.delete(organizations).where(eq(organizations.id, memberOrgId))
     await db.delete(organizations).where(eq(organizations.id, strangerOrgId))
     await db.delete(users).where(eq(users.id, userId))
-    await applicationPool.end()
+    // Pool stays open — createRequestContextForJob (integration)` below
+    // shares this file and needs it; that describe's own afterAll ends it.
   })
 
   it("throws UNAUTHENTICATED when there is no session", async () => {
@@ -142,5 +143,89 @@ describe("createRequestContext (integration)", () => {
     expect(context.organizationId).toBe(memberOrgId)
     expect(context.role).toBe("owner")
     expect(context.organizationTimezone).toBe("America/New_York")
+  })
+})
+
+// createRequestContextForJob is the job-worker constructor (docs/decisions/06
+// #1's import pipeline has no request/headers to build a context from) —
+// same membership re-verification as createRequestContext above, driven by
+// an explicit { userId, organizationId } instead of a session.
+describe("createRequestContextForJob (integration)", () => {
+  const runId = randomUUID()
+  const userId = randomUUID()
+  const memberOrgId = randomUUID()
+  const strangerOrgId = randomUUID()
+
+  beforeAll(async () => {
+    await db.insert(users).values({
+      id: userId,
+      name: "Job Context Test User",
+      email: `job-context-${runId}@example.test`,
+      emailVerified: true,
+    })
+
+    await db.insert(organizations).values([
+      {
+        id: memberOrgId,
+        name: "Job Context Member Org",
+        slug: `job-context-member-${runId}`,
+        timezone: "Europe/London",
+      },
+      {
+        id: strangerOrgId,
+        name: "Job Context Stranger Org",
+        slug: `job-context-stranger-${runId}`,
+      },
+    ])
+
+    await db.insert(organizationMembers).values({
+      id: randomUUID(),
+      organizationId: memberOrgId,
+      userId,
+      role: "editor",
+    })
+  })
+
+  afterAll(async () => {
+    await db.delete(organizationMembers).where(eq(organizationMembers.userId, userId))
+    await db.delete(organizations).where(eq(organizations.id, memberOrgId))
+    await db.delete(organizations).where(eq(organizations.id, strangerOrgId))
+    await db.delete(users).where(eq(users.id, userId))
+    await applicationPool.end()
+  })
+
+  it("returns userId, organizationId, role, and organizationTimezone for a real membership", async () => {
+    const context = await createRequestContextForJob({ userId, organizationId: memberOrgId })
+
+    expect(context.userId).toBe(userId)
+    expect(context.organizationId).toBe(memberOrgId)
+    expect(context.role).toBe("editor")
+    expect(context.organizationTimezone).toBe("Europe/London")
+  })
+
+  it("throws FORBIDDEN for an organization the user is not a member of", async () => {
+    await expect(
+      createRequestContextForJob({ userId, organizationId: strangerOrgId }),
+    ).rejects.toMatchObject({ name: "AppError", code: "FORBIDDEN" })
+  })
+
+  it("throws FORBIDDEN once membership is revoked between enqueue and run", async () => {
+    await expect(
+      createRequestContextForJob({ userId, organizationId: memberOrgId }),
+    ).resolves.toMatchObject({ organizationId: memberOrgId })
+
+    await db.delete(organizationMembers).where(eq(organizationMembers.userId, userId))
+
+    await expect(
+      createRequestContextForJob({ userId, organizationId: memberOrgId }),
+    ).rejects.toMatchObject({ name: "AppError", code: "FORBIDDEN" })
+
+    // Restore for the describe block's own afterAll / subsequent runs of this it.
+    await db.insert(organizationMembers).values({
+      id: randomUUID(),
+      organizationId: memberOrgId,
+      userId,
+      role: "editor",
+    })
   })
 })

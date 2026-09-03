@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest"
 
-import { EnvironmentError, parseEnv } from "./env"
+import { configuredSocialProviders, EnvironmentError, parseEnv } from "./env"
 
 const valid = {
   DATABASE_URL: "postgresql://datalize:datalize@localhost:5433/datalize",
@@ -49,5 +49,85 @@ describe("parseEnv", () => {
 
   it("normalizes a whitespace-only optional secret to undefined", () => {
     expect(parseEnv({ ...valid, SENTRY_DSN: "   " }).SENTRY_DSN).toBeUndefined()
+  })
+
+  // docs/decisions/07: a social provider configured with only one of its
+  // two values is a configuration error, not a partially-working provider,
+  // and must fail at boot rather than silently disabling itself.
+  describe("social provider pair validation", () => {
+    it("rejects a Google client id with no secret", () => {
+      expect(() => parseEnv({ ...valid, GOOGLE_CLIENT_ID: "id-only" })).toThrowError(
+        /GOOGLE_CLIENT_SECRET/,
+      )
+    })
+
+    it("rejects a Google client secret with no id", () => {
+      expect(() => parseEnv({ ...valid, GOOGLE_CLIENT_SECRET: "secret-only" })).toThrowError(
+        /GOOGLE_CLIENT_ID/,
+      )
+    })
+
+    it("rejects a GitHub client id with no secret", () => {
+      expect(() => parseEnv({ ...valid, GITHUB_CLIENT_ID: "id-only" })).toThrowError(
+        /GITHUB_CLIENT_SECRET/,
+      )
+    })
+
+    it("rejects a GitHub client secret with no id", () => {
+      expect(() => parseEnv({ ...valid, GITHUB_CLIENT_SECRET: "secret-only" })).toThrowError(
+        /GITHUB_CLIENT_ID/,
+      )
+    })
+
+    it("accepts a provider configured with both values", () => {
+      const result = parseEnv({
+        ...valid,
+        GOOGLE_CLIENT_ID: "id",
+        GOOGLE_CLIENT_SECRET: "secret",
+      })
+      expect(result.GOOGLE_CLIENT_ID).toBe("id")
+      expect(result.GOOGLE_CLIENT_SECRET).toBe("secret")
+    })
+
+    it("accepts an environment with neither value for a provider", () => {
+      expect(parseEnv(valid).GOOGLE_CLIENT_ID).toBeUndefined()
+      expect(parseEnv(valid).GOOGLE_CLIENT_SECRET).toBeUndefined()
+    })
+
+    // A blank pasted value must normalize to undefined before the pair
+    // check runs, the same as any other optional secret — otherwise a
+    // fresh .env.example clone (which ships both keys as `""`) would fail
+    // to boot instead of simply not offering the provider.
+    it("does not treat a blank pasted value as configuring the provider", () => {
+      expect(() =>
+        parseEnv({ ...valid, GOOGLE_CLIENT_ID: "", GOOGLE_CLIENT_SECRET: "" }),
+      ).not.toThrowError()
+    })
+  })
+})
+
+describe("configuredSocialProviders", () => {
+  it("lists no providers when neither is configured", () => {
+    expect(configuredSocialProviders(parseEnv(valid))).toEqual([])
+  })
+
+  it("lists google once its pair is set, github still absent", () => {
+    const environment = parseEnv({
+      ...valid,
+      GOOGLE_CLIENT_ID: "id",
+      GOOGLE_CLIENT_SECRET: "secret",
+    })
+    expect(configuredSocialProviders(environment)).toEqual(["google"])
+  })
+
+  it("lists both once both pairs are set", () => {
+    const environment = parseEnv({
+      ...valid,
+      GOOGLE_CLIENT_ID: "id",
+      GOOGLE_CLIENT_SECRET: "secret",
+      GITHUB_CLIENT_ID: "id",
+      GITHUB_CLIENT_SECRET: "secret",
+    })
+    expect(configuredSocialProviders(environment)).toEqual(["google", "github"])
   })
 })

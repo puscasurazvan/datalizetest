@@ -56,6 +56,11 @@ export function SelectWorkspacePrompt({ organizations }: SelectWorkspacePromptPr
               variant="secondary"
               className="w-full justify-start"
               disabled={selectingId !== null}
+              // `Button` is a plain unmemoized wrapper around a native `<button>`
+              // (src/components/ui/button.tsx), so there is no memoized child for a fresh closure
+              // to defeat; wrapping this in useCallback per list item would be an abstraction with
+              // no observable effect.
+              // oxlint-disable-next-line react-perf/jsx-no-new-function-as-prop
               onClick={() => void select(organization.id)}
             >
               {selectingId === organization.id ? "Opening…" : organization.name}

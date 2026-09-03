@@ -8,6 +8,9 @@ import type { RequestContext } from "@/shared/context/request-context"
 import { AppError } from "@/shared/errors"
 
 import { CANONICAL_IANA_TIMEZONES } from "./canonical-timezones"
+import { slugify } from "./slug"
+
+export { slugify } from "./slug"
 
 /**
  * The safe shape an Organization is ever returned to the UI as — never a
@@ -32,22 +35,6 @@ export function toPolicyContext(context: RequestContext): PolicyContext {
     throw new AppError("FORBIDDEN", "Your membership role is not recognized.")
   }
   return { organizationId: context.organizationId, role }
-}
-
-/**
- * Derives a URL-safe slug from a workspace name and appends a short random
- * suffix so two workspaces named "Acme" never collide — the user is never
- * asked to pick a slug (CONTEXT.md: there is no user-facing "slug", only
- * "workspace name").
- */
-function slugify(name: string): string {
-  const base = name
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-  const suffix = crypto.randomUUID().replace(/-/g, "").slice(0, 8)
-  return `${base === "" ? "workspace" : base}-${suffix}`
 }
 
 /**

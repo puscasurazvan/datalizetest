@@ -2,9 +2,15 @@
 
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { useState, type ChangeEvent } from "react"
+import { useState } from "react"
 
-import { Select } from "@/components/ui/select"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { authClient } from "@/modules/auth/client"
 import type { OrganizationSummary } from "@/modules/organizations"
 
@@ -26,9 +32,10 @@ export function WorkspaceSwitcher({ organizations, activeOrganizationId }: Works
   const [switching, setSwitching] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  async function handleChange(event: ChangeEvent<HTMLSelectElement>) {
-    const organizationId = event.target.value
-    if (organizationId === activeOrganizationId) {
+  // Base UI's Select clears to `null` as well as selecting a value; clearing
+  // is not a workspace switch, so it is ignored rather than narrowed away.
+  async function handleChange(organizationId: string | null) {
+    if (organizationId === null || organizationId === activeOrganizationId) {
       return
     }
 
@@ -37,7 +44,7 @@ export function WorkspaceSwitcher({ organizations, activeOrganizationId }: Works
     try {
       const { error: switchError } = await authClient.organization.setActive({ organizationId })
       if (switchError) {
-        // The <select> is controlled by `activeOrganizationId`, which only
+        // The Select is controlled by `activeOrganizationId`, which only
         // the server can change, so on failure it snaps back to the old
         // workspace on its own re-render — this message is what tells the
         // user that was a rejection, not a glitch.
@@ -56,17 +63,23 @@ export function WorkspaceSwitcher({ organizations, activeOrganizationId }: Works
         Switch workspace
       </label>
       <Select
-        id="workspace-switcher"
         value={activeOrganizationId}
-        onChange={(event) => void handleChange(event)}
+        // `Select` renders Base UI's uncontrolled-child tree, so there is no
+        // memoized child for a fresh closure to defeat.
+        // oxlint-disable-next-line react-perf/jsx-no-new-function-as-prop
+        onValueChange={(organizationId) => void handleChange(organizationId)}
         disabled={switching}
-        className="w-auto min-w-40"
       >
-        {organizations.map((organization) => (
-          <option key={organization.id} value={organization.id}>
-            {organization.name}
-          </option>
-        ))}
+        <SelectTrigger id="workspace-switcher" className="w-auto min-w-40">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          {organizations.map((organization) => (
+            <SelectItem key={organization.id} value={organization.id}>
+              {organization.name}
+            </SelectItem>
+          ))}
+        </SelectContent>
       </Select>
       <Link
         href="/workspaces/new"

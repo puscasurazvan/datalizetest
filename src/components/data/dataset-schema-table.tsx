@@ -6,6 +6,10 @@ import type { DatasetColumnSummary } from "@/modules/datasets"
  *
  * A Column ID is shown because it is the handle a saved query holds — when
  * a re-upload renames a column, the ID is what proves it is the same column.
+ *
+ * `position` is stored 1-based (the import writes the CSV's own column
+ * order, first column = 1), so it is rendered as-is. Adding one to make it
+ * "human" numbers the first column 2.
  */
 export function DatasetSchemaTable({ columns }: { columns: readonly DatasetColumnSummary[] }) {
   if (columns.length === 0) {
@@ -38,7 +42,7 @@ export function DatasetSchemaTable({ columns }: { columns: readonly DatasetColum
           {columns.map((column) => (
             <tr key={column.columnId} className="border-b border-hairline/60">
               <td className="py-2 pr-4 font-mono text-[11px] tabular-nums text-muted-foreground">
-                {column.position + 1}
+                {column.position}
               </td>
               <td className="py-2 pr-4 font-medium">{column.name}</td>
               <td className="py-2 pr-4 font-mono text-[11px]">{column.type}</td>

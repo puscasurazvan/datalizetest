@@ -15,5 +15,6 @@ export type {
   AnalyticalStore,
   AnalyticalTableSummary,
   LoadRowsResult,
+  ReadRowsResult,
 } from "./types"
 export { ANALYTICAL_COLUMN_TYPES } from "./types"

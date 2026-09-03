@@ -1,8 +1,14 @@
 /**
- * Public types for the analytical store's write surface (this module's
- * CLAUDE.md, docs/adr/0002). `execute()` and its result types are not
- * defined here yet — they follow the load benchmark (docs/decisions/06
- * #15), per this module's CLAUDE.md "Build order".
+ * Public types for the analytical store (this module's CLAUDE.md,
+ * docs/adr/0002).
+ *
+ * The write surface plus `readRows`, a bounded preview read. The full
+ * `execute()` query surface and its result types are still absent: they
+ * belong to the query layer built on `QueryAst`, which the load benchmark
+ * (docs/decisions/06 #15, docs/decisions/08) has now unblocked. `readRows`
+ * is not a step toward it and must not grow into one — it takes no
+ * filter, no projection and no ordering, so there is nothing in it for a
+ * caller to smuggle a query through.
  */
 import type { RequestContext } from "@/shared/context/request-context"
 
@@ -41,6 +47,15 @@ export interface AnalyticalColumnDefinition {
 export interface AnalyticalTableSummary {
   readonly datasetVersionId: string
   readonly columnIds: readonly string[]
+}
+
+/**
+ * What `readRows` hands back: a page of rows keyed by Column ID, in the
+ * same ordinal order `columnIds` lists.
+ */
+export interface ReadRowsResult {
+  readonly columnIds: readonly string[]
+  readonly rows: readonly AnalyticalRow[]
 }
 
 /** What `loadRows` hands back: how many data rows the COPY actually wrote. */
@@ -93,6 +108,26 @@ export interface AnalyticalStore {
     datasetVersionId: string,
     rows: AsyncIterable<AnalyticalRow>,
   ): Promise<LoadRowsResult>
+
+  /**
+   * Reads the first `limit` rows of a Dataset Version's physical table,
+   * for the schema preview — not a query. There is deliberately no
+   * `offset`: the physical table carries no key or ordering column (see
+   * `createVersionTable`'s DDL — it materializes the data columns and
+   * nothing else), so rows come back in whatever order Postgres scans
+   * them. For a freshly COPY-loaded table that is insertion order in
+   * practice, which is what a preview wants, but it is not a guarantee
+   * and paging on it would silently repeat or skip rows. Stable ordering
+   * arrives with the query layer's `ORDER BY`, not here.
+   *
+   * Runs on `analyticalPool` — this is an interactive read and takes that
+   * pool's 30s statement timeout, unlike every write method above.
+   */
+  readRows(
+    context: RequestContext,
+    datasetVersionId: string,
+    limit: number,
+  ): Promise<ReadRowsResult>
 
   /**
    * Drops the physical table and deletes its Column ID -> physical name

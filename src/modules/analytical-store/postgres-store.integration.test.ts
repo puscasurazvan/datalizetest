@@ -221,6 +221,87 @@ describe("PostgresAnalyticalStore (integration)", () => {
     await store.dropVersion(context, versionId)
   })
 
+  it("readRows returns rows keyed by Column ID, never by physical name", async () => {
+    const versionId = await createDatasetVersion()
+    await store.createVersionTable(context, versionId, [
+      { columnId: "col_id", type: "string" },
+      { columnId: "col_amount", type: "decimal" },
+    ])
+    await store.loadRows(
+      context,
+      versionId,
+      rowsFrom([
+        { col_id: "1", col_amount: "10.50" },
+        { col_id: "2", col_amount: null },
+      ]),
+    )
+
+    const preview = await store.readRows(context, versionId, 10)
+
+    expect(preview.columnIds).toEqual(["col_id", "col_amount"])
+    expect(preview.rows).toHaveLength(2)
+    // Keyed by Column ID only — no c_0/c_1 anywhere in the result.
+    expect(JSON.stringify(preview)).not.toMatch(/c_\d/)
+    expect(preview.rows).toContainEqual({ col_id: "1", col_amount: "10.50" })
+    expect(preview.rows).toContainEqual({ col_id: "2", col_amount: null })
+
+    await store.dropVersion(context, versionId)
+  })
+
+  it("readRows keeps a decimal a string, so precision survives the read", async () => {
+    const versionId = await createDatasetVersion()
+    await store.createVersionTable(context, versionId, [
+      { columnId: "col_amount", type: "decimal" },
+    ])
+    // More precision than a JS number can hold — the point of numeric.
+    await store.loadRows(context, versionId, oneRow({ col_amount: "12345678901234567890.12345" }))
+
+    const preview = await store.readRows(context, versionId, 10)
+
+    expect(preview.rows[0]?.col_amount).toBe("12345678901234567890.12345")
+
+    await store.dropVersion(context, versionId)
+  })
+
+  it("readRows honours its limit", async () => {
+    const versionId = await createDatasetVersion()
+    await store.createVersionTable(context, versionId, [{ columnId: "col_id", type: "string" }])
+    await store.loadRows(
+      context,
+      versionId,
+      rowsFrom([{ col_id: "1" }, { col_id: "2" }, { col_id: "3" }]),
+    )
+
+    expect((await store.readRows(context, versionId, 2)).rows).toHaveLength(2)
+
+    await store.dropVersion(context, versionId)
+  })
+
+  it("readRows rejects a limit outside its bounds rather than clamping it", async () => {
+    const versionId = await createDatasetVersion()
+    await store.createVersionTable(context, versionId, [{ columnId: "col_id", type: "string" }])
+
+    for (const limit of [0, -1, 1.5, 201]) {
+      await expect(store.readRows(context, versionId, limit)).rejects.toMatchObject({
+        code: "VALIDATION",
+      })
+    }
+
+    await store.dropVersion(context, versionId)
+  })
+
+  it("readRows refuses a dataset version belonging to another organization", async () => {
+    const versionId = await createDatasetVersion()
+    await store.createVersionTable(context, versionId, [{ columnId: "col_id", type: "string" }])
+    await store.loadRows(context, versionId, oneRow({ col_id: "1" }))
+
+    await expect(store.readRows(otherContext, versionId, 10)).rejects.toMatchObject({
+      code: "NOT_FOUND",
+    })
+
+    await store.dropVersion(context, versionId)
+  })
+
   it("dropVersion removes both the physical table and its analytical_tables/analytical_columns rows", async () => {
     const versionId = await createDatasetVersion()
     await store.createVersionTable(context, versionId, [

@@ -24,7 +24,7 @@ import { pipeline } from "node:stream/promises"
 import { asc, eq } from "drizzle-orm"
 import { from as pgCopyFrom } from "pg-copy-streams"
 
-import { importPool } from "@/db/analytical"
+import { analyticalPool, importPool } from "@/db/analytical"
 import { db } from "@/db/client"
 import { analyticalColumns, analyticalTables, datasetVersions } from "@/db/schema"
 import type { RequestContext } from "@/shared/context/request-context"
@@ -48,7 +48,33 @@ import type {
   AnalyticalStore,
   AnalyticalTableSummary,
   LoadRowsResult,
+  ReadRowsResult,
 } from "./types"
+
+/**
+ * A preview is a screenful, not a page of results. Capped here as well as
+ * in the caller so the cap is a property of the store rather than of
+ * whoever happens to call it.
+ */
+const MAX_PREVIEW_ROWS = 200
+
+/**
+ * Every cell is selected as `::text`, so a value is a string or null —
+ * the same shape `AnalyticalRow` uses for loading, and the same reason:
+ * a `decimal` must not become a JS number on the way out any more than on
+ * the way in (docs/decisions/06 #11).
+ */
+function toRowByColumnId(
+  mapping: readonly { columnId: string }[],
+  values: readonly unknown[],
+): AnalyticalRow {
+  const row: Record<string, string | null> = {}
+  mapping.forEach((column, index) => {
+    const value = values[index]
+    row[column.columnId] = typeof value === "string" ? value : null
+  })
+  return row
+}
 
 /**
  * The six Datalize column types, mapped to Postgres (docs/decisions/04,
@@ -270,6 +296,65 @@ export class PostgresAnalyticalStore implements AnalyticalStore {
     } catch (error) {
       client.release(error instanceof Error ? error : new Error(String(error)))
       throw safeStoreError("Could not load rows into the dataset version's physical table.", error)
+    }
+  }
+
+  async readRows(
+    context: RequestContext,
+    datasetVersionId: string,
+    limit: number,
+  ): Promise<ReadRowsResult> {
+    assertDatasetVersionId(datasetVersionId)
+
+    if (!Number.isInteger(limit) || limit < 1 || limit > MAX_PREVIEW_ROWS) {
+      throw new AppError("VALIDATION", `Preview limit must be between 1 and ${MAX_PREVIEW_ROWS}.`)
+    }
+
+    const table = await findRegisteredTable(context, datasetVersionId)
+    if (!table) {
+      throw new AppError("NOT_FOUND", "This dataset version has no loaded data.")
+    }
+
+    const mapping = await db
+      .select({
+        columnId: analyticalColumns.columnId,
+        physicalName: analyticalColumns.physicalName,
+      })
+      .from(analyticalColumns)
+      .where(
+        scopedWhere(
+          context,
+          analyticalColumns,
+          eq(analyticalColumns.datasetVersionId, datasetVersionId),
+        ),
+      )
+      .orderBy(asc(analyticalColumns.ordinal))
+
+    if (mapping.length === 0) {
+      return { columnIds: [], rows: [] }
+    }
+
+    // Physical names come from this module's own registry rows, never from
+    // the caller, and `limit` is an integer bounded above — so the only
+    // interpolated text is server-generated. `quoteIdentifier` is belt and
+    // braces on top of that.
+    const projection = mapping
+      .map((column) => `${quoteIdentifier(column.physicalName)}::text`)
+      .join(", ")
+    const sql = `SELECT ${projection} FROM ${qualifiedTableName(datasetVersionId)} LIMIT ${limit}`
+
+    const client = await analyticalPool.connect()
+    try {
+      // rowMode "array" so two logical columns mapping to the same physical
+      // name could never collide into one key, and so the result's column
+      // order is positional rather than dependent on driver key ordering.
+      const result = await client.query({ text: sql, rowMode: "array" })
+      const rows = result.rows.map((values) => toRowByColumnId(mapping, values))
+      return { columnIds: mapping.map((column) => column.columnId), rows }
+    } catch (error) {
+      throw safeStoreError("Could not read rows from the dataset version's table.", error)
+    } finally {
+      client.release()
     }
   }
 

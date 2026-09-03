@@ -1,5 +1,6 @@
 "use client"
 
+import { Plus } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
@@ -31,6 +32,13 @@ export function WorkspaceSwitcher({ organizations, activeOrganizationId }: Works
   const router = useRouter()
   const [switching, setSwitching] = useState(false)
   const [error, setError] = useState<string | null>(null)
+
+  // Base UI's Select.Value prints the raw value when given no children, which
+  // would put an Organization ID in the chrome. The name is what the reader
+  // needs; the ID is the Select's value, not its label.
+  const activeName =
+    organizations.find((organization) => organization.id === activeOrganizationId)?.name ??
+    "Select workspace"
 
   // Base UI's Select clears to `null` as well as selecting a value; clearing
   // is not a workspace switch, so it is ignored rather than narrowed away.
@@ -70,10 +78,13 @@ export function WorkspaceSwitcher({ organizations, activeOrganizationId }: Works
         onValueChange={(organizationId) => void handleChange(organizationId)}
         disabled={switching}
       >
-        <SelectTrigger id="workspace-switcher" className="w-auto min-w-40">
-          <SelectValue />
+        <SelectTrigger
+          id="workspace-switcher"
+          className="w-auto min-w-32 rounded-full border-hairline bg-surface px-space-sm py-space-2xs text-body-sm text-ink hover:bg-surface-high"
+        >
+          <SelectValue>{activeName}</SelectValue>
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent align="start" alignItemWithTrigger={false}>
           {organizations.map((organization) => (
             <SelectItem key={organization.id} value={organization.id}>
               {organization.name}
@@ -83,12 +94,14 @@ export function WorkspaceSwitcher({ organizations, activeOrganizationId }: Works
       </Select>
       <Link
         href="/workspaces/new"
-        className="rounded-md px-2 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        title="Create a workspace"
+        className="rounded-full p-space-xs text-ink-faint hover:bg-surface-high hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
-        + New workspace
+        <Plus strokeWidth={1.5} className="size-4" />
+        <span className="sr-only">New workspace</span>
       </Link>
       {error ? (
-        <p role="alert" className="text-sm text-danger">
+        <p role="alert" className="text-sm text-refused">
           {error}
         </p>
       ) : null}

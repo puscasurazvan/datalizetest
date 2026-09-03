@@ -34,8 +34,8 @@ export function CreateWorkspaceForm() {
   const nameErrorId = fieldErrors.name ? "workspace-name-error" : undefined
 
   return (
-    <form action={formAction} className="space-y-4" noValidate>
-      <div>
+    <form action={formAction} className="flex flex-col gap-space-lg" noValidate>
+      <div className="flex flex-col gap-space-sm">
         <Label htmlFor="workspace-name">Workspace name</Label>
         <Input
           id="workspace-name"
@@ -48,7 +48,7 @@ export function CreateWorkspaceForm() {
         <FieldError id="workspace-name-error" message={fieldErrors.name} />
       </div>
       {formError ? (
-        <p role="alert" className="text-sm text-danger">
+        <p role="alert" className="text-body-sm text-refused">
           {formError}
         </p>
       ) : null}

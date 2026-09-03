@@ -3,19 +3,25 @@ import { cn } from "@/lib/utils"
 /**
  * One field of a title block. `tone` is the material state, not decoration:
  * `caution` marks an interpretation the reader must accept or override
- * (the timezone a naive timestamp was read in), `checked` marks a count the
- * import verified, `redline` marks something that failed.
+ * (the timezone a naive timestamp was read in), `verified` marks a count the
+ * import confirmed, `refused` marks something that failed.
+ *
+ * `checked` and `redline` are the Drawing Sheet-era names for `verified` and
+ * `refused`. They stay accepted here, mapped to the same classes, so call
+ * sites outside this restyle keep compiling — use the new names in new code.
  */
 export interface TitleBlockField {
   readonly label: string
   readonly value: string
-  readonly tone?: "caution" | "checked" | "redline"
+  readonly tone?: "caution" | "verified" | "refused" | "checked" | "redline" | undefined
 }
 
 const TONE_CLASS = {
   caution: "text-caution",
-  checked: "text-checked",
-  redline: "text-redline",
+  verified: "text-verified",
+  refused: "text-refused",
+  checked: "text-verified",
+  redline: "text-refused",
 } as const
 
 /**
@@ -36,10 +42,10 @@ export function TitleBlock({ fields }: { fields: readonly TitleBlockField[] }) {
           key={field.label}
           className="border-hairline px-3.5 py-2 font-mono text-[11.5px] not-last:border-r"
         >
-          <dt className="mb-0.5 text-[9px] font-semibold tracking-[0.12em] text-muted-foreground">
+          <dt className="mb-0.5 text-[9px] font-semibold tracking-[0.12em] text-ink-faint">
             {field.label}
           </dt>
-          <dd className={cn("font-medium text-foreground", field.tone && TONE_CLASS[field.tone])}>
+          <dd className={cn("font-medium text-ink", field.tone && TONE_CLASS[field.tone])}>
             {field.value}
           </dd>
         </div>

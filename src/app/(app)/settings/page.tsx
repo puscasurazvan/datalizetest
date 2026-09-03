@@ -1,6 +1,6 @@
 import { headers } from "next/headers"
 
-import { Sheet } from "@/components/drawing/sheet"
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { auth } from "@/modules/auth"
 import { can } from "@/modules/auth/policy"
 import { listAvailableTimezones, toPolicyContext } from "@/modules/organizations"
@@ -21,40 +21,31 @@ export default async function SettingsPage() {
   const workspaceName = organization?.name ?? "This workspace"
 
   return (
-    <div className="mx-auto max-w-3xl">
-      <p className="mb-1 font-mono text-[9.5px] font-semibold tracking-[0.16em] text-muted-foreground">
-        WORKSPACE SETTINGS
-      </p>
-      <h1 className="font-display mb-7 text-[30px] leading-[1.05] tracking-[-0.02em]">
-        {workspaceName}
-      </h1>
+    <div className="flex w-full max-w-2xl flex-col gap-space-xl">
+      <header className="flex flex-col gap-space-xs">
+        <p className="font-mono text-label-mono uppercase tracking-wider text-ink-faint">
+          Workspace settings
+        </p>
+        <h1 className="text-[34px] font-bold tracking-[-0.03em] text-ink">{workspaceName}</h1>
+      </header>
 
-      <Sheet
-        title="Date grouping"
-        note="This is the interpretation applied to every CSV timestamp that arrives without an offset. It is stamped onto each Dataset Version at import and never re-applied afterwards."
-        lineageHeading="APPLIES TO"
-        lineage={[
-          { label: "naive timestamps" },
-          { label: "date grouping" },
-          { label: "new imports only" },
-        ]}
-        titleBlock={[
-          { label: "CURRENT", value: context.organizationTimezone, tone: "caution" },
-          { label: "ZONES AVAILABLE", value: availableTimezones.length.toLocaleString("en-US") },
-          { label: "SCOPE", value: "Future imports" },
-          {
-            label: "YOU CAN EDIT",
-            value: canEditTimezone ? "Yes" : "No — owner or admin",
-            tone: canEditTimezone ? "checked" : undefined,
-          },
-        ]}
-      >
-        <TimezoneForm
-          currentTimezone={context.organizationTimezone}
-          availableTimezones={availableTimezones}
-          canEdit={canEditTimezone}
-        />
-      </Sheet>
+      <Card>
+        <CardHeader>
+          <h2 className="text-headline-md text-ink">Date grouping</h2>
+          <p className="text-body-sm text-ink-muted">
+            This is the interpretation applied to every CSV timestamp that arrives without an
+            offset. It is stamped onto each Dataset Version at import and never re-applied
+            afterwards.
+          </p>
+        </CardHeader>
+        <CardContent>
+          <TimezoneForm
+            currentTimezone={context.organizationTimezone}
+            availableTimezones={availableTimezones}
+            canEdit={canEditTimezone}
+          />
+        </CardContent>
+      </Card>
     </div>
   )
 }

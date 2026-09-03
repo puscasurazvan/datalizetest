@@ -3,140 +3,108 @@
 @import "shadcn/tailwind.css";
 
 /*
- * shadcn ships `@custom-variant dark (&:is(.dark *))`, so its `dark:`
- * utilities fire only when something sets a `.dark` class. This app resolves
- * the theme from `prefers-color-scheme`, which would leave the tokens
- * flipping while the utilities stayed light. Both paths are declared here.
- */
-@custom-variant dark {
-  &:is(.dark *) {
-    @slot;
-  }
-  @media (prefers-color-scheme: dark) {
-    &:not(.light *) {
-      @slot;
-    }
-  }
-}
-
-/*
- * The Drawing Sheet — see DESIGN.md.
+ * Obsidian Kinetic — see DESIGN.md.
  *
- * A plotted CAD sheet: cool near-white stock, graphite line work, and redline
- * as the only accent. shadcn's full token contract is kept intact so its
- * components work unmodified; the values are ours. The extra `--desk`,
- * `--hairline-*`, `--redline`, `--caution` and `--checked` tokens are the
- * drafting vocabulary shadcn has no equivalent for.
+ * A single dark instrument surface: near-black neutral grounds, hairline
+ * separation, and electric cyan spent only on the action a user is about to
+ * take. There is no light theme — the world is one surface, and `<html>`
+ * carries `class="dark"` so shadcn's own `dark:` utilities resolve against it.
+ *
+ * shadcn's full token contract is kept intact so its components work
+ * unmodified; the values are ours. The extra `--chrome`, `--surface-*`,
+ * `--hairline*`, `--cyan*`, `--verified`, `--refused` and `--caution` tokens
+ * are the vocabulary shadcn has no equivalent for.
  */
 :root {
-  /* drafting vocabulary */
-  --sheet: #fcfcfd;
-  --desk: #edeff2;
-  --graphite: #1b1d21;
-  --graphite-2: #5c636e;
-  --hairline: #c4cad3;
-  --hairline-faint: #e4e8ed;
-  --redline: #c8102e;
-  --redline-wash: #fbeaed;
-  --caution: #a85b00;
-  --caution-wash: #fbf1e4;
-  --checked: #1f6b3b;
-  --checked-wash: #e9f2ec;
+  color-scheme: dark;
 
-  /* shadcn contract */
-  --background: var(--sheet);
-  --foreground: var(--graphite);
-  --card: var(--sheet);
-  --card-foreground: var(--graphite);
-  --popover: var(--sheet);
-  --popover-foreground: var(--graphite);
-  --primary: var(--graphite);
-  --primary-foreground: var(--sheet);
-  --secondary: var(--desk);
-  --secondary-foreground: var(--graphite);
-  --muted: var(--desk);
-  --muted-foreground: var(--graphite-2);
-  --accent: var(--desk);
-  --accent-foreground: var(--graphite);
-  --destructive: var(--redline);
-  --danger: var(--redline);
-  --danger-foreground: #ffffff;
-  --border: var(--hairline);
-  --input: var(--hairline);
-  --ring: var(--redline);
+  /* Grounds, darkest first. Chrome sits under the canvas, not above it. */
+  --chrome: #0e0e10;
+  --canvas: #131315;
+  --surface: #1c1b1d;
+  --surface-raised: #201f22;
+  --surface-high: #2a2a2c;
+  --surface-highest: #353437;
+  --surface-bright: #39393b;
 
   /*
-   * Chart series. A graphite ramp, not a hue wheel: PRODUCT.md requires that
-   * colour never be the only channel carrying meaning, so a series is told
-   * apart by position and hatch first. Redline is the emphasised series only.
+   * Rules. The reference draws every border as outline-variant at low alpha — there is
+   * no solid mid-grey border anywhere in it. `--hairline` therefore carries the alpha,
+   * so a plain `border-hairline` is already the reference's border; `--hairline-strong`
+   * stays opaque for input borders and emphasised rules.
    */
-  --chart-1: #1b1d21;
-  --chart-2: #4a525c;
-  --chart-3: #78818d;
-  --chart-4: #a6aeb9;
-  --chart-5: var(--redline);
+  --hairline: #3d494c4d;
+  --hairline-strong: #3d494c;
 
-  /* A drawing has no soft corners. */
-  --radius: 0.125rem;
+  /* Text, in descending authority. */
+  --ink: #e5e1e4;
+  --ink-muted: #bcc9cd;
+  --ink-faint: #869397;
 
-  --sidebar: var(--desk);
-  --sidebar-foreground: var(--graphite);
-  --sidebar-primary: var(--graphite);
-  --sidebar-primary-foreground: var(--sheet);
-  --sidebar-accent: var(--sheet);
-  --sidebar-accent-foreground: var(--graphite);
+  /*
+   * Accents. Cyan is the only colour spent on wanting attention; the other
+   * three are states the product already names.
+   */
+  --cyan: #4cd7f6;
+  --cyan-solid: #06b6d4;
+  --on-cyan: #003640;
+  --verified: #4edea3;
+  --verified-solid: #00a572;
+  --on-verified: #00311f;
+  --verified-wash: #0d2a20;
+  --refused: #ff7f8b;
+  --refused-bright: #ffb2b7;
+  --on-refused: #7d0023;
+  --refused-wash: #2c1418;
+  --error: #ffb4ab;
+  --error-solid: #93000a;
+  --caution: #f5b544;
+  --caution-wash: #2b2011;
+
+  /* shadcn contract */
+  --background: var(--canvas);
+  --foreground: var(--ink);
+  --card: var(--surface);
+  --card-foreground: var(--ink);
+  --popover: var(--surface-raised);
+  --popover-foreground: var(--ink);
+  --primary: var(--cyan-solid);
+  --primary-foreground: var(--on-cyan);
+  --secondary: var(--surface-high);
+  --secondary-foreground: var(--ink);
+  --muted: var(--surface-raised);
+  --muted-foreground: var(--ink-muted);
+  --accent: var(--surface-high);
+  --accent-foreground: var(--ink);
+  --destructive: var(--refused);
+  --danger: var(--refused);
+  --danger-foreground: #2c1418;
+  --border: var(--hairline);
+  --input: var(--hairline-strong);
+  --ring: var(--cyan);
+
+  /*
+   * Chart series. Mostly a neutral ramp with cyan reserved for the emphasised
+   * series: PRODUCT.md requires that colour never be the only channel carrying
+   * meaning, so a series is told apart by position and hatch first.
+   */
+  --chart-1: #4cd7f6;
+  --chart-2: #7d8f95;
+  --chart-3: #566469;
+  --chart-4: #3d494c;
+  --chart-5: var(--refused);
+
+  /* Rounded, not soft: 12px controls, 16px enclosures. */
+  --radius: 0.75rem;
+
+  --sidebar: var(--chrome);
+  --sidebar-foreground: var(--ink);
+  --sidebar-primary: var(--cyan-solid);
+  --sidebar-primary-foreground: var(--on-cyan);
+  --sidebar-accent: var(--surface-high);
+  --sidebar-accent-foreground: var(--ink);
   --sidebar-border: var(--hairline);
-  --sidebar-ring: var(--redline);
-}
-
-/*
- * The negative print. Declared twice on purpose: `.dark` is shadcn's own
- * contract and wins when the app sets it, and the media query covers the
- * viewer who has chosen nothing — without it a system-dark visitor gets
- * light tokens on a dark host ground.
- */
-.dark {
-  --sheet: #15181c;
-  --desk: #0b0d0f;
-  --graphite: #e9ebee;
-  --graphite-2: #9aa2ad;
-  --hairline: #333a42;
-  --hairline-faint: #22272c;
-  --redline: #ff6178;
-  --redline-wash: #2b1418;
-  --caution: #e0a050;
-  --caution-wash: #2a1f12;
-  --checked: #6bbf8c;
-  --checked-wash: #12231a;
-
-  --chart-1: #e9ebee;
-  --chart-2: #aab2bd;
-  --chart-3: #7d8691;
-  --chart-4: #565e68;
-  --chart-5: var(--redline);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not(.light) {
-    --sheet: #15181c;
-    --desk: #0b0d0f;
-    --graphite: #e9ebee;
-    --graphite-2: #9aa2ad;
-    --hairline: #333a42;
-    --hairline-faint: #22272c;
-    --redline: #ff6178;
-    --redline-wash: #2b1418;
-    --caution: #e0a050;
-    --caution-wash: #2a1f12;
-    --checked: #6bbf8c;
-    --checked-wash: #12231a;
-
-    --chart-1: #e9ebee;
-    --chart-2: #aab2bd;
-    --chart-3: #7d8691;
-    --chart-4: #565e68;
-    --chart-5: var(--redline);
-  }
+  --sidebar-ring: var(--cyan);
 }
 
 @theme inline {
@@ -161,17 +129,34 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  /* drafting vocabulary, available as Tailwind utilities */
-  --color-sheet: var(--sheet);
-  --color-desk: var(--desk);
+  /* the instrument vocabulary, available as Tailwind utilities */
+  --color-chrome: var(--chrome);
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-high: var(--surface-high);
+  --color-surface-highest: var(--surface-highest);
+  --color-surface-bright: var(--surface-bright);
   --color-hairline: var(--hairline);
-  --color-hairline-faint: var(--hairline-faint);
-  --color-redline: var(--redline);
-  --color-redline-wash: var(--redline-wash);
+  --color-hairline-strong: var(--hairline-strong);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-faint: var(--ink-faint);
+  --color-cyan: var(--cyan);
+  --color-cyan-solid: var(--cyan-solid);
+  --color-on-cyan: var(--on-cyan);
+  --color-verified: var(--verified);
+  --color-verified-solid: var(--verified-solid);
+  --color-on-verified: var(--on-verified);
+  --color-verified-wash: var(--verified-wash);
+  --color-refused: var(--refused);
+  --color-refused-bright: var(--refused-bright);
+  --color-on-refused: var(--on-refused);
+  --color-refused-wash: var(--refused-wash);
+  --color-error: var(--error);
+  --color-error-solid: var(--error-solid);
   --color-caution: var(--caution);
   --color-caution-wash: var(--caution-wash);
-  --color-checked: var(--checked);
-  --color-checked-wash: var(--checked-wash);
 
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
@@ -188,19 +173,113 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  --radius-sm: calc(var(--radius) - 1px);
-  --radius-md: var(--radius);
-  --radius-lg: calc(var(--radius) + 2px);
+  /*
+   * SPACING SCALE — lifted from the design's own config. Layout reaches for these by name
+   * (`p-space-lg`, `gap-space-md`, `px-gutter-desktop`, `max-w-page-max-width`) rather than
+   * ad-hoc numbers, which is what keeps rhythm consistent across screens.
+   */
+  --spacing-space-2xs: 0.125rem;
+  --spacing-space-xs: 0.25rem;
+  --spacing-space-sm: 0.5rem;
+  --spacing-space-md: 0.75rem;
+  --spacing-space-base: 1rem;
+  --spacing-space-lg: 1.5rem;
+  --spacing-space-xl: 2rem;
+  --spacing-space-2xl: 3rem;
+  --spacing-space-3xl: 4rem;
+  --spacing-gutter-mobile: 1rem;
+  --spacing-gutter-desktop: 1.5rem;
+  --spacing-page-max-width: 80rem;
+
+  /*
+   * TYPE SCALE — each step carries its own line-height, tracking and weight, so
+   * `text-headline-xl` is the whole typographic decision rather than a size that still
+   * needs three companion classes. Geist for what the reader reads; JetBrains Mono for
+   * what the reader checks (the code-* and label-mono steps).
+   */
+  --text-headline-2xl: 48px;
+  --text-headline-2xl--line-height: 56px;
+  --text-headline-2xl--letter-spacing: -0.03em;
+  --text-headline-2xl--font-weight: 600;
+
+  --text-headline-2xl-mobile: 32px;
+  --text-headline-2xl-mobile--line-height: 40px;
+  --text-headline-2xl-mobile--letter-spacing: -0.025em;
+  --text-headline-2xl-mobile--font-weight: 600;
+
+  --text-headline-xl: 36px;
+  --text-headline-xl--line-height: 44px;
+  --text-headline-xl--letter-spacing: -0.025em;
+  --text-headline-xl--font-weight: 600;
+
+  --text-headline-xl-mobile: 26px;
+  --text-headline-xl-mobile--line-height: 34px;
+  --text-headline-xl-mobile--letter-spacing: -0.02em;
+  --text-headline-xl-mobile--font-weight: 600;
+
+  --text-headline-lg: 24px;
+  --text-headline-lg--line-height: 32px;
+  --text-headline-lg--letter-spacing: -0.02em;
+  --text-headline-lg--font-weight: 600;
+
+  --text-headline-md: 20px;
+  --text-headline-md--line-height: 28px;
+  --text-headline-md--letter-spacing: -0.015em;
+  --text-headline-md--font-weight: 500;
+
+  --text-headline-sm: 16px;
+  --text-headline-sm--line-height: 24px;
+  --text-headline-sm--letter-spacing: -0.01em;
+  --text-headline-sm--font-weight: 500;
+
+  --text-body-lg: 16px;
+  --text-body-lg--line-height: 24px;
+  --text-body-lg--letter-spacing: -0.005em;
+  --text-body-lg--font-weight: 400;
+
+  --text-body-md: 14px;
+  --text-body-md--line-height: 20px;
+  --text-body-md--letter-spacing: 0em;
+  --text-body-md--font-weight: 400;
+
+  --text-body-sm: 13px;
+  --text-body-sm--line-height: 18px;
+  --text-body-sm--letter-spacing: 0em;
+  --text-body-sm--font-weight: 400;
+
+  --text-label-md: 12px;
+  --text-label-md--line-height: 16px;
+  --text-label-md--letter-spacing: 0.01em;
+  --text-label-md--font-weight: 500;
+
+  --text-label-mono: 11px;
+  --text-label-mono--line-height: 14px;
+  --text-label-mono--letter-spacing: 0.04em;
+  --text-label-mono--font-weight: 500;
+
+  --text-code-md: 13px;
+  --text-code-md--line-height: 18px;
+  --text-code-md--letter-spacing: -0.01em;
+  --text-code-md--font-weight: 400;
+
+  --text-code-sm: 11px;
+  --text-code-sm--line-height: 16px;
+  --text-code-sm--letter-spacing: 0.02em;
+  --text-code-sm--font-weight: 500;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
   /*
-   * The researched type system (commit a00576d). All three faces are tabular
-   * by default; --font-sans is Familjen Grotesk, never a scaffold face.
+   * Geist for everything the reader reads, JetBrains Mono for everything the
+   * reader checks. Both are tabular in their default figure set; prose opts
+   * out below.
    */
-  --font-sans: var(--font-familjen-grotesk);
-  --font-display: var(--font-newsreader);
-  --font-mono: var(--font-sometype-mono);
-  --font-heading: var(--font-familjen-grotesk);
+  --font-sans: var(--font-geist);
+  --font-heading: var(--font-geist);
+  --font-mono: var(--font-jetbrains-mono);
 }
 
 @layer base {
@@ -214,9 +293,9 @@
   }
 
   /*
-   * Figures. The three faces are tabular in their default figure set, so a
-   * table needs no declaration to align — the risk runs the other way, and
-   * running prose has to opt out or it reads mechanically.
+   * Figures. Both faces are tabular in their default figure set, so a table
+   * needs no declaration to align — the risk runs the other way, and running
+   * prose has to opt out or it reads mechanically.
    */
   p,
   li {
@@ -230,8 +309,8 @@
 
   /* Browser surfaces the design still owns. */
   ::selection {
-    background: var(--redline);
-    color: #ffffff;
+    background: var(--cyan-solid);
+    color: var(--on-cyan);
   }
 }
 

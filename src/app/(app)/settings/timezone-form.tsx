@@ -31,8 +31,8 @@ export function TimezoneForm({ currentTimezone, availableTimezones, canEdit }: T
   const isRecognised = availableTimezones.includes(selectedTimezone)
 
   return (
-    <form action={formAction} className="flex flex-col gap-4">
-      <div className="flex flex-col gap-1.5">
+    <form action={formAction} className="flex flex-col gap-space-lg">
+      <div className="flex flex-col gap-space-sm">
         <Label htmlFor="timezone">Timezone</Label>
         <NativeSelect
           id="timezone"
@@ -51,21 +51,20 @@ export function TimezoneForm({ currentTimezone, availableTimezones, canEdit }: T
           ))}
         </NativeSelect>
         <FieldError id="timezone-error" message={fieldErrors.timezone} />
+        <p id="timezone-warning" className="text-body-sm text-ink-muted">
+          Changing this will affect how all date-based charts group data. Historical query results
+          are not retroactively updated.
+        </p>
       </div>
 
-      <p id="timezone-warning" className="text-sm text-muted-foreground">
-        Changing this will affect how all date-based charts group data. Historical query results are
-        not retroactively updated.
-      </p>
-
       {formError ? (
-        <p role="alert" className="text-sm text-danger">
+        <p role="alert" className="text-body-sm text-refused">
           {formError}
         </p>
       ) : null}
 
       {savedTimezone ? (
-        <output className="block text-sm text-foreground">
+        <output className="block text-body-sm text-ink">
           Timezone updated to {savedTimezone}.
         </output>
       ) : null}
@@ -75,7 +74,7 @@ export function TimezoneForm({ currentTimezone, availableTimezones, canEdit }: T
           {pending ? "Saving…" : "Save timezone"}
         </Button>
       ) : (
-        <p className="text-sm text-muted-foreground">
+        <p className="text-body-sm text-ink-muted">
           Only an owner or admin can change the workspace timezone.
         </p>
       )}

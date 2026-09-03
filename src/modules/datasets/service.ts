@@ -9,14 +9,21 @@ import { toPolicyContext } from "@/modules/organizations"
 import type { RequestContext } from "@/shared/context/request-context"
 import { AppError } from "@/shared/errors"
 
-import { findDatasetSummary, listDatasets, listVersionColumns } from "./repository"
-import type { DatasetColumnSummary, DatasetSummary } from "./repository"
+import {
+  findDatasetSummary,
+  listDatasetVersions,
+  listDatasets,
+  listVersionColumns,
+} from "./repository"
+import type { DatasetColumnSummary, DatasetSummary, DatasetVersionSummary } from "./repository"
 
 /** A screenful. The store caps this independently at 200. */
 export const PREVIEW_ROW_LIMIT = 50
 
 export interface DatasetDetail {
   readonly dataset: DatasetSummary
+  /** Every version this Dataset has had, newest first — superseded ones included. */
+  readonly versions: readonly DatasetVersionSummary[]
   readonly columns: readonly DatasetColumnSummary[]
   readonly previewRows: readonly AnalyticalRow[]
   /** Set when the version exists but its rows could not be read. */
@@ -41,8 +48,10 @@ export async function getDatasetDetail(
     throw new AppError("NOT_FOUND", "Dataset not found.")
   }
 
+  const versions = await listDatasetVersions(context, datasetId)
+
   if (dataset.currentVersion === null) {
-    return { dataset, columns: [], previewRows: [], previewUnavailable: null }
+    return { dataset, versions, columns: [], previewRows: [], previewUnavailable: null }
   }
 
   const columns = await listVersionColumns(context, dataset.currentVersion.id)
@@ -56,12 +65,12 @@ export async function getDatasetDetail(
       dataset.currentVersion.id,
       PREVIEW_ROW_LIMIT,
     )
-    return { dataset, columns, previewRows: preview.rows, previewUnavailable: null }
+    return { dataset, versions, columns, previewRows: preview.rows, previewUnavailable: null }
   } catch (error) {
     const reason =
       error instanceof AppError && error.code === "NOT_FOUND"
         ? "This version has no loaded rows yet."
         : "The rows for this version could not be read."
-    return { dataset, columns, previewRows: [], previewUnavailable: reason }
+    return { dataset, versions, columns, previewRows: [], previewUnavailable: reason }
   }
 }

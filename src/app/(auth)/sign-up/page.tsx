@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { connection } from "next/server"
 
-import { Card } from "@/components/ui/card"
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { configuredSocialProviders } from "@/shared/env"
 
 import { SocialSignInButtons } from "../social-sign-in-buttons"
@@ -18,15 +18,19 @@ export default async function SignUpPage() {
 
   return (
     <Card>
-      <h1 className="mb-6 text-xl font-semibold text-foreground">Create your account</h1>
-      <SocialSignInButtons providers={configuredSocialProviders()} />
-      <SignUpForm />
-      <p className="mt-6 text-center text-sm text-muted-foreground">
+      <CardHeader className="border-b border-hairline">
+        <h1 className="text-headline-md text-ink">Create your account</h1>
+      </CardHeader>
+      <CardContent className="flex flex-col gap-space-lg">
+        <SocialSignInButtons providers={configuredSocialProviders()} />
+        <SignUpForm />
+      </CardContent>
+      <CardFooter className="border-t border-hairline pt-space-base text-body-sm text-ink-muted">
         Already have an account?{" "}
-        <Link href="/sign-in" className="font-medium text-foreground underline underline-offset-4">
+        <Link href="/sign-in" className="ml-1 font-medium text-ink underline underline-offset-4">
           Sign in
         </Link>
-      </p>
+      </CardFooter>
     </Card>
   )
 }

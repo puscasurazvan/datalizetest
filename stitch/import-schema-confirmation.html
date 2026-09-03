@@ -1,0 +1,1745 @@
+<!doctype html>
+<html class="dark" lang="en" style="">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;family=JetBrains+Mono:wght@100..900&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap"
+      rel="stylesheet"
+      class=""
+    />
+    <style>
+      body {
+        font-family:
+          "Plus Jakarta Sans",
+          "Geist",
+          -apple-system,
+          sans-serif;
+        letter-spacing: -0.01em;
+        -webkit-font-smoothing: antialiased;
+      }
+      .font-mono,
+      [class*="font-code"],
+      [class*="font-label-mono"],
+      table,
+      .tabular-nums {
+        font-family: "Geist Mono", "JetBrains Mono", monospace !important;
+        font-feature-settings:
+          "tnum" on,
+          "zero" on;
+      }
+      h1,
+      h2,
+      h3 {
+        font-family: "Plus Jakarta Sans", "Geist", sans-serif;
+        letter-spacing: -0.03em;
+      }
+      button {
+        font-family: "Plus Jakarta Sans", "Geist", sans-serif;
+        letter-spacing: -0.01em;
+      }
+    </style>
+    <style>
+      @layer base {
+        html,
+        body {
+          margin: 0;
+          padding: 0;
+        }
+        body {
+          overscroll-behavior: none;
+        }
+        main > :first-child {
+          margin-top: 0 !important;
+        }
+        main > :last-child {
+          margin-bottom: 0 !important;
+        }
+      }
+      ::-webkit-scrollbar {
+        display: none;
+      }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-dim": "#131315",
+              "on-tertiary": "#67001b",
+              "tertiary-fixed-dim": "#ffb2b7",
+              "on-primary-fixed-variant": "#004e5c",
+              "on-secondary-container": "#00311f",
+              "on-error": "#690005",
+              "surface-container-high": "#2a2a2c",
+              "inverse-surface": "#e5e1e4",
+              "on-secondary": "#003824",
+              "surface-tint": "#4cd7f6",
+              "on-primary-container": "#00424f",
+              "surface-bright": "#39393b",
+              surface: "#131315",
+              "on-tertiary-container": "#7d0023",
+              "on-tertiary-fixed-variant": "#92002a",
+              "primary-container": "#06b6d4",
+              "surface-variant": "#353437",
+              "on-primary-fixed": "#001f26",
+              primary: "#4cd7f6",
+              "outline-variant": "#3d494c",
+              "on-secondary-fixed": "#002113",
+              "on-surface": "#e5e1e4",
+              "inverse-primary": "#00687a",
+              "on-tertiary-fixed": "#40000d",
+              "surface-container-lowest": "#0e0e10",
+              "primary-fixed": "#acedff",
+              "inverse-on-surface": "#313032",
+              "tertiary-fixed": "#ffdadb",
+              "surface-container-highest": "#353437",
+              "primary-fixed-dim": "#4cd7f6",
+              background: "#131315",
+              "on-secondary-fixed-variant": "#005236",
+              outline: "#869397",
+              "on-background": "#e5e1e4",
+              tertiary: "#ffb2b7",
+              error: "#ffb4ab",
+              "surface-container": "#201f22",
+              "on-error-container": "#ffdad6",
+              secondary: "#4edea3",
+              "secondary-fixed-dim": "#4edea3",
+              "on-primary": "#003640",
+              "secondary-fixed": "#6ffbbe",
+              "secondary-container": "#00a572",
+              "tertiary-container": "#ff7f8b",
+              "error-container": "#93000a",
+              "on-surface-variant": "#bcc9cd",
+              "surface-container-low": "#1c1b1d",
+            },
+            borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" },
+            spacing: {
+              "space-sm": "0.5rem",
+              "gutter-mobile": "1rem",
+              "page-max-width": "80rem",
+              "space-md": "0.75rem",
+              "space-3xl": "4rem",
+              "space-base": "1rem",
+              "space-lg": "1.5rem",
+              "space-2xs": "0.125rem",
+              "gutter-desktop": "1.5rem",
+              "space-xl": "2rem",
+              "space-2xl": "3rem",
+              "space-xs": "0.25rem",
+            },
+            fontFamily: {
+              "headline-lg": ["Geist"],
+              "body-md": ["Geist"],
+              "body-sm": ["Geist"],
+              "headline-xl": ["Geist"],
+              "headline-md": ["Geist"],
+              "headline-2xl": ["Geist"],
+              "code-md": ["JetBrains Mono"],
+              "label-mono": ["JetBrains Mono"],
+              "headline-xl-mobile": ["Geist"],
+              "headline-sm": ["Geist"],
+              "body-lg": ["Geist"],
+              "label-md": ["Geist"],
+              "code-sm": ["JetBrains Mono"],
+              "headline-2xl-mobile": ["Geist"],
+            },
+            fontSize: {
+              "headline-lg": [
+                "24px",
+                { lineHeight: "32px", letterSpacing: "-0.02em", fontWeight: "600" },
+              ],
+              "body-md": ["14px", { lineHeight: "20px", letterSpacing: "0em", fontWeight: "400" }],
+              "body-sm": ["13px", { lineHeight: "18px", letterSpacing: "0em", fontWeight: "400" }],
+              "headline-xl": [
+                "36px",
+                { lineHeight: "44px", letterSpacing: "-0.025em", fontWeight: "600" },
+              ],
+              "headline-md": [
+                "20px",
+                { lineHeight: "28px", letterSpacing: "-0.015em", fontWeight: "500" },
+              ],
+              "headline-2xl": [
+                "48px",
+                { lineHeight: "56px", letterSpacing: "-0.03em", fontWeight: "600" },
+              ],
+              "code-md": [
+                "13px",
+                { lineHeight: "18px", letterSpacing: "-0.01em", fontWeight: "400" },
+              ],
+              "label-mono": [
+                "11px",
+                { lineHeight: "14px", letterSpacing: "0.04em", fontWeight: "500" },
+              ],
+              "headline-xl-mobile": [
+                "26px",
+                { lineHeight: "34px", letterSpacing: "-0.02em", fontWeight: "600" },
+              ],
+              "headline-sm": [
+                "16px",
+                { lineHeight: "24px", letterSpacing: "-0.01em", fontWeight: "500" },
+              ],
+              "body-lg": [
+                "16px",
+                { lineHeight: "24px", letterSpacing: "-0.005em", fontWeight: "400" },
+              ],
+              "label-md": [
+                "12px",
+                { lineHeight: "16px", letterSpacing: "0.01em", fontWeight: "500" },
+              ],
+              "code-sm": [
+                "11px",
+                { lineHeight: "16px", letterSpacing: "0.02em", fontWeight: "500" },
+              ],
+              "headline-2xl-mobile": [
+                "32px",
+                { lineHeight: "40px", letterSpacing: "-0.025em", fontWeight: "600" },
+              ],
+            },
+          },
+        },
+      }
+    </script>
+  </head>
+  <body
+    class="bg-background font-body-md text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container"
+  >
+    <header
+      class="fixed top-0 inset-x-0 z-50 bg-surface-container-lowest/80 backdrop-blur-xl shadow-[0_1px_12px_rgba(0,0,0,0.4)]"
+    >
+      <div class="h-16 w-full px-gutter-desktop flex items-center justify-between gap-space-md">
+        <div class="flex items-center gap-space-md min-w-max">
+          <div class="flex items-center gap-space-sm">
+            <div
+              class="p-space-2xs rounded-lg bg-surface-container-high flex items-center justify-center"
+            >
+              <img
+                alt="Brand logo. - Primary color: #1b1d21
+- Font: newsreader
+- Mode: light
+- Roundness: rounded-lg
+"
+                class="h-8 w-auto object-contain"
+                src="https://lh3.googleusercontent.com/aida/AEtjO1VOo0GY242q4SOYTpZBIMA8qqdd_q-pMFWt1e_28z9BrQGGrfevMDLNv72LUZAL6ZRoFGkMcHGw82zEg5PdE9ciRWIlTGLnc-groGJMKWDAVox-dIUePQSeixSC7FikEJb7CFfhR1A97P9W0JwLEMvimyOHql7hJ-g9YGMhfNL06Wtu6YORlbiWIRVuoJ7RWSqmRI6XGNkFSn2S7eURM-uNLAeLw_BCvqXwF8Ij17MuyXbP29TXPqqCsTv5"
+              />
+            </div>
+            <span
+              class="font-headline-sm text-headline-sm text-on-surface tracking-tight font-semibold"
+              >Datalize</span
+            >
+          </div>
+          <div class="h-4 w-px bg-outline-variant/40 hidden sm:block"></div>
+          <div
+            class="hidden sm:flex items-center gap-space-xs px-space-sm py-space-2xs rounded-full bg-surface-container-low hover:bg-surface-container-high hover:text-on-surface cursor-pointer transition-colors"
+          >
+            <span class="font-body-sm text-body-sm text-on-surface font-medium">Acme SaaS</span
+            ><span
+              class="font-label-mono text-label-mono px-space-xs rounded bg-surface-container-highest text-primary"
+              >ENTERPRISE</span
+            ><span class="material-symbols-outlined text-[16px] text-on-surface-variant"
+              >unfold_more</span
+            >
+          </div>
+        </div>
+        <div class="hidden xl:flex items-center justify-center flex-1">
+          <nav
+            class="flex items-center gap-space-xs p-space-2xs rounded-full bg-surface-container-low"
+            data-active-classes="bg-surface-container-highest text-on-surface shadow-sm"
+          >
+            <a
+              class="px-space-md py-space-2xs rounded-full font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+              data-path="dashboard"
+              href="#"
+              >Dashboard</a
+            ><a
+              class="px-space-md py-space-2xs rounded-full font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+              data-path="query-builder"
+              href="#"
+              >Query Builder</a
+            ><a
+              aria-current="page"
+              class="px-space-md py-space-2xs rounded-full font-body-sm transition-colors bg-surface-container-highest text-on-surface shadow-sm"
+              data-path="datasets"
+              href="#"
+              >Datasets</a
+            ><a
+              class="px-space-md py-space-2xs rounded-full font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+              data-path="audit-vault"
+              href="#"
+              >Audit Vault</a
+            ><a
+              class="px-space-md py-space-2xs rounded-full font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors"
+              data-path="settings"
+              href="#"
+              >Settings</a
+            >
+          </nav>
+        </div>
+        <div class="flex items-center gap-space-sm min-w-max justify-end">
+          <div
+            class="hidden lg:flex items-center gap-space-xs px-space-sm py-space-2xs rounded-full bg-surface-container-low font-label-mono text-label-mono text-on-surface-variant"
+          >
+            <span class="material-symbols-outlined text-[14px] text-primary">public</span
+            ><span class="">Europe/Paris (UTC+01:00)</span>
+          </div>
+          <div
+            class="hidden md:flex items-center gap-space-xs px-space-sm py-space-2xs rounded-full bg-surface-container-low font-label-mono text-label-mono text-on-surface-variant"
+          >
+            <span
+              class="inline-flex h-2 w-2 rounded-full bg-secondary shadow-[0_0_8px_rgba(78,222,163,0.6)] animate-pulse"
+            ></span
+            ><span class="">Slots: 0/3 active</span>
+          </div>
+          <button
+            class="hidden sm:flex items-center gap-space-sm px-space-sm py-space-2xs rounded-lg bg-surface-container hover:bg-surface-container-high hover:text-on-surface text-on-surface-variant transition-colors"
+          >
+            <span class="material-symbols-outlined text-[16px]">search</span
+            ><span class="font-label-mono text-label-mono">⌘K</span>
+          </button>
+          <div class="flex items-center gap-space-xs pl-space-xs">
+            <span class="hidden 2xl:inline font-code-sm text-code-sm text-on-surface-variant"
+              >analyst@acmesaas.com</span
+            >
+            <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+              <span class="material-symbols-outlined text-on-primary text-[18px]">person</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <aside
+      class="fixed left-0 top-16 bottom-0 w-64 bg-surface-container-lowest/90 backdrop-blur-xl z-40 flex flex-col justify-between p-space-base shadow-[1px_0_12px_rgba(0,0,0,0.3)]"
+    >
+      <div class="space-y-space-lg">
+        <div class="space-y-space-xs">
+          <div
+            class="px-space-sm font-label-mono text-label-mono uppercase tracking-wider text-outline"
+          >
+            Workspace Provenance
+          </div>
+          <div class="p-space-sm rounded-xl bg-surface-container-low space-y-space-xs">
+            <div class="flex items-center justify-between font-label-md text-label-md">
+              <span class="text-on-surface-variant">Audit Integrity</span
+              ><span
+                class="text-secondary font-label-mono text-label-mono flex items-center gap-space-2xs"
+                ><span class="material-symbols-outlined text-[14px]">verified</span>VERIFIED</span
+              >
+            </div>
+            <div class="font-code-sm text-code-sm text-on-surface truncate">
+              SHA-256: 8f4e2...a90b
+            </div>
+            <div
+              class="flex items-center justify-between text-on-surface-variant font-label-mono text-label-mono"
+            >
+              <span class="">Latency</span><span class="text-primary">14ms (p99)</span>
+            </div>
+          </div>
+        </div>
+        <div class="space-y-space-xs">
+          <div
+            class="px-space-sm font-label-mono text-label-mono uppercase tracking-wider text-outline"
+          >
+            Sheet Defense &amp; Ops
+          </div>
+          <nav
+            class="space-y-space-2xs"
+            data-active-classes="bg-surface-container-high text-on-surface"
+          >
+            <a
+              class="flex items-center justify-between px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm"
+              data-path="dashboard"
+              href="#"
+              ><span class="">Live Telemetry</span
+              ><span class="material-symbols-outlined text-[16px]">pulse_alert</span></a
+            ><a
+              class="flex items-center justify-between px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm"
+              data-path="query-builder"
+              href="#"
+              ><span class="">Schema Defenses</span
+              ><span class="material-symbols-outlined text-[16px]">security</span></a
+            ><a
+              aria-current="page"
+              class="flex items-center justify-between px-space-sm py-space-xs rounded-lg transition-colors font-body-sm bg-surface-container-high text-on-surface"
+              data-path="datasets"
+              href="#"
+              ><span class="">Sync Pipelines</span
+              ><span class="material-symbols-outlined text-[16px]">sync_alt</span></a
+            ><a
+              class="flex items-center justify-between px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors font-body-sm text-body-sm"
+              data-path="audit-vault"
+              href="#"
+              ><span class="">Compliance Logs</span
+              ><span class="material-symbols-outlined text-[16px]">history_edu</span></a
+            >
+          </nav>
+        </div>
+      </div>
+      <div class="p-space-sm rounded-xl bg-surface-container-low space-y-space-2xs">
+        <div class="flex items-center justify-between font-label-md text-label-md">
+          <span class="text-on-surface-variant">Data Perimeter</span
+          ><span class="text-secondary font-label-mono text-label-mono">ACTIVE</span>
+        </div>
+        <div class="w-full bg-surface-container-highest h-1 rounded-full overflow-hidden">
+          <div class="bg-secondary h-full w-[94%]"></div>
+        </div>
+        <div class="flex justify-between font-label-mono text-label-mono text-outline">
+          <span class="">Zero-Drift Policy</span><span class="">94%</span>
+        </div>
+      </div>
+    </aside>
+    <div class="pl-64">
+      <main class="w-full min-h-screen pt-16 px-gutter-desktop pb-space-2xl bg-background">
+        <div class="flex flex-col w-full">
+          <!-- Visual Accent Glows (contained in parent) -->
+          <div class="relative w-full overflow-hidden">
+            <div
+              class="absolute -top-32 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-[120px] pointer-events-none"
+            ></div>
+            <div
+              class="absolute -top-20 right-10 w-80 h-80 bg-secondary/5 rounded-full blur-[100px] pointer-events-none"
+            ></div>
+            <div class="max-w-[80rem] mx-auto space-y-space-xl pb-space-3xl">
+              <!-- Breadcrumbs & Step Indicator -->
+              <div class="flex items-center justify-between pt-space-base">
+                <div
+                  class="flex items-center gap-space-sm font-label-mono text-label-mono text-outline"
+                >
+                  <span class="hover:text-on-surface cursor-pointer transition-colors"
+                    >INGESTION PIPELINES</span
+                  >
+                  <span class="">/</span>
+                  <span class="hover:text-on-surface cursor-pointer transition-colors"
+                    >STRIPE_BATCH_EU</span
+                  >
+                  <span class="">/</span>
+                  <span class="text-primary font-semibold">STAGE 03 — SCHEMA CONFIRMATION</span>
+                </div>
+                <div
+                  class="flex items-center gap-space-xs font-label-mono text-label-mono bg-surface-container-low px-space-md py-space-xs rounded-full"
+                >
+                  <span class="text-outline">Step 3 of 4</span>
+                  <div
+                    class="w-16 h-1.5 bg-surface-container-highest rounded-full overflow-hidden ml-space-xs"
+                  >
+                    <div class="w-3/4 h-full bg-primary rounded-full"></div>
+                  </div>
+                </div>
+              </div>
+              <!-- Main Header & Title Banner -->
+              <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-space-lg">
+                <div class="space-y-space-xs">
+                  <div class="flex flex-wrap items-center gap-space-sm">
+                    <span
+                      class="font-label-mono text-label-mono px-space-sm py-0.5 rounded-full bg-primary/10 text-primary uppercase tracking-wide"
+                    >
+                      Mandatory Reconciliation
+                    </span>
+                    <span
+                      class="font-label-mono text-label-mono px-space-sm py-0.5 rounded-full bg-surface-container-high text-on-surface-variant flex items-center gap-space-2xs"
+                    >
+                      <span class="material-symbols-outlined text-[13px] text-secondary"
+                        >verified_user</span
+                      >
+                      Pre-flight Checks Passed
+                    </span>
+                    <span class="font-label-mono text-label-mono text-outline">
+                      Target ID: <span class="text-on-surface">dts_9941a80</span>
+                    </span>
+                  </div>
+                  <h1
+                    class="font-headline-xl text-headline-xl text-on-surface tracking-tight font-semibold flex items-center gap-space-sm"
+                    style="
+                      font-family: &quot;Plus Jakarta Sans&quot;, Geist, sans-serif;
+                      letter-spacing: -0.035em;
+                      font-weight: 700;
+                    "
+                  >
+                    Import Schema Confirmation
+                    <span
+                      class="font-code-md text-code-md px-space-sm py-space-2xs rounded-lg bg-surface-container-high text-primary font-normal"
+                    >
+                      transactions_stripe.csv
+                    </span>
+                  </h1>
+                  <p class="font-body-md text-body-md text-on-surface-variant max-w-3xl">
+                    1,000 tabular row envelopes detected. Inspect auto-inferred column types, assign
+                    manual overrides, and ratify the immutable temporal alignment prior to block
+                    compilation.
+                  </p>
+                </div>
+                <!-- Inline Quick Action Pill -->
+                <div class="flex items-center gap-space-sm self-start lg:self-auto">
+                  <button
+                    class="px-space-md py-space-xs rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface text-body-sm font-body-sm flex items-center gap-space-xs transition-colors shadow-sm"
+                  >
+                    <span class="material-symbols-outlined text-[16px] text-outline">terminal</span>
+                    <span class="">CLI Replay</span>
+                  </button>
+                  <button
+                    class="px-space-md py-space-xs rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface text-body-sm font-body-sm flex items-center gap-space-xs transition-colors shadow-sm"
+                  >
+                    <span class="material-symbols-outlined text-[16px] text-outline">history</span>
+                    <span class="">Diff Prior Version</span>
+                  </button>
+                </div>
+              </div>
+              <!-- Ingestion Telemetry Bento Grid -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+                <!-- Metric 1: Read Efficiency -->
+                <div
+                  class="p-space-lg rounded-2xl bg-surface-container-lowest/80 backdrop-blur-md relative overflow-hidden group hover:bg-surface-container-low transition-all duration-200 shadow-md shadow-black/40"
+                >
+                  <div
+                    class="flex items-center justify-between font-label-mono text-label-mono text-outline mb-space-xs"
+                  >
+                    <span class="tracking-wider text-[11px] font-medium">READ EFFICIENCY</span>
+                    <div
+                      class="flex items-center gap-1 text-secondary bg-secondary/10 px-2 py-0.5 rounded-full"
+                    >
+                      <span class="material-symbols-outlined text-[14px]">verified</span>
+                      <span class="text-[10px] font-semibold tracking-wide">100% CLEAN</span>
+                    </div>
+                  </div>
+                  <div class="flex items-baseline gap-space-xs mt-1">
+                    <span
+                      class="font-headline-xl text-headline-xl font-bold text-on-surface tracking-tight"
+                      >100.0%</span
+                    >
+                    <span class="font-label-mono text-label-mono text-secondary">0 malformed</span>
+                  </div>
+                  <p
+                    class="font-body-sm text-body-sm text-on-surface-variant mt-space-2xs leading-relaxed"
+                  >
+                    1,000 / 1,000 records parsed without delimiter drift.
+                  </p>
+                  <div
+                    class="mt-space-md w-full bg-surface-container-highest h-1 rounded-full overflow-hidden"
+                  >
+                    <div
+                      class="bg-secondary h-full w-full shadow-[0_0_8px_rgba(78,222,163,0.8)]"
+                    ></div>
+                  </div>
+                </div>
+
+                <!-- Metric 2: Detected Columns -->
+                <div
+                  class="p-space-lg rounded-2xl bg-surface-container-lowest/80 backdrop-blur-md relative overflow-hidden group hover:bg-surface-container-low transition-all duration-200 shadow-md shadow-black/40"
+                >
+                  <div
+                    class="flex items-center justify-between font-label-mono text-label-mono text-outline mb-space-xs"
+                  >
+                    <span class="tracking-wider text-[11px] font-medium">DETECTED COLUMNS</span>
+                    <span class="material-symbols-outlined text-[18px] text-primary"
+                      >view_column</span
+                    >
+                  </div>
+                  <div class="flex items-baseline gap-space-xs mt-1">
+                    <span
+                      class="font-headline-xl text-headline-xl font-bold text-on-surface tracking-tight"
+                      >9</span
+                    >
+                    <span class="font-label-mono text-label-mono text-outline">attributes</span>
+                  </div>
+                  <p
+                    class="font-body-sm text-body-sm text-on-surface-variant mt-space-2xs leading-relaxed"
+                  >
+                    Wide relational structure conforming to Stripe v2 format.
+                  </p>
+                  <div class="mt-space-md flex gap-1.5">
+                    <span
+                      class="h-1 flex-1 bg-primary rounded-full shadow-[0_0_6px_rgba(76,215,246,0.6)]"
+                    ></span>
+                    <span
+                      class="h-1 flex-1 bg-primary rounded-full shadow-[0_0_6px_rgba(76,215,246,0.6)]"
+                    ></span>
+                    <span
+                      class="h-1 flex-1 bg-primary rounded-full shadow-[0_0_6px_rgba(76,215,246,0.6)]"
+                    ></span>
+                    <span
+                      class="h-1 flex-1 bg-primary rounded-full shadow-[0_0_6px_rgba(76,215,246,0.6)]"
+                    ></span>
+                  </div>
+                </div>
+
+                <!-- Metric 3: Target Spec -->
+                <div
+                  class="p-space-lg rounded-2xl bg-surface-container-lowest/80 backdrop-blur-md relative overflow-hidden group hover:bg-surface-container-low transition-all duration-200 shadow-md shadow-black/40"
+                >
+                  <div
+                    class="flex items-center justify-between font-label-mono text-label-mono text-outline mb-space-xs"
+                  >
+                    <span class="tracking-wider text-[11px] font-medium">TARGET SPEC</span>
+                    <span
+                      class="font-label-mono text-[10px] text-primary font-semibold bg-primary/10 px-2 py-0.5 rounded-full border border-primary/20"
+                      >IMMUTABLE</span
+                    >
+                  </div>
+                  <div class="flex items-baseline gap-space-xs mt-1">
+                    <span
+                      class="font-headline-xl text-headline-xl font-bold text-primary tracking-tight"
+                      >Δ1 Spec</span
+                    >
+                  </div>
+                  <p
+                    class="font-body-sm text-body-sm text-on-surface-variant mt-space-2xs leading-relaxed"
+                  >
+                    SHA-256 state tree sealed upon confirmation.
+                  </p>
+                  <div
+                    class="mt-space-md flex items-center justify-between text-outline font-label-mono text-[11px]"
+                  >
+                    <span class="truncate font-code-sm text-code-sm text-on-surface-variant"
+                      >merkle: 7f81a...bc90</span
+                    >
+                    <span class="material-symbols-outlined text-[14px] text-primary">lock</span>
+                  </div>
+                </div>
+
+                <!-- Metric 4: Validation Status -->
+                <div
+                  class="p-space-lg rounded-2xl bg-surface-container-lowest/80 backdrop-blur-md relative overflow-hidden group hover:bg-surface-container-low transition-all duration-200 shadow-md shadow-black/40"
+                >
+                  <div
+                    class="flex items-center justify-between font-label-mono text-label-mono text-outline mb-space-xs"
+                  >
+                    <span class="tracking-wider text-[11px] font-medium">VALIDATION SUITE</span>
+                    <span class="material-symbols-outlined text-[18px] text-secondary"
+                      >verified_user</span
+                    >
+                  </div>
+                  <div class="flex items-baseline gap-space-xs mt-1">
+                    <span
+                      class="font-headline-xl text-headline-xl font-bold text-secondary tracking-tight"
+                      >9 / 9 Pass</span
+                    >
+                  </div>
+                  <p
+                    class="font-body-sm text-body-sm text-on-surface-variant mt-space-2xs leading-relaxed"
+                  >
+                    Zero type collisions. 1 nullable attribute validated.
+                  </p>
+                  <div
+                    class="mt-space-md flex items-center gap-space-xs text-secondary font-label-mono text-[11px]"
+                  >
+                    <span class="material-symbols-outlined text-[14px]">shield</span>
+                    <span class="">Compliant with GAAP Rev-Rec</span>
+                  </div>
+                </div>
+              </div>
+              <!-- Critical Timezone Interpretation Callout -->
+              <div
+                class="relative rounded-2xl bg-surface-container p-space-lg lg:p-space-xl overflow-hidden shadow-lg shadow-on-tertiary-container/10"
+              >
+                <!-- Amber Ambient underglow -->
+                <div
+                  class="absolute -right-20 -top-20 w-80 h-80 bg-tertiary-container/20 rounded-full blur-[100px] pointer-events-none"
+                ></div>
+                <div
+                  class="relative z-10 flex flex-col xl:flex-row xl:items-center justify-between gap-space-lg"
+                >
+                  <div class="space-y-space-sm max-w-4xl">
+                    <div class="flex flex-wrap items-center gap-space-sm">
+                      <div
+                        class="w-8 h-8 rounded-lg bg-tertiary-container/20 flex items-center justify-center text-tertiary shadow-inner"
+                      >
+                        <span class="material-symbols-outlined text-[20px]">warning</span>
+                      </div>
+                      <h2
+                        class="font-headline-md text-headline-md text-on-surface font-semibold flex items-center gap-space-xs tracking-tight"
+                      >
+                        Timezone Interpretation for Naive Timestamps
+                      </h2>
+                      <span
+                        class="font-label-mono text-[10px] px-space-sm py-0.5 rounded-full bg-surface-container-highest text-tertiary font-semibold tracking-wider"
+                      >
+                        ANCHOR LOCK
+                      </span>
+                    </div>
+                    <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                      CSV timestamps without an explicit UTC offset will be interpreted as
+                      wall-clock time in
+                      <strong
+                        class="text-on-surface font-medium underline decoration-tertiary/40 underline-offset-4"
+                        >Europe/Paris (UTC+01:00)</strong
+                      >. This strictly governs monthly revenue recognition cutoffs by up to 13 hours
+                      against Pacific billing regimes.
+                    </p>
+                    <div class="flex flex-wrap items-center gap-space-md pt-space-xs">
+                      <div
+                        class="flex items-center gap-space-xs px-space-sm py-space-2xs rounded-full bg-surface-container-lowest font-label-mono text-label-mono text-secondary border border-secondary/20 shadow-sm"
+                      >
+                        <span
+                          class="inline-flex h-2 w-2 rounded-full bg-secondary shadow-[0_0_8px_rgba(78,222,163,0.8)]"
+                        ></span>
+                        <span class="">Offset Tag: +01:00 CEST/CET</span>
+                      </div>
+                      <div
+                        class="flex items-center gap-space-xs text-on-surface-variant font-body-sm text-body-sm"
+                      >
+                        <span class="material-symbols-outlined text-[16px] text-primary">info</span>
+                        <span class=""
+                          >1 column contains ISO-8601 timestamps with offset (Z) — parsed
+                          unambiguously</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Interactive Control Pill Box -->
+                  <div
+                    class="flex flex-col sm:flex-row xl:flex-col items-start xl:items-end justify-center gap-space-xs bg-surface-container-lowest/90 p-space-md rounded-xl backdrop-blur-md border border-white/5 shadow-md"
+                  >
+                    <div class="space-y-space-2xs w-full sm:w-auto">
+                      <label
+                        class="font-label-mono text-[11px] uppercase tracking-wider text-outline block xl:text-right"
+                      >
+                        Temporal Anchor Override
+                      </label>
+                      <div class="relative inline-block w-full">
+                        <select
+                          class="appearance-none w-full bg-surface-container-high text-on-surface font-body-sm text-body-sm px-space-md py-space-xs pr-8 rounded-lg cursor-pointer focus:outline-none focus:bg-surface-bright transition-colors shadow-sm"
+                          id="tz-selector"
+                        >
+                          <option selected="" value="paris">
+                            Europe/Paris (Workspace Default) [UTC+01:00]
+                          </option>
+                          <option value="utc">Universal Coordinated Time [UTC+00:00]</option>
+                          <option value="ny">America/New_York (EST) [UTC-05:00]</option>
+                          <option value="la">America/Los_Angeles (PST) [UTC-08:00]</option>
+                          <option value="tyo">Asia/Tokyo (JST) [UTC+09:00]</option>
+                        </select>
+                        <span
+                          class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-[18px] text-on-surface-variant pointer-events-none"
+                        >
+                          unfold_more
+                        </span>
+                      </div>
+                    </div>
+                    <div
+                      class="flex items-center gap-space-2xs font-label-mono text-label-mono text-secondary xl:text-right pt-1"
+                    >
+                      <span class="material-symbols-outlined text-[13px]">verified</span>
+                      <span class="">Discrepancy risk: Zero for Z-affixed timestamps</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Detected Field Matrix / Modern Interactive Table Container -->
+              <div
+                class="rounded-2xl bg-surface-container-low p-space-base md:p-space-lg space-y-space-md shadow-md"
+              >
+                <!-- Table Toolbar & Search Bar -->
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+                  <div class="flex items-center gap-space-sm">
+                    <h3 class="font-headline-md text-headline-md text-on-surface font-medium">
+                      Inferred Schema Attributes
+                    </h3>
+                    <span
+                      class="font-label-mono text-label-mono px-space-sm py-0.5 rounded-full bg-surface-container-highest text-primary"
+                    >
+                      9 Active
+                    </span>
+                  </div>
+                  <div class="flex items-center gap-space-sm flex-wrap">
+                    <!-- Search Filter -->
+                    <div class="relative">
+                      <span
+                        class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[16px] text-outline"
+                        >search</span
+                      >
+                      <input
+                        class="bg-surface-container text-on-surface placeholder:text-outline font-body-sm text-body-sm pl-9 pr-space-md py-space-xs rounded-lg focus:outline-none focus:bg-surface-container-high transition-all w-52 md:w-64 shadow-sm"
+                        id="column-search"
+                        placeholder="Filter columns or IDs..."
+                        type="text"
+                      />
+                    </div>
+                    <!-- Quick Filter Chips -->
+                    <div
+                      class="flex items-center gap-space-2xs bg-surface-container p-space-2xs rounded-lg"
+                    >
+                      <button
+                        class="px-space-sm py-space-2xs rounded font-label-mono text-label-mono bg-surface-container-high text-on-surface"
+                      >
+                        ALL (9)
+                      </button>
+                      <button
+                        class="px-space-sm py-space-2xs rounded font-label-mono text-label-mono text-outline hover:text-on-surface hover:bg-surface-container-high transition-colors"
+                      >
+                        TEXT (7)
+                      </button>
+                      <button
+                        class="px-space-sm py-space-2xs rounded font-label-mono text-label-mono text-outline hover:text-on-surface hover:bg-surface-container-high transition-colors"
+                      >
+                        NUMERIC (1)
+                      </button>
+                      <button
+                        class="px-space-sm py-space-2xs rounded font-label-mono text-label-mono text-outline hover:text-on-surface hover:bg-surface-container-high transition-colors"
+                      >
+                        TIME (1)
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <!-- Table View -->
+                <div class="overflow-x-auto rounded-xl bg-surface-container-lowest shadow-inner">
+                  <table
+                    class="w-full text-left font-body-sm text-body-sm"
+                    style="
+                      font-family: &quot;Plus Jakarta Sans&quot;, Geist, sans-serif;
+                      font-feature-settings: &quot;tnum&quot;;
+                    "
+                  >
+                    <thead>
+                      <tr
+                        class="bg-surface-container-high/80 text-outline font-label-mono text-[11px] uppercase tracking-wider backdrop-blur-sm"
+                      >
+                        <th class="py-space-md px-space-md w-14 text-center">#</th>
+                        <th class="py-space-md px-space-md">Source Field</th>
+                        <th class="py-space-md px-space-md">Inferred Type</th>
+                        <th class="py-space-md px-space-md">Null / Empty Metric</th>
+                        <th class="py-space-md px-space-md text-center">Bad Rows</th>
+                        <th class="py-space-md px-space-md">
+                          Data Sample &amp; Value Distribution
+                        </th>
+                        <th class="py-space-md px-space-md">Type Override</th>
+                        <th class="py-space-md px-space-md text-right">Stable ID</th>
+                      </tr>
+                    </thead>
+                    <tbody class="text-on-surface" id="schema-rows">
+                      <!-- Row 1: id -->
+                      <tr class="hover:bg-surface-container-high/40 transition-colors group">
+                        <td
+                          class="py-space-md px-space-md font-label-mono text-label-mono text-outline text-center"
+                        >
+                          01
+                        </td>
+                        <td class="py-space-md px-space-md">
+                          <div class="flex items-center gap-space-xs">
+                            <span class="font-code-md text-code-md text-primary font-medium"
+                              >id</span
+                            >
+                            <span
+                              class="material-symbols-outlined text-[14px] text-secondary"
+                              title="Unique Key Identified"
+                              >vpn_key</span
+                            >
+                          </div>
+                        </td>
+                        <td class="py-space-md px-space-md">
+                          <span
+                            class="font-label-mono text-label-mono px-space-sm py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant"
+                          >
+                            text
+                          </span>
+                        </td>
+                        <td
+                          class="py-space-md px-space-md font-code-sm text-code-sm text-on-surface-variant"
+                        >
+                          0 <span class="text-outline">(0.0%)</span>
+                        </td>
+                        <td
+                          class="py-space-md px-space-md text-center font-code-sm text-code-sm text-secondary"
+                        >
+                          0
+                        </td>
+                        <td class="py-space-md px-space-md">
+                          <div class="flex items-center gap-space-xs font-code-sm text-code-sm">
+                            <span class="text-outline font-label-mono">Sample:</span>
+                            <span
+                              class="text-on-surface bg-surface-container px-space-xs py-0.5 rounded"
+                              >'tx0000001'</span
+                            >
+                            <span
+                              class="font-label-mono text-[10px] text-secondary bg-secondary/10 px-1 rounded"
+                              >100% UNIQUE</span
+                            >
+                          </div>
+                        </td>
+                        <td class="py-space-md px-space-md">
+                          <div class="relative inline-block">
+                            <select
+                              class="schema-type-select bg-surface-container text-on-surface font-code-sm text-code-sm px-space-sm py-1 pr-6 rounded-md hover:bg-surface-container-high cursor-pointer focus:outline-none"
+                            >
+                              <option selected="" value="text">text</option>
+                              <option value="varchar">varchar</option>
+                              <option value="uuid">uuid</option>
+                            </select>
+                          </div>
+                        </td>
+                        <td
+                          class="py-space-md px-space-md text-right font-code-sm text-code-sm text-outline"
+                        >
+                          col_c41e8
+                        </td>
+                      </tr>
+                      <!-- Row 2: customer_id -->
+                      <tr class="hover:bg-surface-container-high/40 transition-colors group">
+                        <td
+                          class="py-space-md px-space-md font-label-mono text-label-mono text-outline text-center"
+                        >
+                          02
+                        </td>
+                        <td class="py-space-md px-space-md">
+                          <div class="flex items-center gap-space-xs">
+                            <span class="font-code-md text-code-md text-primary font-medium"
+                              >customer_id</span
+                            >
+                            <span
+                              class="material-symbols-outlined text-[14px] text-outline"
+                              title="Foreign Key Candidate"
+                              >link</span
+                            >
+                          </div>
+                        </td>
+                        <td class="py-space-md px-space-md">
+                          <span
+                            class="font-label-mono text-label-mono px-space-sm py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant"
+                          >
+                            text
+                          </span>
+                        </td>
+                        <td
+                          class="py-space-md px-space-md font-code-sm text-code-sm text-on-surface-variant"
+                        >
+                          0 <span class="text-outline">(0.0%)</span>
+                        </td>
+                        <td
+                          class="py-space-md px-space-md text-center font-code-sm text-code-sm text-secondary"
+                        >
+                          0
+                        </td>
+                        <td class="py-space-md px-space-md">
+                          <div class="flex items-center gap-space-xs font-code-sm text-code-sm">
+                            <span class="text-outline font-label-mono">Sample:</span>
+                            <span
+                              class="text-on-surface bg-surface-container px-space-xs py-0.5 rounded"
+                              >'c000300'</span
+                            >
+                            <span class="text-outline font-label-mono text-[10px]"
+                              >342 distinct</span
+                            >
+                          </div>
+                        </td>
+                        <td class="py-space-md px-space-md">
+                          <div class="relative inline-block">
+                            <select
+                              class="schema-type-select bg-surface-container text-on-surface font-code-sm text-code-sm px-space-sm py-1 pr-6 rounded-md hover:bg-surface-container-high cursor-pointer focus:outline-none"
+                            >
+                              <option selected="" value="text">text</option>
+                              <option value="varchar">varchar</option>
+                            </select>
+                          </div>
+                        </td>
+                        <td
+                          class="py-space-md px-space-md text-right font-code-sm text-code-sm text-outline"
+                        >
+                          col_9a2f1
+                        </td>
+                      </tr>
+                      <!-- Row 3: customer_name -->
+                      <tr class="hover:bg-surface-container-high/40 transition-colors group">
+                        <td
+                          class="py-space-md px-space-md font-label-mono text-label-mono text-outline text-center"
+                        >
+                          03
+                        </td>
+                        <td class="py-space-md px-space-md">
+                          <span class="font-code-md text-code-md text-on-surface font-medium"
+                            >customer_name</span
+                          >
+                        </td>
+                        <td class="py-space-md px-space-md">
+                          <span
+                            class="font-label-mono text-label-mono px-space-sm py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant"
+                          >
+                            text
+                          </span>
+                        </td>
+                        <td
+                          class="py-space-md px-space-md font-code-sm text-code-sm text-on-surface-variant"
+                        >
+                          0 <span class="text-outline">(0.0%)</span>
+                        </td>
+                        <td
+                          class="py-space-md px-space-md text-center font-code-sm text-code-sm text-secondary"
+                        >
+                          0
+                        </td>
+                        <td class="py-space-md px-space-md">
+                          <div class="flex items-center gap-space-xs font-code-sm text-code-sm">
+                            <span class="text-outline font-label-mono">Sample:</span>
+                            <span
+                              class="text-on-surface bg-surface-container px-space-xs py-0.5 rounded"
+                              >'Mia Chen'</span
+                            >
+                          </div>
+                        </td>
+                        <td class="py-space-md px-space-md">
+                          <div class="relative inline-block">
+                            <select
+                              class="schema-type-select bg-surface-container text-on-surface font-code-sm text-code-sm px-space-sm py-1 pr-6 rounded-md hover:bg-surface-container-high cursor-pointer focus:outline-none"
+                            >
+                              <option selected="" value="text">text</option>
+                              <option value="masked_pii">masked_pii</option>
+                            </select>
+                          </div>
+                        </td>
+                        <td
+                          class="py-space-md px-space-md text-right font-code-sm text-code-sm text-outline"
+                        >
+                          col_b73d0
+                        </td>
+                      </tr>
+                      <!-- Row 4: amount -->
+                      <tr class="hover:bg-surface-container-high/40 transition-colors group">
+                        <td
+                          class="py-space-md px-space-md font-label-mono text-label-mono text-outline text-center"
+                        >
+                          04
+                        </td>
+                        <td class="py-space-md px-space-md">
+                          <div class="flex items-center gap-space-xs">
+                            <span class="font-code-md text-code-md text-secondary font-medium"
+                              >amount</span
+                            >
+                            <span
+                              class="material-symbols-outlined text-[14px] text-secondary"
+                              title="Financial Metric"
+                              >monetization_on</span
+                            >
+                          </div>
+                        </td>
+                        <td class="py-space-md px-space-md">
+                          <span
+                            class="font-label-mono text-label-mono px-space-sm py-0.5 rounded-full bg-secondary/15 text-secondary"
+                          >
+                            decimal (12, 2)
+                          </span>
+                        </td>
+                        <td
+                          class="py-space-md px-space-md font-code-sm text-code-sm text-on-surface-variant"
+                        >
+                          0 <span class="text-outline">(0.0%)</span>
+                        </td>
+                        <td
+                          class="py-space-md px-space-md text-center font-code-sm text-code-sm text-secondary"
+                        >
+                          0
+                        </td>
+                        <td class="py-space-md px-space-md">
+                          <div class="flex items-center gap-space-xs font-code-sm text-code-sm">
+                            <span class="text-outline font-label-mono">Sample:</span>
+                            <span
+                              class="text-secondary bg-surface-container px-space-xs py-0.5 rounded font-semibold"
+                              >4263.07</span
+                            >
+                            <span class="font-label-mono text-[10px] text-outline"
+                              >(scale: 2 fixed)</span
+                            >
+                          </div>
+                        </td>
+                        <td class="py-space-md px-space-md">
+                          <div class="relative inline-block">
+                            <select
+                              class="schema-type-select bg-surface-container text-on-surface font-code-sm text-code-sm px-space-sm py-1 pr-6 rounded-md hover:bg-surface-container-high cursor-pointer focus:outline-none"
+                            >
+                              <option selected="" value="decimal">decimal</option>
+                              <option value="float">float</option>
+                              <option value="integer_cents">integer_cents</option>
+                            </select>
+                          </div>
+                        </td>
+                        <td
+                          class="py-space-md px-space-md text-right font-code-sm text-code-sm text-outline"
+                        >
+                          col_1e4f8
+                        </td>
+                      </tr>
+                      <!-- Row 5: currency -->
+                      <tr class="hover:bg-surface-container-high/40 transition-colors group">
+                        <td
+                          class="py-space-md px-space-md font-label-mono text-label-mono text-outline text-center"
+                        >
+                          05
+                        </td>
+                        <td class="py-space-md px-space-md">
+                          <span class="font-code-md text-code-md text-on-surface font-medium"
+                            >currency</span
+                          >
+                        </td>
+                        <td class="py-space-md px-space-md">
+                          <span
+                            class="font-label-mono text-label-mono px-space-sm py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant"
+                          >
+                            text (iso-4217)
+                          </span>
+                        </td>
+                        <td
+                          class="py-space-md px-space-md font-code-sm text-code-sm text-on-surface-variant"
+                        >
+                          0 <span class="text-outline">(0.0%)</span>
+                        </td>
+                        <td
+                          class="py-space-md px-space-md text-center font-code-sm text-code-sm text-secondary"
+                        >
+                          0
+                        </td>
+                        <td class="py-space-md px-space-md">
+                          <div
+                            class="flex items-center gap-space-xs font-code-sm text-code-sm flex-wrap"
+                          >
+                            <span class="text-outline font-label-mono">Distribution:</span>
+                            <span
+                              class="bg-surface-container px-space-xs py-0.5 rounded text-on-surface"
+                              >USD <span class="text-outline">(349)</span></span
+                            >
+                            <span
+                              class="bg-surface-container px-space-xs py-0.5 rounded text-on-surface"
+                              >EUR <span class="text-outline">(328)</span></span
+                            >
+                            <span
+                              class="bg-surface-container px-space-xs py-0.5 rounded text-on-surface"
+                              >GBP <span class="text-outline">(323)</span></span
+                            >
+                          </div>
+                        </td>
+                        <td class="py-space-md px-space-md">
+                          <div class="relative inline-block">
+                            <select
+                              class="schema-type-select bg-surface-container text-on-surface font-code-sm text-code-sm px-space-sm py-1 pr-6 rounded-md hover:bg-surface-container-high cursor-pointer focus:outline-none"
+                            >
+                              <option selected="" value="text">text</option>
+                              <option value="enum">enum</option>
+                            </select>
+                          </div>
+                        </td>
+                        <td
+                          class="py-space-md px-space-md text-right font-code-sm text-code-sm text-outline"
+                        >
+                          col_7d6c2
+                        </td>
+                      </tr>
+                      <!-- Row 6: status -->
+                      <tr class="hover:bg-surface-container-high/40 transition-colors group">
+                        <td
+                          class="py-space-md px-space-md font-label-mono text-label-mono text-outline text-center"
+                        >
+                          06
+                        </td>
+                        <td class="py-space-md px-space-md">
+                          <span class="font-code-md text-code-md text-on-surface font-medium"
+                            >status</span
+                          >
+                        </td>
+                        <td class="py-space-md px-space-md">
+                          <span
+                            class="font-label-mono text-label-mono px-space-sm py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant"
+                          >
+                            text
+                          </span>
+                        </td>
+                        <td
+                          class="py-space-md px-space-md font-code-sm text-code-sm text-on-surface-variant"
+                        >
+                          0 <span class="text-outline">(0.0%)</span>
+                        </td>
+                        <td
+                          class="py-space-md px-space-md text-center font-code-sm text-code-sm text-secondary"
+                        >
+                          0
+                        </td>
+                        <td class="py-space-md px-space-md">
+                          <div class="flex items-center gap-space-xs font-code-sm text-code-sm">
+                            <span class="text-outline font-label-mono">Distribution:</span>
+                            <span
+                              class="bg-surface-container px-space-xs py-0.5 rounded text-secondary"
+                              >600 succeeded</span
+                            >
+                            <span
+                              class="bg-surface-container px-space-xs py-0.5 rounded text-tertiary"
+                              >209 refunded</span
+                            >
+                            <span class="bg-surface-container px-space-xs py-0.5 rounded text-error"
+                              >191 failed</span
+                            >
+                          </div>
+                        </td>
+                        <td class="py-space-md px-space-md">
+                          <div class="relative inline-block">
+                            <select
+                              class="schema-type-select bg-surface-container text-on-surface font-code-sm text-code-sm px-space-sm py-1 pr-6 rounded-md hover:bg-surface-container-high cursor-pointer focus:outline-none"
+                            >
+                              <option selected="" value="text">text</option>
+                              <option value="enum">enum</option>
+                            </select>
+                          </div>
+                        </td>
+                        <td
+                          class="py-space-md px-space-md text-right font-code-sm text-code-sm text-outline"
+                        >
+                          col_2f8b5
+                        </td>
+                      </tr>
+                      <!-- Row 7: created_at -->
+                      <tr
+                        class="hover:bg-surface-container-high/40 transition-colors group bg-primary/5"
+                      >
+                        <td
+                          class="py-space-md px-space-md font-label-mono text-label-mono text-primary text-center font-bold"
+                        >
+                          07
+                        </td>
+                        <td class="py-space-md px-space-md">
+                          <div class="flex items-center gap-space-xs">
+                            <span class="font-code-md text-code-md text-primary font-semibold"
+                              >created_at</span
+                            >
+                            <span
+                              class="material-symbols-outlined text-[14px] text-primary"
+                              title="Time Anchor"
+                              >schedule</span
+                            >
+                          </div>
+                        </td>
+                        <td class="py-space-md px-space-md">
+                          <span
+                            class="font-label-mono text-label-mono px-space-sm py-0.5 rounded-full bg-primary/15 text-primary"
+                          >
+                            timestamptz
+                          </span>
+                        </td>
+                        <td
+                          class="py-space-md px-space-md font-code-sm text-code-sm text-on-surface-variant"
+                        >
+                          0 <span class="text-outline">(0.0%)</span>
+                        </td>
+                        <td
+                          class="py-space-md px-space-md text-center font-code-sm text-code-sm text-secondary"
+                        >
+                          0
+                        </td>
+                        <td class="py-space-md px-space-md">
+                          <div class="flex items-center gap-space-xs font-code-sm text-code-sm">
+                            <span class="text-outline font-label-mono">Sample:</span>
+                            <span
+                              class="text-primary bg-surface-container px-space-xs py-0.5 rounded font-mono"
+                              >'2025-11-17T04:02:18Z'</span
+                            >
+                            <span
+                              class="font-label-mono text-[10px] text-primary bg-primary/20 px-1 rounded"
+                              >EXPLICIT UTC</span
+                            >
+                          </div>
+                        </td>
+                        <td class="py-space-md px-space-md">
+                          <div class="relative inline-block">
+                            <select
+                              class="schema-type-select bg-surface-container text-on-surface font-code-sm text-code-sm px-space-sm py-1 pr-6 rounded-md hover:bg-surface-container-high cursor-pointer focus:outline-none"
+                            >
+                              <option selected="" value="timestamptz">timestamptz</option>
+                              <option value="timestamp">timestamp (naive)</option>
+                              <option value="unix_epoch">unix_epoch</option>
+                            </select>
+                          </div>
+                        </td>
+                        <td
+                          class="py-space-md px-space-md text-right font-code-sm text-code-sm text-outline"
+                        >
+                          col_8e3a9
+                        </td>
+                      </tr>
+                      <!-- Row 8: plan_name -->
+                      <tr class="hover:bg-surface-container-high/40 transition-colors group">
+                        <td
+                          class="py-space-md px-space-md font-label-mono text-label-mono text-outline text-center"
+                        >
+                          08
+                        </td>
+                        <td class="py-space-md px-space-md">
+                          <span class="font-code-md text-code-md text-on-surface font-medium"
+                            >plan_name</span
+                          >
+                        </td>
+                        <td class="py-space-md px-space-md">
+                          <span
+                            class="font-label-mono text-label-mono px-space-sm py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant"
+                          >
+                            text (nullable)
+                          </span>
+                        </td>
+                        <td class="py-space-md px-space-md">
+                          <div class="flex items-center gap-space-xs font-code-sm text-code-sm">
+                            <span class="text-tertiary font-semibold">157</span>
+                            <span
+                              class="font-label-mono text-label-mono px-space-xs rounded bg-tertiary-container/30 text-tertiary"
+                            >
+                              15.7% empty
+                            </span>
+                          </div>
+                        </td>
+                        <td
+                          class="py-space-md px-space-md text-center font-code-sm text-code-sm text-secondary"
+                        >
+                          0
+                        </td>
+                        <td class="py-space-md px-space-md">
+                          <div class="flex items-center gap-space-xs font-code-sm text-code-sm">
+                            <span class="text-outline font-label-mono">Sample:</span>
+                            <span
+                              class="text-on-surface bg-surface-container px-space-xs py-0.5 rounded"
+                              >'pro'</span
+                            >
+                            <span class="text-tertiary font-label-mono text-[10px]"
+                              >(157 rows empty)</span
+                            >
+                          </div>
+                        </td>
+                        <td class="py-space-md px-space-md">
+                          <div class="relative inline-block">
+                            <select
+                              class="schema-type-select bg-surface-container text-on-surface font-code-sm text-code-sm px-space-sm py-1 pr-6 rounded-md hover:bg-surface-container-high cursor-pointer focus:outline-none"
+                            >
+                              <option selected="" value="text">text</option>
+                              <option value="varchar">varchar</option>
+                            </select>
+                          </div>
+                        </td>
+                        <td
+                          class="py-space-md px-space-md text-right font-code-sm text-code-sm text-outline"
+                        >
+                          col_5a1c3
+                        </td>
+                      </tr>
+                      <!-- Row 9: country -->
+                      <tr class="hover:bg-surface-container-high/40 transition-colors group">
+                        <td
+                          class="py-space-md px-space-md font-label-mono text-label-mono text-outline text-center"
+                        >
+                          09
+                        </td>
+                        <td class="py-space-md px-space-md">
+                          <span class="font-code-md text-code-md text-on-surface font-medium"
+                            >country</span
+                          >
+                        </td>
+                        <td class="py-space-md px-space-md">
+                          <span
+                            class="font-label-mono text-label-mono px-space-sm py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant"
+                          >
+                            text (iso-3166-1)
+                          </span>
+                        </td>
+                        <td
+                          class="py-space-md px-space-md font-code-sm text-code-sm text-on-surface-variant"
+                        >
+                          0 <span class="text-outline">(0.0%)</span>
+                        </td>
+                        <td
+                          class="py-space-md px-space-md text-center font-code-sm text-code-sm text-secondary"
+                        >
+                          0
+                        </td>
+                        <td class="py-space-md px-space-md">
+                          <div class="flex items-center gap-space-xs font-code-sm text-code-sm">
+                            <span class="text-outline font-label-mono">Sample:</span>
+                            <span
+                              class="text-on-surface bg-surface-container px-space-xs py-0.5 rounded"
+                              >'AU'</span
+                            >
+                            <span class="text-outline font-label-mono text-[10px]"
+                              >(alpha-2 standard)</span
+                            >
+                          </div>
+                        </td>
+                        <td class="py-space-md px-space-md">
+                          <div class="relative inline-block">
+                            <select
+                              class="schema-type-select bg-surface-container text-on-surface font-code-sm text-code-sm px-space-sm py-1 pr-6 rounded-md hover:bg-surface-container-high cursor-pointer focus:outline-none"
+                            >
+                              <option selected="" value="text">text</option>
+                              <option value="char2">char(2)</option>
+                            </select>
+                          </div>
+                        </td>
+                        <td
+                          class="py-space-md px-space-md text-right font-code-sm text-code-sm text-outline"
+                        >
+                          col_0f4e2
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- Table Micro-footer Summary -->
+                <div
+                  class="flex flex-col sm:flex-row items-center justify-between gap-space-sm pt-space-xs text-outline font-label-mono text-label-mono"
+                >
+                  <div class="flex items-center gap-space-md">
+                    <span class="">SHOWING 9 OF 9 ENVELOPES</span>
+                    <span class="h-3 w-px bg-outline-variant/40"></span>
+                    <span class="">MEMORY FOOTPRINT: 148.4 KB</span>
+                  </div>
+                  <div class="flex items-center gap-space-xs text-on-surface-variant">
+                    <span class="material-symbols-outlined text-[14px] text-secondary"
+                      >done_all</span
+                    >
+                    <span class="">All types cross-validated against PostgreSQL 16 dialect</span>
+                  </div>
+                </div>
+              </div>
+              <!-- Schema Provenance & Spec Details Bento -->
+              <div class="grid grid-cols-1 lg:grid-cols-3 gap-space-md">
+                <!-- Visual Distribution Donut Chart Section -->
+                <div
+                  class="p-space-lg rounded-2xl bg-surface-container-low flex flex-col justify-between shadow-sm"
+                >
+                  <div class="space-y-space-xs">
+                    <div class="flex items-center justify-between">
+                      <span class="font-label-mono text-label-mono text-outline uppercase"
+                        >Field Type Topology</span
+                      >
+                      <span class="material-symbols-outlined text-[16px] text-primary"
+                        >pie_chart</span
+                      >
+                    </div>
+                    <p class="font-body-sm text-body-sm text-on-surface-variant">
+                      Visual distribution of inferred primitives.
+                    </p>
+                  </div>
+                  <div class="flex items-center justify-around py-space-md">
+                    <!-- Inline SVG Donut Chart (under 2KB) -->
+                    <div class="relative w-28 h-28 flex items-center justify-center">
+                      <svg class="w-full h-full -rotate-90" viewBox="0 0 36 36">
+                        <!-- Background track -->
+                        <circle
+                          class="text-surface-container-highest"
+                          cx="18"
+                          cy="18"
+                          fill="none"
+                          r="15.915"
+                          stroke="currentColor"
+                          stroke-width="3"
+                        ></circle>
+                        <!-- Text segment (7/9 = 77.7%) -->
+                        <circle
+                          class="text-on-surface-variant"
+                          cx="18"
+                          cy="18"
+                          fill="none"
+                          r="15.915"
+                          stroke="currentColor"
+                          stroke-dasharray="77.7 22.3"
+                          stroke-dashoffset="0"
+                          stroke-width="3"
+                        ></circle>
+                        <!-- Decimal segment (1/9 = 11.1%) -->
+                        <circle
+                          class="text-secondary"
+                          cx="18"
+                          cy="18"
+                          fill="none"
+                          r="15.915"
+                          stroke="currentColor"
+                          stroke-dasharray="11.1 88.9"
+                          stroke-dashoffset="-77.7"
+                          stroke-width="3.5"
+                        ></circle>
+                        <!-- Timestamptz segment (1/9 = 11.1%) -->
+                        <circle
+                          class="text-primary"
+                          cx="18"
+                          cy="18"
+                          fill="none"
+                          r="15.915"
+                          stroke="currentColor"
+                          stroke-dasharray="11.1 88.9"
+                          stroke-dashoffset="-88.8"
+                          stroke-width="4"
+                        ></circle>
+                      </svg>
+                      <div class="absolute inset-0 flex flex-col items-center justify-center">
+                        <span
+                          class="font-headline-sm text-headline-sm font-semibold text-on-surface"
+                          >9</span
+                        >
+                        <span class="font-label-mono text-[9px] text-outline">FIELDS</span>
+                      </div>
+                    </div>
+                    <div class="space-y-space-xs font-label-mono text-label-mono">
+                      <div class="flex items-center gap-space-xs">
+                        <span class="w-2 h-2 rounded-full bg-on-surface-variant"></span>
+                        <span class="text-on-surface">Text: 7 (77.8%)</span>
+                      </div>
+                      <div class="flex items-center gap-space-xs">
+                        <span class="w-2 h-2 rounded-full bg-secondary"></span>
+                        <span class="text-secondary">Decimal: 1 (11.1%)</span>
+                      </div>
+                      <div class="flex items-center gap-space-xs">
+                        <span class="w-2 h-2 rounded-full bg-primary"></span>
+                        <span class="text-primary">Timestamptz: 1 (11.1%)</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="pt-space-xs text-outline font-label-mono text-label-mono">
+                    Zero vector or spatial structures present.
+                  </div>
+                </div>
+                <!-- Ingestion Pipeline Sparkline & Performance Card -->
+                <div
+                  class="p-space-lg rounded-2xl bg-surface-container-low flex flex-col justify-between shadow-sm"
+                >
+                  <div class="space-y-space-xs">
+                    <div class="flex items-center justify-between">
+                      <span class="font-label-mono text-label-mono text-outline uppercase"
+                        >Parser Throughput</span
+                      >
+                      <span
+                        class="font-label-mono text-label-mono text-secondary bg-secondary/15 px-space-xs rounded"
+                        >98k rows/sec</span
+                      >
+                    </div>
+                    <p class="font-body-sm text-body-sm text-on-surface-variant">
+                      Chunk-by-chunk stream validator latency.
+                    </p>
+                  </div>
+                  <!-- Inline SVG Sparkline -->
+                  <div class="py-space-sm">
+                    <div class="h-16 w-full flex items-end">
+                      <svg
+                        class="w-full h-full text-primary"
+                        preserveAspectRatio="none"
+                        viewBox="0 0 300 60"
+                      >
+                        <path
+                          d="M0,45 L30,40 L60,42 L90,25 L120,30 L150,15 L180,18 L210,8 L240,14 L270,4 L300,6"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-width="2"
+                        ></path>
+                        <path
+                          d="M0,45 L30,40 L60,42 L90,25 L120,30 L150,15 L180,18 L210,8 L240,14 L270,4 L300,6 L300,60 L0,60 Z"
+                          fill="currentColor"
+                          fill-opacity="0.1"
+                        ></path>
+                      </svg>
+                    </div>
+                    <div class="flex justify-between text-outline font-label-mono text-[10px] mt-1">
+                      <span class="">0ms</span>
+                      <span class="">4.2ms (chunk complete)</span>
+                      <span class="">10.2ms (SHA-256 finalized)</span>
+                    </div>
+                  </div>
+                  <div
+                    class="flex items-center justify-between pt-space-xs text-on-surface-variant font-body-sm text-body-sm"
+                  >
+                    <span class="">Buffer utilization:</span>
+                    <span class="font-code-sm text-code-sm text-on-surface">1.2 MB / 64 MB</span>
+                  </div>
+                </div>
+                <!-- Compliance & Drift Guard Card -->
+                <div
+                  class="p-space-lg rounded-2xl bg-surface-container-low flex flex-col justify-between shadow-sm"
+                >
+                  <div class="space-y-space-xs">
+                    <div class="flex items-center justify-between">
+                      <span class="font-label-mono text-label-mono text-outline uppercase"
+                        >Schema Drift Policy</span
+                      >
+                      <span class="material-symbols-outlined text-[18px] text-secondary"
+                        >verified</span
+                      >
+                    </div>
+                    <p class="font-body-sm text-body-sm text-on-surface-variant">
+                      Zero-Tolerance Auto-Reject on Ingress.
+                    </p>
+                  </div>
+                  <div class="space-y-space-xs py-space-xs font-body-sm text-body-sm">
+                    <div
+                      class="flex items-center justify-between p-space-xs rounded bg-surface-container"
+                    >
+                      <span class="text-on-surface">Extra columns:</span>
+                      <span class="font-label-mono text-label-mono text-tertiary"
+                        >STRICT REJECT</span
+                      >
+                    </div>
+                    <div
+                      class="flex items-center justify-between p-space-xs rounded bg-surface-container"
+                    >
+                      <span class="text-on-surface">Type coercion:</span>
+                      <span class="font-label-mono text-label-mono text-secondary"
+                        >LOSSLESS ONLY</span
+                      >
+                    </div>
+                    <div
+                      class="flex items-center justify-between p-space-xs rounded bg-surface-container"
+                    >
+                      <span class="text-on-surface">Audit Trail:</span>
+                      <span class="font-label-mono text-label-mono text-primary"
+                        >SIGNED ED25519</span
+                      >
+                    </div>
+                  </div>
+                  <div
+                    class="pt-space-xs text-outline font-label-mono text-label-mono flex items-center gap-space-2xs"
+                  >
+                    <span class="material-symbols-outlined text-[14px] text-primary">lock</span>
+                    <span class="">Enforced via Datalize Kernel v4.2.0</span>
+                  </div>
+                </div>
+              </div>
+              <!-- Floating Bottom Dock Action Bar (Pinned Bottom Navigation) -->
+              <div class="sticky bottom-6 z-40 w-full mt-space-xl">
+                <div
+                  class="rounded-2xl bg-surface-container-high/90 backdrop-blur-2xl p-space-md shadow-[0_20px_50px_rgba(0,0,0,0.8)] border-none"
+                >
+                  <div class="flex flex-col md:flex-row items-center justify-between gap-space-md">
+                    <!-- Left Actions -->
+                    <div class="flex items-center gap-space-sm w-full md:w-auto">
+                      <button
+                        class="px-space-md py-space-sm rounded-xl bg-surface-container-highest hover:bg-error/20 hover:text-error text-on-surface font-body-sm text-body-sm font-medium transition-colors flex items-center gap-space-xs shadow-sm"
+                        id="abandon-btn"
+                      >
+                        <span class="material-symbols-outlined text-[16px]">close</span>
+                        <span class="">Refuse / Abandon</span>
+                      </button>
+                      <button
+                        class="px-space-md py-space-sm rounded-xl bg-surface-container hover:bg-surface-container-highest text-on-surface font-body-sm text-body-sm font-medium transition-colors flex items-center gap-space-xs shadow-sm"
+                        id="yaml-btn"
+                      >
+                        <span class="material-symbols-outlined text-[16px] text-primary"
+                          >data_object</span
+                        >
+                        <span class="">Export Schema YAML</span>
+                      </button>
+                    </div>
+                    <!-- Center Status Note -->
+                    <div
+                      class="hidden lg:flex items-center gap-space-xs font-label-mono text-label-mono text-outline"
+                    >
+                      <span
+                        class="inline-flex h-2 w-2 rounded-full bg-secondary shadow-[0_0_8px_rgba(78,222,163,0.8)]"
+                      ></span>
+                      <span class="text-on-surface-variant"
+                        >Ready to append to transaction log</span
+                      >
+                      <span class="">·</span>
+                      <span class="text-primary font-mono">Immutable block hash computed</span>
+                    </div>
+                    <!-- Right Primary Action Button -->
+                    <div class="flex items-center gap-space-sm w-full md:w-auto justify-end">
+                      <button
+                        class="w-full md:w-auto px-space-xl py-space-sm rounded-xl bg-primary hover:bg-primary-container text-on-primary font-headline-sm text-headline-sm font-semibold transition-all duration-200 shadow-[0_0_24px_-4px_rgba(76,215,246,0.5)] hover:shadow-[0_0_32px_rgba(76,215,246,0.8)] flex items-center justify-center gap-space-xs active:scale-[0.98]"
+                        id="commit-btn"
+                        style="
+                          font-family: &quot;Plus Jakarta Sans&quot;, Geist, sans-serif;
+                          letter-spacing: -0.02em;
+                          font-weight: 600;
+                        "
+                      >
+                        <span class="">Commit Dataset Version Δ1</span>
+                        <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <script>
+          // Simple Micro-interaction Script for Column Search & Commit Toast
+          document.addEventListener("DOMContentLoaded", () => {
+            const searchInput = document.getElementById("column-search")
+            const tableRows = document.querySelectorAll("#schema-rows tr")
+            const commitBtn = document.getElementById("commit-btn")
+            const abandonBtn = document.getElementById("abandon-btn")
+            const yamlBtn = document.getElementById("yaml-btn")
+            const tzSelector = document.getElementById("tz-selector")
+
+            // Live Row Search Filtering
+            if (searchInput) {
+              searchInput.addEventListener("input", (e) => {
+                const query = e.target.value.toLowerCase().trim()
+                tableRows.forEach((row) => {
+                  const text = row.innerText.toLowerCase()
+                  row.style.display = text.includes(query) ? "" : "none"
+                })
+              })
+            }
+
+            // Interactive Timezone Notice
+            if (tzSelector) {
+              tzSelector.addEventListener("change", (e) => {
+                const selected = e.target.options[e.target.selectedIndex].text
+                console.log("Temporal anchor shifted to:", selected)
+              })
+            }
+
+            // Commit Action
+            if (commitBtn) {
+              commitBtn.addEventListener("click", () => {
+                const originalText = commitBtn.innerHTML
+                commitBtn.innerHTML = `
+          <span class="inline-flex h-4 w-4 rounded-full border-2 border-on-primary border-t-transparent animate-spin mr-2"></span>
+          <span>Sealing Block Δ1...</span>
+        `
+                commitBtn.classList.add("pointer-events-none", "opacity-90")
+
+                setTimeout(() => {
+                  commitBtn.innerHTML = `
+            <span class="material-symbols-outlined text-[20px] mr-1">task_alt</span>
+            <span>Version Δ1 Committed!</span>
+          `
+                  commitBtn.classList.remove("bg-primary")
+                  commitBtn.classList.add("bg-secondary", "text-on-secondary")
+                }, 1200)
+              })
+            }
+
+            // Schema YAML Export Simulation
+            if (yamlBtn) {
+              yamlBtn.addEventListener("click", () => {
+                const originalHTML = yamlBtn.innerHTML
+                yamlBtn.innerHTML = `
+          <span class="material-symbols-outlined text-[16px] text-secondary">check</span>
+          <span>Copied to Clipboard</span>
+        `
+                setTimeout(() => {
+                  yamlBtn.innerHTML = originalHTML
+                }, 1800)
+              })
+            }
+
+            // Abandon Confirmation
+            if (abandonBtn) {
+              abandonBtn.addEventListener("click", () => {
+                if (
+                  confirm(
+                    "Are you sure you want to abandon transactions_stripe.csv? Pre-flight memory allocation will be purged.",
+                  )
+                ) {
+                  window.location.reload()
+                }
+              })
+            }
+          })
+        </script>
+      </main>
+    </div>
+  </body>
+</html>

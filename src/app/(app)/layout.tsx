@@ -1,10 +1,11 @@
 import { headers } from "next/headers"
 import { redirect } from "next/navigation"
 
+import { Brand } from "@/components/brand"
 import { AppShell } from "@/components/shell/app-shell"
 import { OpenSoleWorkspace } from "@/components/shell/open-sole-workspace"
 import { SelectWorkspacePrompt } from "@/components/shell/select-workspace-prompt"
-import { Card } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { auth } from "@/modules/auth"
 import type { OrganizationSummary } from "@/modules/organizations"
 
@@ -31,17 +32,12 @@ export default async function AppLayout({ children }: { children: React.ReactNod
 
   if (organizations.length === 0) {
     return (
-      <div className="flex flex-1 items-center justify-center px-6 py-16">
-        <div className="w-full max-w-sm">
-          <h1 className="mb-1 text-xl font-semibold text-foreground">Create your workspace</h1>
-          <p className="mb-6 text-sm text-muted-foreground">
-            Datasets, dashboards, and members all belong to a workspace.
-          </p>
-          <Card>
-            <CreateWorkspaceForm />
-          </Card>
-        </div>
-      </div>
+      <GateScreen
+        title="Create your workspace"
+        note="Datasets, dashboards, and members all belong to a workspace."
+      >
+        <CreateWorkspaceForm />
+      </GateScreen>
     )
   }
 
@@ -55,22 +51,66 @@ export default async function AppLayout({ children }: { children: React.ReactNod
     const soleOrganization = organizations.length === 1 ? organizations[0] : undefined
     if (soleOrganization !== undefined) {
       return (
-        <div className="flex flex-1 items-center justify-center px-6 py-16">
+        <GateScreen title="Opening your workspace" note="One workspace is not a choice.">
           <OpenSoleWorkspace organization={soleOrganization} />
-        </div>
+        </GateScreen>
       )
     }
 
     return (
-      <div className="flex flex-1 items-center justify-center px-6 py-16">
+      <GateScreen
+        title="Choose a workspace"
+        note="Everything you open next belongs to the workspace you pick here."
+      >
         <SelectWorkspacePrompt organizations={organizations} />
-      </div>
+      </GateScreen>
     )
   }
 
+  const activeName =
+    organizations.find((organization) => organization.id === context.organizationId)?.name ??
+    "This workspace"
+
   return (
-    <AppShell organizations={organizations} activeOrganizationId={context.organizationId}>
+    <AppShell
+      organizations={organizations}
+      activeOrganizationId={context.organizationId}
+      workspaceName={activeName}
+      timezone={context.organizationTimezone}
+      userEmail={session.user.email}
+    >
       {children}
     </AppShell>
+  )
+}
+
+/**
+ * The three screens that stand between a session and the shell: no workspace
+ * yet, one to open, or several to choose from. None of them has provenance to
+ * show, so none carries the rail (DESIGN.md "Ruling axis") — they get the same
+ * centred plate as the auth screens instead, so the wordmark never disappears.
+ */
+function GateScreen({
+  title,
+  note,
+  children,
+}: {
+  title: string
+  note: string
+  children: React.ReactNode
+}) {
+  return (
+    <div className="flex flex-1 items-center justify-center bg-canvas px-gutter-mobile py-space-3xl">
+      <div className="flex w-full max-w-sm flex-col gap-space-xl">
+        <div className="flex flex-col gap-space-xs">
+          <Brand />
+          <h1 className="text-headline-lg text-ink">{title}</h1>
+          <p className="text-body-sm text-ink-muted">{note}</p>
+        </div>
+        <Card>
+          <CardContent>{children}</CardContent>
+        </Card>
+      </div>
+    </div>
   )
 }

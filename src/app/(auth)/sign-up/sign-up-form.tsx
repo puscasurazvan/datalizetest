@@ -64,47 +64,49 @@ export function SignUpForm() {
   const formError = state && !state.ok ? state.formError : undefined
 
   return (
-    <form action={formAction} className="space-y-4" noValidate>
-      <div>
-        <Label htmlFor="name">Name</Label>
-        <Input
-          id="name"
-          name="name"
-          autoComplete="name"
-          required
-          aria-invalid={Boolean(fieldErrors.name)}
-          aria-describedby={fieldErrors.name ? "name-error" : undefined}
-        />
-        <FieldError id="name-error" message={fieldErrors.name} />
-      </div>
-      <div>
-        <Label htmlFor="email">Email</Label>
-        <Input
-          id="email"
-          name="email"
-          type="email"
-          autoComplete="email"
-          required
-          aria-invalid={Boolean(fieldErrors.email)}
-          aria-describedby={fieldErrors.email ? "email-error" : undefined}
-        />
-        <FieldError id="email-error" message={fieldErrors.email} />
-      </div>
-      <div>
-        <Label htmlFor="password">Password</Label>
-        <Input
-          id="password"
-          name="password"
-          type="password"
-          autoComplete="new-password"
-          required
-          aria-invalid={Boolean(fieldErrors.password)}
-          aria-describedby={fieldErrors.password ? "password-error" : undefined}
-        />
-        <FieldError id="password-error" message={fieldErrors.password} />
+    <form action={formAction} className="flex flex-col gap-space-lg" noValidate>
+      <div className="flex flex-col gap-space-base">
+        <div className="flex flex-col gap-space-sm">
+          <Label htmlFor="name">Name</Label>
+          <Input
+            id="name"
+            name="name"
+            autoComplete="name"
+            required
+            aria-invalid={Boolean(fieldErrors.name)}
+            aria-describedby={fieldErrors.name ? "name-error" : undefined}
+          />
+          <FieldError id="name-error" message={fieldErrors.name} />
+        </div>
+        <div className="flex flex-col gap-space-sm">
+          <Label htmlFor="email">Email</Label>
+          <Input
+            id="email"
+            name="email"
+            type="email"
+            autoComplete="email"
+            required
+            aria-invalid={Boolean(fieldErrors.email)}
+            aria-describedby={fieldErrors.email ? "email-error" : undefined}
+          />
+          <FieldError id="email-error" message={fieldErrors.email} />
+        </div>
+        <div className="flex flex-col gap-space-sm">
+          <Label htmlFor="password">Password</Label>
+          <Input
+            id="password"
+            name="password"
+            type="password"
+            autoComplete="new-password"
+            required
+            aria-invalid={Boolean(fieldErrors.password)}
+            aria-describedby={fieldErrors.password ? "password-error" : undefined}
+          />
+          <FieldError id="password-error" message={fieldErrors.password} />
+        </div>
       </div>
       {formError ? (
-        <p role="alert" className="text-sm text-danger">
+        <p role="alert" className="text-body-sm text-refused">
           {formError}
         </p>
       ) : null}

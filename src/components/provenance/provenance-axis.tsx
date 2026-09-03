@@ -9,10 +9,10 @@ export interface LineageStep {
   readonly superseded?: boolean
 }
 
-const ROOT_CLASS = "font-medium whitespace-nowrap text-foreground"
+const ROOT_CLASS = "font-medium whitespace-nowrap text-ink"
 const TIER_CLASS =
-  "whitespace-nowrap text-muted-foreground md:ml-0.5 md:border-l md:border-hairline md:pl-2.5"
-const SUPERSEDED_CLASS = "whitespace-nowrap text-muted-foreground line-through"
+  "whitespace-nowrap text-ink-muted md:ml-0.5 md:border-l md:border-hairline md:pl-2.5"
+const SUPERSEDED_CLASS = "whitespace-nowrap text-ink-faint line-through"
 
 function stepClass(step: LineageStep, index: number): string {
   if (step.superseded) return SUPERSEDED_CLASS
@@ -41,7 +41,7 @@ export function ProvenanceAxis({
       aria-label={heading}
       className="border-b border-hairline p-3 md:border-r md:border-b-0 md:p-4"
     >
-      <h2 className="mb-2.5 font-mono text-[9px] font-semibold tracking-[0.14em] text-muted-foreground">
+      <h2 className="mb-2.5 font-mono text-[9px] font-semibold tracking-[0.14em] text-ink-faint">
         {heading}
       </h2>
       <ol className="flex flex-wrap gap-x-3.5 font-mono text-[10.5px] leading-6 md:block">

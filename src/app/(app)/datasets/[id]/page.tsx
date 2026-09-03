@@ -1,9 +1,10 @@
-import Link from "next/link"
+import type { ReactNode } from "react"
 import { notFound } from "next/navigation"
 
+import { DatasetHeader } from "./dataset-header"
+import { VersionHistory } from "./version-history"
 import { DatasetPreviewTable } from "@/components/data/dataset-preview-table"
 import { DatasetSchemaTable } from "@/components/data/dataset-schema-table"
-import { Sheet } from "@/components/drawing/sheet"
 import { getDatasetDetail, PREVIEW_ROW_LIMIT } from "@/modules/datasets"
 import { resolveActiveContext } from "../../active-context"
 import { type RequestContext } from "@/shared/context/request-context"
@@ -21,74 +22,83 @@ export default async function DatasetDetailPage({ params }: { params: Promise<{ 
     notFound()
   }
 
-  const { dataset, columns, previewRows, previewUnavailable } = detail
+  const { dataset, versions, columns, previewRows, previewUnavailable } = detail
   const version = dataset.currentVersion
 
-  return (
-    <div>
-      <p className="mb-1 font-mono text-[9.5px] font-semibold tracking-[0.16em] text-muted-foreground">
-        <Link href="/datasets" className="hover:text-foreground">
-          DATASETS
-        </Link>
-      </p>
-      <h1 className="font-display mb-7 max-w-[24ch] text-[30px] leading-[1.05] tracking-[-0.02em]">
-        {dataset.name}
-      </h1>
-
-      {version === null ? (
-        <Sheet
-          title="No version yet"
-          lineageHeading="STATE"
-          lineage={[{ label: "awaiting import" }]}
-          titleBlock={[{ label: "STATUS", value: "No Dataset Version" }]}
-        >
-          <p className="text-[13px] text-muted-foreground">
-            This Dataset has no current version. An import that never completed leaves it here.
-          </p>
-        </Sheet>
-      ) : (
-        <div className="flex flex-col gap-6">
-          <Sheet
-            title={`Schema · version ${version.versionNumber}`}
-            note="Column IDs are stable across versions, so a saved query survives a re-upload that only adds columns."
-            lineageHeading="PROVENANCE"
-            lineage={[
-              { label: `v${version.versionNumber}` },
-              { label: `${columns.length} columns` },
-              { label: version.timezoneUsedForNaiveTimestamps },
-            ]}
-            titleBlock={[
-              { label: "VERSION", value: `v${version.versionNumber}` },
-              { label: "ROWS", value: (version.rowCount ?? 0).toLocaleString() },
-              { label: "COLUMNS", value: String(version.columnCount ?? columns.length) },
-              { label: "NAIVE TIMESTAMPS READ IN", value: version.timezoneUsedForNaiveTimestamps },
-              { label: "STATUS", value: version.status, tone: "checked" },
-            ]}
-          >
-            <DatasetSchemaTable columns={columns} />
-          </Sheet>
-
-          <Sheet
-            title="Rows"
-            note={`The first ${PREVIEW_ROW_LIMIT} rows as stored. Ordering is physical, not a query — sorting and filtering arrive with the query builder.`}
-            lineageHeading="PREVIEW"
-            lineage={[
-              { label: `${previewRows.length} of ${(version.rowCount ?? 0).toLocaleString()}` },
-            ]}
-            titleBlock={[
-              { label: "SHOWING", value: `${previewRows.length} rows` },
-              { label: "OF", value: (version.rowCount ?? 0).toLocaleString() },
-            ]}
-          >
-            {previewUnavailable !== null ? (
-              <p className="text-[13px] text-muted-foreground">{previewUnavailable}</p>
-            ) : (
-              <DatasetPreviewTable columns={columns} rows={previewRows} />
-            )}
-          </Sheet>
+  if (version === null) {
+    return (
+      <>
+        <DatasetHeader name={dataset.name} version={null} />
+        <div className="rounded-xl border border-hairline bg-surface-raised p-space-md text-body-sm text-ink-muted">
+          This Dataset has no current version. An import that never completed leaves it here.
         </div>
-      )}
-    </div>
+        {versions.length > 0 ? (
+          <DetailSection
+            title="Version history"
+            note="The versions this Dataset does have. None of them is current, so none is marked active."
+          >
+            <VersionHistory versions={versions} activeVersionId={null} />
+          </DetailSection>
+        ) : null}
+      </>
+    )
+  }
+
+  return (
+    <>
+      <DatasetHeader name={dataset.name} version={version} />
+
+      <DetailSection
+        title="Version history"
+        note="Every version this Dataset has had. A re-upload adds a new one here — the versions it supersedes stay listed, struck through, never removed."
+      >
+        <VersionHistory versions={versions} activeVersionId={version.id} />
+      </DetailSection>
+
+      <DetailSection
+        title={`Schema · ${columns.length} columns · v${version.versionNumber}`}
+        note="Column IDs are stable across versions, so a saved query survives a re-upload that only adds columns."
+      >
+        <DatasetSchemaTable columns={columns} />
+      </DetailSection>
+
+      <DetailSection
+        title={`Rows · showing ${previewRows.length} of ${(version.rowCount ?? 0).toLocaleString()}`}
+        note={`The first ${PREVIEW_ROW_LIMIT} rows as stored. Ordering is physical, not a query — sorting and filtering arrive with the query builder.`}
+      >
+        {previewUnavailable !== null ? (
+          <p className="p-space-lg text-body-sm text-ink-muted">{previewUnavailable}</p>
+        ) : (
+          <DatasetPreviewTable columns={columns} rows={previewRows} />
+        )}
+      </DetailSection>
+    </>
+  )
+}
+
+/**
+ * The glass-card enclosure every detail section shares — the same pattern
+ * `DatasetList` uses on the Datasets index, copied rather than imported
+ * because the rail now carries workspace provenance and each section here
+ * needs its own heading and note instead of the index's dataset count.
+ */
+function DetailSection({
+  title,
+  note,
+  children,
+}: {
+  title: string
+  note: string
+  children: ReactNode
+}) {
+  return (
+    <section className="overflow-hidden rounded-2xl border border-hairline bg-surface/90 backdrop-blur-xl">
+      <header className="flex flex-col justify-between gap-space-sm border-b border-hairline px-space-lg py-space-md lg:flex-row lg:items-center">
+        <h2 className="text-headline-md text-ink">{title}</h2>
+        <p className="max-w-[52ch] text-body-sm text-ink-muted lg:text-right">{note}</p>
+      </header>
+      {children}
+    </section>
   )
 }
 

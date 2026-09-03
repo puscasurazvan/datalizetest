@@ -68,8 +68,8 @@ export function OpenSoleWorkspace({ organization }: OpenSoleWorkspaceProps) {
 
   if (error !== null) {
     return (
-      <div className="w-full max-w-sm space-y-3">
-        <p role="alert" className="text-sm text-danger">
+      <div className="flex flex-col gap-space-md">
+        <p role="alert" className="text-body-sm text-refused">
           {error}
         </p>
         {/* oxlint-disable-next-line react-perf/jsx-no-new-function-as-prop */}
@@ -80,5 +80,5 @@ export function OpenSoleWorkspace({ organization }: OpenSoleWorkspaceProps) {
     )
   }
 
-  return <p className="text-sm text-muted-foreground">Opening {organization.name}…</p>
+  return <p className="text-body-sm text-ink-muted">Opening {organization.name}…</p>
 }

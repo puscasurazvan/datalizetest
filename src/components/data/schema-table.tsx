@@ -2,6 +2,8 @@
 
 import { tableFeatures, useTable } from "@tanstack/react-table"
 import type { ColumnDef } from "@tanstack/react-table"
+import { Minus, PencilLine, Plus } from "lucide-react"
+import type { ComponentType } from "react"
 
 import {
   Table,
@@ -33,6 +35,37 @@ export interface InferredColumn {
 /** Figures are right-aligned; text is not. Derived from the column id rather
  *  than a `meta` augmentation, which would need its own module declaration. */
 const NUMERIC_COLUMNS: ReadonlySet<string> = new Set(["position", "nullCount", "unparseableCount"])
+
+/** One row's shape in the delta indicator below. */
+interface ContinuityMeta {
+  readonly label: string
+  readonly icon: ComponentType<{ className?: string }>
+  readonly className: string
+}
+
+/**
+ * A revised or removed column breaks a Saved Query the same way; `carried`
+ * and `new` do not need calling out. Colour never carries this alone — each
+ * state also gets its own icon and its own label.
+ */
+const CONTINUITY_META: Record<Exclude<InferredColumn["continuity"], "carried">, ContinuityMeta> = {
+  new: { label: "NEW", icon: Plus, className: "text-verified" },
+  revised: { label: "REVISED", icon: PencilLine, className: "text-caution" },
+  removed: { label: "REMOVED", icon: Minus, className: "text-refused" },
+}
+
+function ContinuityIndicator({ continuity }: { continuity: InferredColumn["continuity"] }) {
+  if (continuity === "carried") {
+    return null
+  }
+  const { label, icon: Icon, className } = CONTINUITY_META[continuity]
+  return (
+    <span className={cn("inline-flex items-center gap-1 text-[9.5px] font-semibold", className)}>
+      <Icon className="size-3" />
+      {label}
+    </span>
+  )
+}
 
 const features = tableFeatures({})
 
@@ -66,6 +99,11 @@ const columns: Array<ColumnDef<typeof features, InferredColumn>> = [
     header: "SAMPLE",
     cell: (info) =>
       info.row.original.sample ?? <span className="text-muted-foreground italic">empty</span>,
+  },
+  {
+    accessorKey: "continuity",
+    header: "STATE",
+    cell: (info) => <ContinuityIndicator continuity={info.row.original.continuity} />,
   },
 ]
 
@@ -108,10 +146,12 @@ export function SchemaTable({ rows }: { rows: readonly InferredColumn[] }) {
             <TableRow
               key={row.id}
               // Material state, not a colour badge: a revised column takes the
-              // redline wash, a removed one is struck through and stays.
+              // caution wash, a removed one is struck through and stays —
+              // faint rather than gone, the same treatment a superseded
+              // version gets.
               className={cn(
-                row.original.continuity === "revised" && "bg-redline-wash",
-                row.original.continuity === "removed" && "text-muted-foreground line-through",
+                row.original.continuity === "revised" && "bg-caution-wash",
+                row.original.continuity === "removed" && "text-ink-faint line-through",
               )}
             >
               {row.getAllCells().map((cell) => (

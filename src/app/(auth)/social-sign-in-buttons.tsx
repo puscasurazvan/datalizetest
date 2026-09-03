@@ -53,8 +53,8 @@ export function SocialSignInButtons({ providers }: SocialSignInButtonsProps) {
   }
 
   return (
-    <div className="mb-6 space-y-4">
-      <div className="space-y-2">
+    <div className="flex flex-col gap-space-base">
+      <div className="flex flex-col gap-space-sm">
         {providers.map((provider) => (
           <Button
             key={provider}
@@ -75,15 +75,17 @@ export function SocialSignInButtons({ providers }: SocialSignInButtonsProps) {
       </div>
 
       {error ? (
-        <p role="alert" className="text-sm text-danger">
+        <p role="alert" className="text-body-sm text-refused">
           {error}
         </p>
       ) : null}
 
-      <div className="flex items-center gap-3">
-        <hr className="h-px flex-1 border-0 bg-border" />
-        <span className="text-xs text-muted-foreground">or</span>
-        <hr className="h-px flex-1 border-0 bg-border" />
+      <div className="flex items-center gap-space-md">
+        <hr className="h-px flex-1 border-0 bg-hairline" />
+        <span className="font-mono text-label-mono uppercase tracking-wider text-ink-faint">
+          or
+        </span>
+        <hr className="h-px flex-1 border-0 bg-hairline" />
       </div>
     </div>
   )

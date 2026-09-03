@@ -1,0 +1,190 @@
+{
+  "designSystem": {
+    "displayName": "Obsidian Kinetic",
+    "styleGuidelines": "## Brand & Style\nThis design system embodies high-velocity precision, modern developer ergonomics, and quiet technical luxury. Engineered for data-dense productivity tools and next-generation developer platforms, the aesthetic mirrors the tactile satisfaction of bespoke command palettes and precision-machined instrumentation.\n\nThe interface prioritizes extreme low friction, clarity through layered surfaces, and micro-delight via ambient edge illumination and fluid kinetic states. The personality is disciplined, analytical, and authoritative—eschewing decorative noise in favor of intentional contrast, razor-thin hairlines, and laser-focused typographic hierarchy.\n\n## Layout & Spacing\nThe layout follows an integrated 12-column adaptive grid built around 4px / 8px sub-pixel rhythm.\n\n- **Desktop (1024px+):** Employs a continuous workspace architecture: collapsible thin icon/utility bars (64px fixed) docking alongside multi-pane contextual panels, surrounded by 24px internal gutters and bounded by a maximum content width of 1280px (80rem).\n- **Tablet (768px – 1023px):** Side panels collapse into off-canvas glassmorphic drawers. Grids collapse dynamically from 12 columns into 6 or 4 columns with 20px gutters.\n- **Mobile (<768px):** Single-column vertical stream. Screen margins scale down to 16px (`gutter-mobile`). Data tables degrade into vertically stacked interactive cards. Top command bars transform into bottom-pinned, thumb-reachable floating trigger pills.\n\n## Elevation & Depth\nDepth is constructed through optical transparency, subtle specular edge highlights, and muted atmospheric radiance instead of muddy drop shadows.\n\n- **Layer 0 (Canvas):** Pure `#09090b` matte background.\n- **Layer 1 (Card & Module Surfaces):** `#141720` complemented with an interior top specular highlight: `inset 0 1px 0 0 rgba(255, 255, 255, 0.06)` and hairline border `rgba(255, 255, 255, 0.08)`.\n- **Layer 2 (Floating Popovers & Flyouts):** `#181b26` with a soft dual ambient falloff: `0 8px 32px -4px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.1)`.\n- **Layer 3 (Modals, Palettes & System Sheets):** Translucent backdrop blur (`backdrop-filter: blur(16px) saturate(180%)`) over `rgba(20, 23, 32, 0.75)` framed with a subtle radial gradient wash matching the primary accent (`rgba(6, 182, 212, 0.08)`).\n- **Interactive Radiant Glows:** Interactive components and focused elements emit a localized, low-opacity electric cyan ambient glow: `0 0 20px -2px rgba(6, 182, 212, 0.25)`.\n\n## Components\n\n### Buttons\n- **Primary:** Solid electric cyan gradient (`linear-gradient(180deg, #22d3ee 0%, #06b6d4 100%)`) with contrasting obsidian typography (`#09090b`), `8px` corner radius, `inset 0 1px 0 rgba(255, 255, 255, 0.3)` top edge highlight, and ambient cyan glow on hover.\n- **Secondary:** Surface background (`#181b26`), crisp hairline border (`rgba(255, 255, 255, 0.08)`), text in `#f4f4f5`. Transitions to `rgba(255, 255, 255, 0.06)` surface fill with `rgba(255, 255, 255, 0.16)` border on hover.\n- **Ghost:** Transparent fill, `8px` radius, hover triggers subtle white tint (`rgba(255, 255, 255, 0.05)`).\n- **Destructive:** Refusal rose edge with subtle crimson ambient underglow (`rgba(244, 63, 94, 0.15)`), red tinted text (`#fb7185`).\n\n### Chips & Tags\n- **Status Pills:** Fully rounded (`rounded-full`), height of 24px, padding `0 10px`. \n- **Telemetry Indicators:** Include a 6px pulsating dot paired with `JetBrains Mono` label text. Background utilizes a 10% opacity tint of the respective semantic color (e.g., Emerald for Operational, Crimson for Breached).\n\n### Inputs & Search Bars\n- Background `#10121a` encased in `rgba(255, 255, 255, 0.08)` hairline border.\n- Active focus state: 1px border shift to `#06b6d4` combined with a soft, diffused cyan shadow ring (`0 0 0 3px rgba(6, 182, 212, 0.15)`).\n- Prefix and suffix keyboard shortcut badges rendered in `JetBrains Mono` sm (`#71717a`) enclosed in `rounded-md` with `rgba(255, 255, 255, 0.05)` surface fill.\n\n### Cards & Content Modules\n- Rendered in `#141720` with `16px` border-radius and `rgba(255, 255, 255, 0.08)` external hairline.\n- Card heads feature an internal inset divider line (`1px solid rgba(255, 255, 255, 0.05)`).\n- Interactive card variants incorporate a dynamic mouse-following radial border sheen (`rgba(34, 211, 238, 0.15)`).\n\n### Command Palette (CMD+K)\n- Centered modal with `12px` curvature, deep glassmorphic backdrop filter (`blur(20px)`), and a subtle overhead radial gradient highlight.\n- Instant keyboard navigation with cyan accent bar indicator on the left side of active list items.\n\n### Lists & Data Grids\n- Alternating zero-fill rows with `1px` bottom borders in `rgba(255, 255, 255, 0.04)`.\n- Row hover triggers an immediate transition to `rgba(255, 255, 255, 0.03)`.\n- Numeric, timestamp, and IP/hash columns explicitly styled in `JetBrains Mono` with right-aligned tabular numbers.\n\n### Checkboxes & Switches\n- **Checkboxes:** `6px` radius, hairline border, filling with cyan `#06b6d4` and micro-check glyph upon selection.\n- **Switches:** `rounded-full` 20px height track in `#181b26`, shifting to `#06b6d4` when active, containing an inset smooth-sliding white thumb pill.",
+    "theme": {
+      "bodyFont": "GEIST",
+      "bodyFontFamily": "Geist",
+      "colorMode": "DARK",
+      "colorVariant": "FIDELITY",
+      "customColor": "#06b6d4",
+      "designMd": "---\nname: Obsidian Kinetic\ncolors:\n  surface: '#131315'\n  surface-dim: '#131315'\n  surface-bright: '#39393b'\n  surface-container-lowest: '#0e0e10'\n  surface-container-low: '#1c1b1d'\n  surface-container: '#201f22'\n  surface-container-high: '#2a2a2c'\n  surface-container-highest: '#353437'\n  on-surface: '#e5e1e4'\n  on-surface-variant: '#bcc9cd'\n  inverse-surface: '#e5e1e4'\n  inverse-on-surface: '#313032'\n  outline: '#869397'\n  outline-variant: '#3d494c'\n  surface-tint: '#4cd7f6'\n  primary: '#4cd7f6'\n  on-primary: '#003640'\n  primary-container: '#06b6d4'\n  on-primary-container: '#00424f'\n  inverse-primary: '#00687a'\n  secondary: '#4edea3'\n  on-secondary: '#003824'\n  secondary-container: '#00a572'\n  on-secondary-container: '#00311f'\n  tertiary: '#ffb2b7'\n  on-tertiary: '#67001b'\n  tertiary-container: '#ff7f8b'\n  on-tertiary-container: '#7d0023'\n  error: '#ffb4ab'\n  on-error: '#690005'\n  error-container: '#93000a'\n  on-error-container: '#ffdad6'\n  primary-fixed: '#acedff'\n  primary-fixed-dim: '#4cd7f6'\n  on-primary-fixed: '#001f26'\n  on-primary-fixed-variant: '#004e5c'\n  secondary-fixed: '#6ffbbe'\n  secondary-fixed-dim: '#4edea3'\n  on-secondary-fixed: '#002113'\n  on-secondary-fixed-variant: '#005236'\n  tertiary-fixed: '#ffdadb'\n  tertiary-fixed-dim: '#ffb2b7'\n  on-tertiary-fixed: '#40000d'\n  on-tertiary-fixed-variant: '#92002a'\n  background: '#131315'\n  on-background: '#e5e1e4'\n  surface-variant: '#353437'\ntypography:\n  headline-2xl:\n    fontFamily: Geist\n    fontSize: 48px\n    fontWeight: '600'\n    lineHeight: 56px\n    letterSpacing: -0.03em\n  headline-2xl-mobile:\n    fontFamily: Geist\n    fontSize: 32px\n    fontWeight: '600'\n    lineHeight: 40px\n    letterSpacing: -0.025em\n  headline-xl:\n    fontFamily: Geist\n    fontSize: 36px\n    fontWeight: '600'\n    lineHeight: 44px\n    letterSpacing: -0.025em\n  headline-xl-mobile:\n    fontFamily: Geist\n    fontSize: 26px\n    fontWeight: '600'\n    lineHeight: 34px\n    letterSpacing: -0.02em\n  headline-lg:\n    fontFamily: Geist\n    fontSize: 24px\n    fontWeight: '600'\n    lineHeight: 32px\n    letterSpacing: -0.02em\n  headline-md:\n    fontFamily: Geist\n    fontSize: 20px\n    fontWeight: '500'\n    lineHeight: 28px\n    letterSpacing: -0.015em\n  headline-sm:\n    fontFamily: Geist\n    fontSize: 16px\n    fontWeight: '500'\n    lineHeight: 24px\n    letterSpacing: -0.01em\n  body-lg:\n    fontFamily: Geist\n    fontSize: 16px\n    fontWeight: '400'\n    lineHeight: 24px\n    letterSpacing: -0.005em\n  body-md:\n    fontFamily: Geist\n    fontSize: 14px\n    fontWeight: '400'\n    lineHeight: 20px\n    letterSpacing: 0em\n  body-sm:\n    fontFamily: Geist\n    fontSize: 13px\n    fontWeight: '400'\n    lineHeight: 18px\n    letterSpacing: 0em\n  code-md:\n    fontFamily: JetBrains Mono\n    fontSize: 13px\n    fontWeight: '400'\n    lineHeight: 18px\n    letterSpacing: -0.01em\n  code-sm:\n    fontFamily: JetBrains Mono\n    fontSize: 11px\n    fontWeight: '500'\n    lineHeight: 16px\n    letterSpacing: 0.02em\n  label-md:\n    fontFamily: Geist\n    fontSize: 12px\n    fontWeight: '500'\n    lineHeight: 16px\n    letterSpacing: 0.01em\n  label-mono:\n    fontFamily: JetBrains Mono\n    fontSize: 11px\n    fontWeight: '500'\n    lineHeight: 14px\n    letterSpacing: 0.04em\nrounded:\n  sm: 0.25rem\n  DEFAULT: 0.5rem\n  md: 0.75rem\n  lg: 1rem\n  xl: 1.5rem\n  full: 9999px\nspacing:\n  space-2xs: 0.125rem\n  space-xs: 0.25rem\n  space-sm: 0.5rem\n  space-md: 0.75rem\n  space-base: 1rem\n  space-lg: 1.5rem\n  space-xl: 2rem\n  space-2xl: 3rem\n  space-3xl: 4rem\n  gutter-mobile: 1rem\n  gutter-desktop: 1.5rem\n  page-max-width: 80rem\n---\n\n## Brand & Style\nThis design system embodies high-velocity precision, modern developer ergonomics, and quiet technical luxury. Engineered for data-dense productivity tools and next-generation developer platforms, the aesthetic mirrors the tactile satisfaction of bespoke command palettes and precision-machined instrumentation.\n\nThe interface prioritizes extreme low friction, clarity through layered surfaces, and micro-delight via ambient edge illumination and fluid kinetic states. The personality is disciplined, analytical, and authoritative—eschewing decorative noise in favor of intentional contrast, razor-thin hairlines, and laser-focused typographic hierarchy.\n\n## Colors\nThe palette is rooted in an ultra-deep obsidian space, engineered specifically to eliminate eye fatigue while making interactive data points luminous and crisp.\n\n- **Background & Canvas:** `#09090b` anchors the absolute bottom layer, with `#0c0d12` as the viewport canvas.\n- **Surface Elevation Layers:**\n  - Base Surface (Panels, Navbars): `#141720`\n  - Elevated Surface (Cards, Flyouts, Popovers): `#181b26`\n  - Floating Overlay (Modals, Command K): `rgba(24, 27, 38, 0.8)` with backdrop blur.\n- **Borders & Hairlines:**\n  - Ghost hairline: `rgba(255, 255, 255, 0.08)`\n  - Elevated border: `rgba(255, 255, 255, 0.14)`\n  - Active/Focused edge: `rgba(34, 211, 238, 0.45)`\n- **Key Accents:**\n  - **Electric Cyan (`#06b6d4` / `#22d3ee`):** Used strictly for high-priority user actions, active execution states, primary selections, and kinetic focus rings.\n  - **Verified Emerald (`#10b981`):** Affirmation, operational integrity, healthy telemetry, and automated deployment confirmations.\n  - **Refusal Crimson (`#f43f5e` / `#fb7185`):** Pipeline failures, hard stops, guard rail violations, and destructive actions.\n  - **Caution Amber (`#f59e0b`):** Build warnings, rate-limiting, and transitional degradation states.\n\n## Typography\nTypographic discipline maintains legibility across deep dark surfaces. \n\n- **Geist** powers the core narrative: headings leverage aggressive negative tracking (`-0.03em` to `-0.015em`) with deliberate line-heights to produce crisp, compacted title blocks reminiscent of modern developer tooling.\n- **JetBrains Mono** enforces mathematical alignment for metric counts, cryptographic hashes, currency values, tabular grids, and inline commands. Numeric characters must always render with proportional tabular lining to prevent layout shift during live data streams.\n\n## Layout & Spacing\nThe layout follows an integrated 12-column adaptive grid built around 4px / 8px sub-pixel rhythm.\n\n- **Desktop (1024px+):** Employs a continuous workspace architecture: collapsible thin icon/utility bars (64px fixed) docking alongside multi-pane contextual panels, surrounded by 24px internal gutters and bounded by a maximum content width of 1280px (80rem).\n- **Tablet (768px – 1023px):** Side panels collapse into off-canvas glassmorphic drawers. Grids collapse dynamically from 12 columns into 6 or 4 columns with 20px gutters.\n- **Mobile (<768px):** Single-column vertical stream. Screen margins scale down to 16px (`gutter-mobile`). Data tables degrade into vertically stacked interactive cards. Top command bars transform into bottom-pinned, thumb-reachable floating trigger pills.\n\n## Elevation & Depth\nDepth is constructed through optical transparency, subtle specular edge highlights, and muted atmospheric radiance instead of muddy drop shadows.\n\n- **Layer 0 (Canvas):** Pure `#09090b` matte background.\n- **Layer 1 (Card & Module Surfaces):** `#141720` complemented with an interior top specular highlight: `inset 0 1px 0 0 rgba(255, 255, 255, 0.06)` and hairline border `rgba(255, 255, 255, 0.08)`.\n- **Layer 2 (Floating Popovers & Flyouts):** `#181b26` with a soft dual ambient falloff: `0 8px 32px -4px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.1)`.\n- **Layer 3 (Modals, Palettes & System Sheets):** Translucent backdrop blur (`backdrop-filter: blur(16px) saturate(180%)`) over `rgba(20, 23, 32, 0.75)` framed with a subtle radial gradient wash matching the primary accent (`rgba(6, 182, 212, 0.08)`).\n- **Interactive Radiant Glows:** Interactive components and focused elements emit a localized, low-opacity electric cyan ambient glow: `0 0 20px -2px rgba(6, 182, 212, 0.25)`.\n\n## Shapes\nThe structural geometry balances modern organic curves with tight micro-interaction ergonomics:\n\n- **Large Structural Containers & Cards (`16px / rounded-2xl`):** Primary information enclosures, dashboard metrics widgets, and multi-column viewport panes.\n- **Dialogs & Overlay Blocks (`12px / rounded-xl`):** Command K menus, modal sheets, dropdown flyouts, and contextual notification cards.\n- **Interactive Controls & Fields (`8px / rounded-lg`):** Action buttons, input bars, code blocks, segment tabs, and system tags.\n- **Micro-Indicators & Status Elements (`rounded-full`):** Badges, avatar clips, progress bars, and status verification dots.\n\n## Components\n\n### Buttons\n- **Primary:** Solid electric cyan gradient (`linear-gradient(180deg, #22d3ee 0%, #06b6d4 100%)`) with contrasting obsidian typography (`#09090b`), `8px` corner radius, `inset 0 1px 0 rgba(255, 255, 255, 0.3)` top edge highlight, and ambient cyan glow on hover.\n- **Secondary:** Surface background (`#181b26`), crisp hairline border (`rgba(255, 255, 255, 0.08)`), text in `#f4f4f5`. Transitions to `rgba(255, 255, 255, 0.06)` surface fill with `rgba(255, 255, 255, 0.16)` border on hover.\n- **Ghost:** Transparent fill, `8px` radius, hover triggers subtle white tint (`rgba(255, 255, 255, 0.05)`).\n- **Destructive:** Refusal rose edge with subtle crimson ambient underglow (`rgba(244, 63, 94, 0.15)`), red tinted text (`#fb7185`).\n\n### Chips & Tags\n- **Status Pills:** Fully rounded (`rounded-full`), height of 24px, padding `0 10px`. \n- **Telemetry Indicators:** Include a 6px pulsating dot paired with `JetBrains Mono` label text. Background utilizes a 10% opacity tint of the respective semantic color (e.g., Emerald for Operational, Crimson for Breached).\n\n### Inputs & Search Bars\n- Background `#10121a` encased in `rgba(255, 255, 255, 0.08)` hairline border.\n- Active focus state: 1px border shift to `#06b6d4` combined with a soft, diffused cyan shadow ring (`0 0 0 3px rgba(6, 182, 212, 0.15)`).\n- Prefix and suffix keyboard shortcut badges rendered in `JetBrains Mono` sm (`#71717a`) enclosed in `rounded-md` with `rgba(255, 255, 255, 0.05)` surface fill.\n\n### Cards & Content Modules\n- Rendered in `#141720` with `16px` border-radius and `rgba(255, 255, 255, 0.08)` external hairline.\n- Card heads feature an internal inset divider line (`1px solid rgba(255, 255, 255, 0.05)`).\n- Interactive card variants incorporate a dynamic mouse-following radial border sheen (`rgba(34, 211, 238, 0.15)`).\n\n### Command Palette (CMD+K)\n- Centered modal with `12px` curvature, deep glassmorphic backdrop filter (`blur(20px)`), and a subtle overhead radial gradient highlight.\n- Instant keyboard navigation with cyan accent bar indicator on the left side of active list items.\n\n### Lists & Data Grids\n- Alternating zero-fill rows with `1px` bottom borders in `rgba(255, 255, 255, 0.04)`.\n- Row hover triggers an immediate transition to `rgba(255, 255, 255, 0.03)`.\n- Numeric, timestamp, and IP/hash columns explicitly styled in `JetBrains Mono` with right-aligned tabular numbers.\n\n### Checkboxes & Switches\n- **Checkboxes:** `6px` radius, hairline border, filling with cyan `#06b6d4` and micro-check glyph upon selection.\n- **Switches:** `rounded-full` 20px height track in `#181b26`, shifting to `#06b6d4` when active, containing an inset smooth-sliding white thumb pill.",
+      "font": "GEIST",
+      "headlineFont": "GEIST",
+      "headlineFontFamily": "Geist",
+      "labelFont": "JETBRAINS_MONO",
+      "labelFontFamily": "Jetbrains Mono",
+      "namedColors": {
+        "background": "#131315",
+        "error": "#ffb4ab",
+        "error_container": "#93000a",
+        "inverse_on_surface": "#313032",
+        "inverse_primary": "#00687a",
+        "inverse_surface": "#e5e1e4",
+        "on_background": "#e5e1e4",
+        "on_error": "#690005",
+        "on_error_container": "#ffdad6",
+        "on_primary": "#003640",
+        "on_primary_container": "#00424f",
+        "on_primary_fixed": "#001f26",
+        "on_primary_fixed_variant": "#004e5c",
+        "on_secondary": "#003824",
+        "on_secondary_container": "#00311f",
+        "on_secondary_fixed": "#002113",
+        "on_secondary_fixed_variant": "#005236",
+        "on_surface": "#e5e1e4",
+        "on_surface_variant": "#bcc9cd",
+        "on_tertiary": "#67001b",
+        "on_tertiary_container": "#7d0023",
+        "on_tertiary_fixed": "#40000d",
+        "on_tertiary_fixed_variant": "#92002a",
+        "outline": "#869397",
+        "outline_variant": "#3d494c",
+        "primary": "#4cd7f6",
+        "primary_container": "#06b6d4",
+        "primary_fixed": "#acedff",
+        "primary_fixed_dim": "#4cd7f6",
+        "secondary": "#4edea3",
+        "secondary_container": "#00a572",
+        "secondary_fixed": "#6ffbbe",
+        "secondary_fixed_dim": "#4edea3",
+        "surface": "#131315",
+        "surface_bright": "#39393b",
+        "surface_container": "#201f22",
+        "surface_container_high": "#2a2a2c",
+        "surface_container_highest": "#353437",
+        "surface_container_low": "#1c1b1d",
+        "surface_container_lowest": "#0e0e10",
+        "surface_dim": "#131315",
+        "surface_tint": "#4cd7f6",
+        "surface_variant": "#353437",
+        "tertiary": "#ffb2b7",
+        "tertiary_container": "#ff7f8b",
+        "tertiary_fixed": "#ffdadb",
+        "tertiary_fixed_dim": "#ffb2b7"
+      },
+      "overrideNeutralColor": "#09090b",
+      "overridePrimaryColor": "#06b6d4",
+      "overrideSecondaryColor": "#10b981",
+      "overrideTertiaryColor": "#f43f5e",
+      "roundness": "ROUND_EIGHT",
+      "spacing": {
+        "gutter-desktop": "1.5rem",
+        "gutter-mobile": "1rem",
+        "page-max-width": "80rem",
+        "space-2xl": "3rem",
+        "space-2xs": "0.125rem",
+        "space-3xl": "4rem",
+        "space-base": "1rem",
+        "space-lg": "1.5rem",
+        "space-md": "0.75rem",
+        "space-sm": "0.5rem",
+        "space-xl": "2rem",
+        "space-xs": "0.25rem"
+      },
+      "spacingScale": 2,
+      "typography": {
+        "body-lg": {
+          "fontFamily": "Geist",
+          "fontSize": "16px",
+          "fontWeight": "400",
+          "letterSpacing": "-0.005em",
+          "lineHeight": "24px"
+        },
+        "body-md": {
+          "fontFamily": "Geist",
+          "fontSize": "14px",
+          "fontWeight": "400",
+          "letterSpacing": "0em",
+          "lineHeight": "20px"
+        },
+        "body-sm": {
+          "fontFamily": "Geist",
+          "fontSize": "13px",
+          "fontWeight": "400",
+          "letterSpacing": "0em",
+          "lineHeight": "18px"
+        },
+        "code-md": {
+          "fontFamily": "JetBrains Mono",
+          "fontSize": "13px",
+          "fontWeight": "400",
+          "letterSpacing": "-0.01em",
+          "lineHeight": "18px"
+        },
+        "code-sm": {
+          "fontFamily": "JetBrains Mono",
+          "fontSize": "11px",
+          "fontWeight": "500",
+          "letterSpacing": "0.02em",
+          "lineHeight": "16px"
+        },
+        "headline-2xl": {
+          "fontFamily": "Geist",
+          "fontSize": "48px",
+          "fontWeight": "600",
+          "letterSpacing": "-0.03em",
+          "lineHeight": "56px"
+        },
+        "headline-2xl-mobile": {
+          "fontFamily": "Geist",
+          "fontSize": "32px",
+          "fontWeight": "600",
+          "letterSpacing": "-0.025em",
+          "lineHeight": "40px"
+        },
+        "headline-lg": {
+          "fontFamily": "Geist",
+          "fontSize": "24px",
+          "fontWeight": "600",
+          "letterSpacing": "-0.02em",
+          "lineHeight": "32px"
+        },
+        "headline-md": {
+          "fontFamily": "Geist",
+          "fontSize": "20px",
+          "fontWeight": "500",
+          "letterSpacing": "-0.015em",
+          "lineHeight": "28px"
+        },
+        "headline-sm": {
+          "fontFamily": "Geist",
+          "fontSize": "16px",
+          "fontWeight": "500",
+          "letterSpacing": "-0.01em",
+          "lineHeight": "24px"
+        },
+        "headline-xl": {
+          "fontFamily": "Geist",
+          "fontSize": "36px",
+          "fontWeight": "600",
+          "letterSpacing": "-0.025em",
+          "lineHeight": "44px"
+        },
+        "headline-xl-mobile": {
+          "fontFamily": "Geist",
+          "fontSize": "26px",
+          "fontWeight": "600",
+          "letterSpacing": "-0.02em",
+          "lineHeight": "34px"
+        },
+        "label-md": {
+          "fontFamily": "Geist",
+          "fontSize": "12px",
+          "fontWeight": "500",
+          "letterSpacing": "0.01em",
+          "lineHeight": "16px"
+        },
+        "label-mono": {
+          "fontFamily": "JetBrains Mono",
+          "fontSize": "11px",
+          "fontWeight": "500",
+          "letterSpacing": "0.04em",
+          "lineHeight": "14px"
+        }
+      }
+    }
+  },
+  "name": "assets/81cc1e3ccbd84dd0ae5b40b6949c085a",
+  "version": "1"
+}

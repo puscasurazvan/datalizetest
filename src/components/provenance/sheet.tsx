@@ -28,13 +28,11 @@ export function Sheet({
   children: ReactNode
 }) {
   return (
-    <section className="border border-hairline bg-card">
+    <section className="overflow-hidden rounded-xl border border-hairline bg-card shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
       <header className="flex flex-wrap items-baseline justify-between gap-4 border-b border-hairline px-4 py-3.5">
-        <h2 className="text-[17px] font-semibold tracking-[-0.01em]">{title}</h2>
+        <h2 className="text-[17px] font-semibold tracking-[-0.01em] text-ink">{title}</h2>
         {note ? (
-          <p className="max-w-[52ch] font-mono text-[11px] text-muted-foreground md:text-right">
-            {note}
-          </p>
+          <p className="max-w-[52ch] font-mono text-[11px] text-ink-muted md:text-right">{note}</p>
         ) : null}
       </header>
 

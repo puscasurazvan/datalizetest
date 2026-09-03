@@ -43,6 +43,8 @@ Components are read far more often than they are written. Optimise for the reade
 ## Every component
 
 - Real semantic elements: `<label>` tied to its input, `<button>` for actions, headings in order.
-- Visible focus, keyboard operable, correct in light and dark.
+- Visible focus, keyboard operable. There is one surface — never write a light-mode branch.
+- Colour comes from the tokens in `DESIGN.md` / `globals.css`. A raw hex in a component is a
+  defect: it will not follow the system when the system moves.
 - Colocate its test beside it. A component with a state machine (loading/empty/error/data) has a test
   per state.

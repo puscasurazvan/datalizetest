@@ -1,6 +1,6 @@
 import Link from "next/link"
 
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { configuredSocialProviders, devSignInEnabled } from "@/shared/env"
 
 import { SOCIAL_PROVIDER_LABELS } from "../social-providers"
@@ -40,11 +40,11 @@ export default async function SignInPage({ searchParams }: SignInPageProps) {
   return (
     <Card>
       <CardHeader className="border-b border-hairline">
-        <CardTitle className="text-[15px] font-semibold">Sign in</CardTitle>
+        <h1 className="text-headline-md text-ink">Sign in</h1>
       </CardHeader>
-      <CardContent className="flex flex-col gap-4">
+      <CardContent className="flex flex-col gap-space-lg">
         {oauthError ? (
-          <p role="alert" className="text-sm text-danger">
+          <p role="alert" className="text-body-sm text-refused">
             {oauthError}
           </p>
         ) : null}
@@ -58,18 +58,15 @@ export default async function SignInPage({ searchParams }: SignInPageProps) {
           // oxlint-disable-next-line next/no-html-link-for-pages
           <a
             href="/api/dev/sign-in"
-            className="block rounded-md border border-dashed border-border px-3 py-2 text-center text-sm text-muted-foreground hover:text-foreground"
+            className="block rounded-lg border border-dashed border-hairline-strong px-space-md py-space-sm text-center text-body-sm text-ink-muted hover:text-ink"
           >
             Sign in as the demo user (development only)
           </a>
         ) : null}
       </CardContent>
-      <CardFooter className="border-t border-hairline pt-4 font-mono text-[11px] text-muted-foreground">
+      <CardFooter className="border-t border-hairline pt-space-base text-body-sm text-ink-muted">
         Don&apos;t have an account?{" "}
-        <Link
-          href="/sign-up"
-          className="ml-1 font-medium text-foreground underline underline-offset-4"
-        >
+        <Link href="/sign-up" className="ml-1 font-medium text-ink underline underline-offset-4">
           Create one
         </Link>
       </CardFooter>

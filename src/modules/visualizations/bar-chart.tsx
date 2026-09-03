@@ -9,6 +9,7 @@ import {
   Cell,
   LabelList,
   ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
 } from "recharts"
@@ -22,27 +23,44 @@ export interface BarDatum {
 }
 
 /**
- * The bar adapter. Recharts is imported here and nowhere else in the app:
- * docs/adr/0002 and src/modules/visualizations/CLAUDE.md require chart
- * library types to stay inside this module, so callers pass `BarDatum[]`
- * and never see a Recharts prop.
- *
- * shadcn's own `chart` component was deliberately not used. It lives in
- * `components/ui`, which would export Recharts-typed props app-wide and
- * break exactly that boundary, and its implementation carries nine type
- * assertions against CLAUDE.md's "No casts". The CSS-variable theming it
- * provides is already in globals.css as `--chart-1` … `--chart-5`.
+ * The bar adapter. Recharts is imported here and nowhere else in the app
+ * (docs/adr/0002, this module's CLAUDE.md), so callers pass `BarDatum[]`
+ * and never see a Recharts prop — shadcn's own `chart` component was
+ * skipped for the same reason plus nine type assertions against "No casts".
  *
  * The extreme is dimensioned rather than merely coloured: the tallest bar
- * takes `--chart-5` (redline) and its value is written out beneath the
- * series with its row count, so the reader gets the figure and its
- * cross-check without a hover. Colour is never the only channel.
+ * takes `--color-chart-1` (cyan, DESIGN.md's "emphasised series") and its
+ * value is written out beneath the series with its row count, so the reader
+ * gets the figure and its cross-check without a hover. `--color-chart-5`
+ * (rose) means a refused series elsewhere and is never spent on an ordinary
+ * reading — do not repoint `EMPHASIS_FILL` at it.
  */
 const CATEGORY_CAP = 50
 
 const CHART_MARGIN = { top: 12, right: 8, bottom: 4, left: 8 }
-const X_AXIS_LINE = { stroke: "var(--hairline)" }
-const AXIS_TICK = { fill: "var(--muted-foreground)", fontSize: 9 }
+const AXIS_TICK = {
+  fill: "var(--color-ink-faint)",
+  fontSize: 11,
+  fontFamily: "var(--font-mono)",
+}
+const VALUE_LABEL = {
+  fill: "var(--color-ink-faint)",
+  fontSize: 11,
+  fontFamily: "var(--font-mono)",
+}
+const TOOLTIP_CONTENT_STYLE = {
+  background: "var(--color-popover)",
+  border: "1px solid var(--color-hairline)",
+  borderRadius: "var(--radius-md)",
+  boxShadow: "none",
+  color: "var(--color-ink)",
+  fontFamily: "var(--font-mono)",
+  fontSize: 11,
+}
+const TOOLTIP_LABEL_STYLE = { color: "var(--color-ink-muted)" }
+const TOOLTIP_CURSOR = { fill: "var(--color-surface-high)" }
+const EMPHASIS_FILL = "var(--color-chart-1)"
+const NEUTRAL_FILL = "var(--color-chart-2)"
 
 export function BarVisualization({
   data,
@@ -69,38 +87,47 @@ export function BarVisualization({
     <figure className="m-0">
       <ResponsiveContainer width="100%" height={240}>
         <BarChart accessibilityLayer data={rows} margin={CHART_MARGIN}>
-          <CartesianGrid vertical={false} stroke="var(--hairline-faint)" />
+          <CartesianGrid
+            vertical={false}
+            stroke="var(--color-hairline-strong)"
+            strokeOpacity={0.3}
+          />
           <XAxis
             dataKey="label"
             tickLine={false}
-            axisLine={X_AXIS_LINE}
+            axisLine={false}
             tick={AXIS_TICK}
             interval="preserveStartEnd"
             minTickGap={28}
           />
           <YAxis tickLine={false} axisLine={false} width={56} tick={AXIS_TICK} />
+          <Tooltip
+            cursor={TOOLTIP_CURSOR}
+            contentStyle={TOOLTIP_CONTENT_STYLE}
+            labelStyle={TOOLTIP_LABEL_STYLE}
+            formatter={formatTooltipValue}
+          />
           <Bar dataKey="value" isAnimationActive={false}>
             {data.map((datum) => (
               <Cell
                 key={datum.label}
-                fill={datum.label === peak?.label ? "var(--chart-5)" : "var(--chart-1)"}
+                fill={datum.label === peak?.label ? EMPHASIS_FILL : NEUTRAL_FILL}
               />
             ))}
             <LabelList
               dataKey="value"
               position="top"
-              fontSize={9}
-              fill="var(--muted-foreground)"
+              style={VALUE_LABEL}
               formatter={formatCompact}
             />
           </Bar>
         </BarChart>
       </ResponsiveContainer>
 
-      <figcaption className="mt-1 flex flex-wrap gap-x-3 font-mono text-[10.5px] text-muted-foreground">
+      <figcaption className="mt-1 flex flex-wrap gap-x-3 font-mono text-code-sm text-ink-muted">
         {peak ? (
           <span>
-            <span className="font-semibold text-redline">{formatFull(peak.value)}</span>
+            <span className="font-semibold text-cyan">{formatFull(peak.value)}</span>
             {` ${measureLabel} · ${peak.label} · cross-checked against ${peak.rowCount.toLocaleString("en-US")} rows`}
           </span>
         ) : null}
@@ -128,4 +155,9 @@ function formatCompact(value: unknown): string {
 
 function formatFull(value: number): string {
   return value.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+}
+
+/** Recharts' tooltip formatter passes back whatever type the series held. */
+function formatTooltipValue(value: unknown): string {
+  return typeof value === "number" ? formatFull(value) : String(value)
 }

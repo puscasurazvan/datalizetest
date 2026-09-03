@@ -1,3 +1,12 @@
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+import { cn } from "@/lib/utils"
 import type { AnalyticalRow } from "@/modules/analytical-store"
 import type { DatasetColumnSummary } from "@/modules/datasets"
 
@@ -21,47 +30,41 @@ export function DatasetPreviewTable({
   rows: readonly AnalyticalRow[]
 }) {
   if (rows.length === 0) {
-    return <p className="text-[13px] text-muted-foreground">No rows to show.</p>
+    return <p className="text-body-sm text-ink-muted">No rows to show.</p>
   }
 
   return (
     <div className="max-h-[28rem] overflow-auto">
-      <table className="w-full border-collapse text-[13px]">
-        <thead className="sticky top-0 bg-card">
-          <tr className="border-b border-hairline text-left">
+      <Table>
+        <TableHeader className="sticky top-0 bg-surface-raised">
+          <TableRow>
             {columns.map((column) => (
-              <th
-                key={column.columnId}
-                className="whitespace-nowrap py-2 pr-4 font-mono text-[10px] font-semibold tracking-[0.12em] text-muted-foreground"
-              >
-                {column.name}
-              </th>
+              <TableHead key={column.columnId}>{column.name}</TableHead>
             ))}
-          </tr>
-        </thead>
-        <tbody>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
           {rows.map((row, index) => (
             // The preview has no key column of its own — the physical table
             // carries no id — so the index is the only stable handle, and it
             // is stable here because this list is never reordered or filtered.
             // oxlint-disable-next-line react/no-array-index-key
-            <tr key={index} className="border-b border-hairline/60">
+            <TableRow key={index}>
               {columns.map((column) => (
-                <td
+                <TableCell
                   key={column.columnId}
-                  className={
-                    NUMERIC_TYPES.has(column.type)
-                      ? "whitespace-nowrap py-1.5 pr-4 text-right font-mono text-[12px] tabular-nums"
-                      : "whitespace-nowrap py-1.5 pr-4 font-mono text-[12px]"
-                  }
+                  className={cn(
+                    "font-mono text-code-md text-ink",
+                    NUMERIC_TYPES.has(column.type) && "text-right tabular-nums",
+                  )}
                 >
                   {renderCell(row[column.columnId])}
-                </td>
+                </TableCell>
               ))}
-            </tr>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
     </div>
   )
 }

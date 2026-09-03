@@ -42,14 +42,14 @@ export function SelectWorkspacePrompt({ organizations }: SelectWorkspacePromptPr
   }
 
   return (
-    <div className="w-full max-w-sm space-y-3">
-      <p className="text-sm text-muted-foreground">Choose a workspace to continue.</p>
+    <div className="flex flex-col gap-space-md">
+      <p className="text-body-sm text-ink-muted">Choose a workspace to continue.</p>
       {error ? (
-        <p role="alert" className="text-sm text-danger">
+        <p role="alert" className="text-body-sm text-refused">
           {error}
         </p>
       ) : null}
-      <ul className="space-y-2">
+      <ul className="flex flex-col gap-space-sm">
         {organizations.map((organization) => (
           <li key={organization.id}>
             <Button

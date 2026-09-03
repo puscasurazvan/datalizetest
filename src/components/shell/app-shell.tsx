@@ -1,48 +1,46 @@
-import Link from "next/link"
 import type { ReactNode } from "react"
 
-import { SignOutButton } from "@/components/shell/sign-out-button"
-import { WorkspaceSwitcher } from "@/components/shell/workspace-switcher"
+import { AppHeader } from "@/components/shell/app-header"
+import { ProvenanceRail } from "@/components/shell/provenance-rail"
 import type { OrganizationSummary } from "@/modules/organizations"
-
-const NAV_LINKS = [
-  { href: "/datasets", label: "Datasets" },
-  { href: "/settings", label: "Workspace settings" },
-] as const
 
 export interface AppShellProps {
   organizations: OrganizationSummary[]
   activeOrganizationId: string
+  workspaceName: string
+  timezone: string
+  userEmail: string
   children: ReactNode
 }
 
-export function AppShell({ organizations, activeOrganizationId, children }: AppShellProps) {
+/**
+ * Fixed chrome above, fixed rail to the left, page in the remaining space. Both
+ * are `fixed`, so `main` has to reserve the room itself — `pt-16` for the header
+ * and `lg:ml-64` for the rail, which is why the rail is also `lg:flex`: the two
+ * appear and disappear together, and content is never left underneath it.
+ */
+export function AppShell({
+  organizations,
+  activeOrganizationId,
+  workspaceName,
+  timezone,
+  userEmail,
+  children,
+}: AppShellProps) {
   return (
-    <div className="flex min-h-full flex-col">
-      <header className="flex items-center justify-between border-b border-border px-6 py-3">
-        <div className="flex items-center gap-6">
-          <span className="text-sm font-semibold text-foreground">Datalize</span>
-          <nav aria-label="Primary" className="flex items-center gap-4">
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-sm text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
+    <div className="min-h-full bg-canvas">
+      <AppHeader
+        organizations={organizations}
+        activeOrganizationId={activeOrganizationId}
+        timezone={timezone}
+        userEmail={userEmail}
+      />
+      <ProvenanceRail workspaceName={workspaceName} timezone={timezone} />
+      <main className="min-h-screen bg-canvas px-gutter-desktop pb-space-2xl pt-16 lg:ml-64">
+        <div className="flex w-full max-w-page-max-width flex-col gap-space-xl pt-space-lg">
+          {children}
         </div>
-        <div className="flex items-center gap-3">
-          <WorkspaceSwitcher
-            organizations={organizations}
-            activeOrganizationId={activeOrganizationId}
-          />
-          <SignOutButton />
-        </div>
-      </header>
-      <main className="flex-1 px-6 py-8">{children}</main>
+      </main>
     </div>
   )
 }

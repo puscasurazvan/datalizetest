@@ -93,6 +93,32 @@ export async function findDatasetSummary(
   return all.find((dataset) => dataset.id === datasetId)
 }
 
+/**
+ * Every Dataset Version this Dataset has had, newest first — not just the
+ * current one. Versions are immutable and a superseded one is never
+ * deleted (docs/decisions/02), so this is the read behind the version
+ * history: the list is the Dataset's whole recorded past, and the caller
+ * marks which entry is current rather than this filtering the rest away.
+ */
+export async function listDatasetVersions(
+  context: RequestContext,
+  datasetId: string,
+): Promise<readonly DatasetVersionSummary[]> {
+  return db
+    .select({
+      id: datasetVersions.id,
+      versionNumber: datasetVersions.versionNumber,
+      status: datasetVersions.status,
+      rowCount: datasetVersions.rowCount,
+      columnCount: datasetVersions.columnCount,
+      timezoneUsedForNaiveTimestamps: datasetVersions.timezoneUsedForNaiveTimestamps,
+      createdAt: datasetVersions.createdAt,
+    })
+    .from(datasetVersions)
+    .where(scopedWhere(context, datasetVersions, eq(datasetVersions.datasetId, datasetId)))
+    .orderBy(desc(datasetVersions.versionNumber))
+}
+
 export async function listVersionColumns(
   context: RequestContext,
   datasetVersionId: string,

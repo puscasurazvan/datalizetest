@@ -12,9 +12,8 @@ import {
 /**
  * Toaster, trimmed from the shadcn default in two ways that matter here.
  *
- * `next-themes` is not a dependency: this app resolves light and dark from
- * `prefers-color-scheme` in globals.css, so `theme="system"` is the honest
- * value and there is no provider to read.
+ * `next-themes` is not a dependency: the world has one surface (DESIGN.md), so
+ * `theme="dark"` is the honest value and there is no provider to read.
  *
  * The shadcn original sets sonner's CSS custom properties through an inline
  * `style` object cast to `CSSProperties`, and passes `theme` through a second
@@ -35,7 +34,7 @@ const toasterOptions = { classNames: { toast: "cn-toast" } }
 function Toaster(props: ToasterProps) {
   return (
     <Sonner
-      theme="system"
+      theme="dark"
       className="toaster group"
       icons={toasterIcons}
       toastOptions={toasterOptions}

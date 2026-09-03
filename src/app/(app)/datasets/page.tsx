@@ -1,7 +1,9 @@
-import Link from "next/link"
+import { Database, Globe, Layers, ShieldAlert, Table2 } from "lucide-react"
 
+import { DatasetTable } from "./dataset-table"
+import { MetricTile } from "./metric-tile"
 import { ImportSampleButtons } from "@/components/data/import-sample-buttons"
-import { Sheet } from "@/components/drawing/sheet"
+import { Sheet } from "@/components/provenance/sheet"
 import { listDatasetsForContext } from "@/modules/datasets"
 import type { DatasetSummary } from "@/modules/datasets"
 import { resolveActiveContext } from "../active-context"
@@ -15,17 +17,56 @@ export default async function DatasetsPage() {
   }
   const datasets = await listDatasetsForContext(context)
 
+  const totalRows = datasets.reduce(
+    (sum, dataset) => sum + (dataset.currentVersion?.rowCount ?? 0),
+    0,
+  )
+  const versionCount = datasets.filter((dataset) => dataset.currentVersion !== null).length
+
   return (
-    <div>
-      <p className="mb-1 font-mono text-[9.5px] font-semibold tracking-[0.16em] text-muted-foreground">
-        DATASETS
-      </p>
-      <h1 className="font-display mb-7 max-w-[20ch] text-[30px] leading-[1.05] tracking-[-0.02em]">
-        Every chart starts from a sheet.
-      </h1>
+    <>
+      <header className="flex flex-col justify-between gap-space-md lg:flex-row lg:items-center">
+        <div className="flex flex-wrap items-center gap-space-sm">
+          <h1 className="text-[34px] font-bold tracking-[-0.03em] text-ink">Datasets</h1>
+          <span className="flex items-center gap-space-2xs rounded-full bg-surface-high px-space-sm py-space-2xs font-mono text-code-sm text-ink-muted">
+            <Globe strokeWidth={1.5} className="size-3.5 text-cyan" />
+            <span className="text-ink">{context.organizationTimezone}</span>
+          </span>
+        </div>
+        <ImportSampleButtons />
+      </header>
+
+      <div className="grid grid-cols-1 gap-space-md sm:grid-cols-2 xl:grid-cols-4">
+        <MetricTile
+          label="Datasets"
+          value={datasets.length.toLocaleString()}
+          source="in this workspace"
+          Icon={Database}
+        />
+        <MetricTile
+          label="Rows at current version"
+          value={totalRows.toLocaleString()}
+          source={`across ${versionCount} version${versionCount === 1 ? "" : "s"}`}
+          Icon={Table2}
+          accent="verified"
+        />
+        <MetricTile
+          label="Dataset Versions"
+          value={versionCount.toLocaleString()}
+          source="immutable, never edited"
+          Icon={Layers}
+        />
+        <MetricTile
+          label="Refusals"
+          value={null}
+          source="needs the query builder"
+          Icon={ShieldAlert}
+          pendingReason="Refusals are recorded when a query runs; the query builder is not built yet."
+        />
+      </div>
 
       {datasets.length === 0 ? <EmptyState /> : <DatasetList datasets={datasets} />}
-    </div>
+    </>
   )
 }
 
@@ -44,78 +85,36 @@ function EmptyState() {
       titleBlock={[
         { label: "ACCEPTS", value: "CSV up to 50 MB" },
         { label: "CEILING", value: "1M rows · 100 columns" },
-        { label: "ON REPEAT UPLOAD", value: "Idempotent — no duplicate", tone: "checked" },
+        { label: "ON REPEAT UPLOAD", value: "Idempotent — no duplicate", tone: "verified" },
         { label: "STATUS", value: "Ready for a sample" },
       ]}
     >
-      <div className="flex flex-col items-start gap-4 py-2">
-        <p className="max-w-[62ch] text-[13px] text-muted-foreground">
-          Nothing has been imported into this workspace. Start from one of the three sample files —
-          each one runs the real import pipeline, so what you get back is a genuine Dataset Version.
-        </p>
-        <ImportSampleButtons />
-      </div>
+      <p className="max-w-[62ch] text-[13px] text-ink-muted">
+        Nothing has been imported into this workspace yet. Use one of the samples above — each one
+        runs the real import pipeline, so what you get back is a genuine Dataset Version.
+      </p>
     </Sheet>
   )
 }
 
+/**
+ * A plain enclosure, not a `Sheet`: the rail now carries workspace provenance and
+ * the tiles carry the counts, so the sheet's own axis and title block would only
+ * repeat both a second time on the same screen.
+ */
 function DatasetList({ datasets }: { datasets: readonly DatasetSummary[] }) {
-  const totalRows = datasets.reduce(
-    (sum, dataset) => sum + (dataset.currentVersion?.rowCount ?? 0),
-    0,
-  )
-
   return (
-    <div className="flex flex-col gap-6">
-      <Sheet
-        title={`${datasets.length} dataset${datasets.length === 1 ? "" : "s"}`}
-        note="Each row is a Dataset at its current version. Open one to see the inferred schema and a preview of the rows."
-        lineageHeading="THIS WORKSPACE"
-        lineage={[
-          { label: `${datasets.length} datasets` },
-          { label: `${totalRows.toLocaleString()} rows` },
-        ]}
-        titleBlock={[
-          { label: "DATASETS", value: String(datasets.length) },
-          { label: "ROWS AT CURRENT VERSION", value: totalRows.toLocaleString() },
-          { label: "SOURCE", value: "CSV import", tone: "checked" },
-        ]}
-      >
-        <ul className="divide-y divide-hairline">
-          {datasets.map((dataset) => (
-            <li key={dataset.id}>
-              <Link
-                href={`/datasets/${dataset.id}`}
-                className="flex flex-wrap items-baseline justify-between gap-3 py-3 hover:bg-muted/40"
-              >
-                <span className="text-[14px] font-medium">{dataset.name}</span>
-                <span className="font-mono text-[11px] tabular-nums text-muted-foreground">
-                  {describeVersion(dataset)}
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </Sheet>
-
-      <Sheet
-        title="Add another"
-        lineageHeading="SAMPLES"
-        lineage={[{ label: "stripe" }, { label: "customers" }, { label: "events" }]}
-        titleBlock={[{ label: "PIPELINE", value: "Real — upload, infer, confirm, load" }]}
-      >
-        <ImportSampleButtons />
-      </Sheet>
-    </div>
+    <section className="overflow-hidden rounded-2xl border border-hairline bg-surface/90 backdrop-blur-xl">
+      <header className="flex flex-col justify-between gap-space-sm border-b border-hairline px-space-lg py-space-md lg:flex-row lg:items-center">
+        <h2 className="text-headline-md text-ink">
+          {datasets.length} dataset{datasets.length === 1 ? "" : "s"}
+        </h2>
+        <p className="max-w-[52ch] text-body-sm text-ink-muted lg:text-right">
+          Each row is a Dataset at its current version. Open one to see the inferred schema and a
+          preview of the rows.
+        </p>
+      </header>
+      <DatasetTable datasets={datasets} />
+    </section>
   )
-}
-
-function describeVersion(dataset: DatasetSummary): string {
-  const version = dataset.currentVersion
-  if (version === null) {
-    return "no version yet"
-  }
-  const rows = version.rowCount === null ? "—" : version.rowCount.toLocaleString()
-  const columns = version.columnCount === null ? "—" : String(version.columnCount)
-  return `v${version.versionNumber} · ${rows} rows · ${columns} cols · ${version.timezoneUsedForNaiveTimestamps}`
 }

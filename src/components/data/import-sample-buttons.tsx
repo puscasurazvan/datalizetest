@@ -40,15 +40,15 @@ export function ImportSampleButtons() {
   return (
     <div className="flex flex-col items-start gap-3">
       {error !== null ? (
-        <p role="alert" className="text-[13px] text-danger">
+        <p role="alert" className="text-[13px] text-refused">
           {error}
         </p>
       ) : null}
       <div className="flex flex-wrap gap-2">
-        {SAMPLES.map((sample) => (
+        {SAMPLES.map((sample, index) => (
           <Button
             key={sample.id}
-            variant="outline"
+            variant={index === 0 ? "default" : "outline"}
             disabled={runningId !== null}
             // `Button` is an unmemoized wrapper around a native <button>, so a
             // fresh closure per row defeats no memoization.

@@ -103,8 +103,11 @@ code-md       13/18  -0.01em   400      code-sm      11/16   0.02em   500  (mono
 ```
 
 `headline-2xl-mobile` (32/40) and `headline-xl-mobile` (26/34) are the small-screen steps.
-Page titles run larger and tighter than the scale's top step where the mock does — a `[34px]`
-title at `font-bold tracking-[-0.03em]` is the datasets-index treatment.
+
+Page titles are the one place the mock overrides a step rather than using it: it writes
+`text-headline-xl text-[34px] font-bold tracking-[-0.03em]` — a hair smaller than the step's 36px,
+heavier than its 600, and tighter than its -0.025em. That exact combination is the page-title
+treatment on every screen that has one; it is a port of the reference, not an ad-hoc value.
 
 Both faces are tabular by default; running prose opts out with `proportional-nums`.
 

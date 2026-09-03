@@ -40,7 +40,7 @@ export function SignOutButton() {
         {pending ? "Signing out…" : "Sign out"}
       </Button>
       {error ? (
-        <p role="alert" className="text-sm text-refused">
+        <p role="alert" className="text-body-sm text-refused">
           {error}
         </p>
       ) : null}

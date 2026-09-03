@@ -101,7 +101,7 @@ export function WorkspaceSwitcher({ organizations, activeOrganizationId }: Works
         <span className="sr-only">New workspace</span>
       </Link>
       {error ? (
-        <p role="alert" className="text-sm text-refused">
+        <p role="alert" className="text-body-sm text-refused">
           {error}
         </p>
       ) : null}

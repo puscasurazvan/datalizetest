@@ -27,7 +27,10 @@ export default async function SignUpPage() {
       </CardContent>
       <CardFooter className="border-t border-hairline pt-space-base text-body-sm text-ink-muted">
         Already have an account?{" "}
-        <Link href="/sign-in" className="ml-1 font-medium text-ink underline underline-offset-4">
+        <Link
+          href="/sign-in"
+          className="ml-space-xs font-medium text-ink underline underline-offset-4"
+        >
           Sign in
         </Link>
       </CardFooter>

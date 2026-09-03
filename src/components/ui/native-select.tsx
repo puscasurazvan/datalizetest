@@ -21,7 +21,7 @@ export function NativeSelect({ className, ...props }: NativeSelectProps) {
     <select
       className={cn(
         "block h-8 w-full rounded-lg border border-hairline-strong bg-surface-raised px-2.5 py-1 text-base text-ink transition-colors md:text-sm",
-        "focus-visible:outline-none focus-visible:border-cyan focus-visible:shadow-[0_0_0_3px_rgba(6,182,212,0.15)]",
+        "focus-visible:outline-none focus-visible:border-cyan focus-visible:ring-3 focus-visible:ring-cyan-solid/15",
         "disabled:cursor-not-allowed disabled:opacity-50",
         "aria-invalid:border-refused",
         className,

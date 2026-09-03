@@ -66,7 +66,10 @@ export default async function SignInPage({ searchParams }: SignInPageProps) {
       </CardContent>
       <CardFooter className="border-t border-hairline pt-space-base text-body-sm text-ink-muted">
         Don&apos;t have an account?{" "}
-        <Link href="/sign-up" className="ml-1 font-medium text-ink underline underline-offset-4">
+        <Link
+          href="/sign-up"
+          className="ml-space-xs font-medium text-ink underline underline-offset-4"
+        >
           Create one
         </Link>
       </CardFooter>

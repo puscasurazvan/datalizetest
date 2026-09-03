@@ -9,7 +9,7 @@ import { SpecimenSection } from "./specimen-section"
  * than by real focus — this is a static reference page, so the state has to
  * be shown, not triggered.
  */
-const FOCUS_RING = "border-cyan shadow-[0_0_0_3px_rgba(6,182,212,0.15)]"
+const FOCUS_RING = "border-cyan ring-3 ring-cyan-solid/15"
 
 export function InputSection() {
   return (

@@ -199,9 +199,26 @@ function resolveLocalWallClock(wallClockMs: number, timeZone: string): DatetimeC
   return { kind: "nonexistent", instant: new Date(later) }
 }
 
-/** The timezone's offset (in minutes, local minus UTC) at the given instant. */
-function offsetMinutesAt(instantMs: number, timeZone: string): number {
-  const parts = new Intl.DateTimeFormat("en-US", {
+/**
+ * One `Intl.DateTimeFormat` per timezone, reused for every cell of an import.
+ *
+ * Constructing a formatter costs ~23.7 µs, and `resolveLocalWallClock` needs
+ * two to four offset lookups for every naive cell — so a 730k-naive-value
+ * import spent ~35 s of its 57 s load building formatters it immediately
+ * threw away, and roughly a gigabyte of peak RSS on the garbage
+ * (docs/decisions/08-storage-benchmark.md measured both). A formatter's
+ * output depends only on its `timeZone` and the instant handed to
+ * `formatToParts`, so one instance is safe to share across every cell.
+ */
+const offsetFormatters = new Map<string, Intl.DateTimeFormat>()
+
+function offsetFormatterFor(timeZone: string): Intl.DateTimeFormat {
+  const cached = offsetFormatters.get(timeZone)
+  if (cached !== undefined) {
+    return cached
+  }
+
+  const formatter = new Intl.DateTimeFormat("en-US", {
     timeZone,
     hour12: false,
     year: "numeric",
@@ -210,7 +227,14 @@ function offsetMinutesAt(instantMs: number, timeZone: string): number {
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
-  }).formatToParts(new Date(instantMs))
+  })
+  offsetFormatters.set(timeZone, formatter)
+  return formatter
+}
+
+/** The timezone's offset (in minutes, local minus UTC) at the given instant. */
+function offsetMinutesAt(instantMs: number, timeZone: string): number {
+  const parts = offsetFormatterFor(timeZone).formatToParts(new Date(instantMs))
 
   const part = (type: string): number => {
     const found = parts.find((p) => p.type === type)

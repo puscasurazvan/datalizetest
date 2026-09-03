@@ -72,12 +72,20 @@ async function main(): Promise<void> {
   const { seed, includeLarge, includeWide } = parseArgs(process.argv.slice(2))
 
   for (const [fileName, fixture] of SMALL_FIXTURES) {
+    // Deliberate: writeCsv streams rows to disk one at a time to keep memory flat (see the module
+    // comment above); running these in Promise.all would hold every fixture's rows in flight at
+    // once, defeating the point of streaming.
+    // oxlint-disable-next-line no-await-in-loop
     await writeCsv(join(FIXTURES_DIR, fileName), fixture, mulberry32(seed), SMALL_ROW_COUNT)
   }
 
   if (includeLarge) {
     for (const [fileName, fixture] of SMALL_FIXTURES) {
       const largeName = fileName.replace(".csv", "_large.csv")
+      // Deliberate: each large fixture is up to LARGE_ROW_COUNT (1,000,000) rows; generating them
+      // in parallel would hold multiple million-row generators in memory at once, which is
+      // exactly what streaming avoids.
+      // oxlint-disable-next-line no-await-in-loop
       await writeCsv(join(GENERATED_DIR, largeName), fixture, mulberry32(seed), LARGE_ROW_COUNT)
     }
   }

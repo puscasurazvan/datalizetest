@@ -38,6 +38,54 @@ describe("inferColumns — numeric identifiers vs numbers (decisions/06 #2)", ()
   })
 })
 
+// Regression for the confirmed defect: the analytical store maps `integer`
+// to Postgres `bigint` (postgres-store.ts), so a value `parsesAsInteger`
+// accepts but `bigint` cannot hold aborts the entire COPY. `parsesAsInteger`
+// must bound-check against bigint's exact range so an out-of-range value
+// falls through to `decimal` at inference time (numeric is unbounded), and
+// becomes an `unparseable` cell (NULL + import_errors row) rather than a
+// COPY-aborting value at load time.
+describe("parsesAsInteger — bigint range (postgres-store.ts maps integer -> bigint)", () => {
+  it("accepts the exact bigint bounds", () => {
+    expect(parsesAsInteger("9223372036854775807")).toBe(true)
+    expect(parsesAsInteger("-9223372036854775808")).toBe(true)
+  })
+
+  it("rejects one past each bigint bound", () => {
+    expect(parsesAsInteger("9223372036854775808")).toBe(false)
+    expect(parsesAsInteger("-9223372036854775809")).toBe(false)
+  })
+
+  it("rejects a 20-digit value (bank/PSP-style account number) regardless of sign", () => {
+    expect(parsesAsInteger("12345678901234567890")).toBe(false)
+    expect(parsesAsInteger("-12345678901234567890")).toBe(false)
+  })
+
+  it("a column of 20-digit account numbers infers as decimal, not integer", () => {
+    const [result] = column("account_no", [
+      "12345678901234567890",
+      "98765432109876543210",
+      "11111111111111111111",
+    ])
+
+    expect(result?.type).toBe("decimal")
+    expect(result?.unparseableCount).toBe(0)
+  })
+
+  it("a column mostly small integers with a few huge ones infers as decimal (lossless tie-break)", () => {
+    const values = Array.from({ length: 19 }, (_, i) => String(i + 1))
+    values.push("99999999999999999999")
+    const [result] = column("mixed_id", values)
+
+    expect(result?.type).toBe("decimal")
+  })
+
+  it("encodeCell never emits an out-of-bigint-range value for type integer", async () => {
+    const { encodeCell } = await import("./cell-encoding")
+    expect(encodeCell("12345678901234567890", "integer", "UTC")).toEqual({ kind: "unparseable" })
+  })
+})
+
 describe("inferColumns — currency symbols and thousands separators", () => {
   it("infers comma-grouped decimals without a currency symbol as decimal", () => {
     const [result] = column("amount", ["1,234.56", "999.00", "10,000.00"])

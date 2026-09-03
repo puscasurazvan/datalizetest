@@ -228,3 +228,43 @@ describe("matchDatetimeGrammar", () => {
     })
   })
 })
+
+// The formatter cache in datetime.ts is keyed by timezone. Its one real
+// failure mode is a key collision — handing zone A's formatter to zone B —
+// which would silently convert every naive cell of an import against the
+// wrong offset. Interleave the zones so a stale-cache bug cannot pass by
+// happening to be asked for one zone at a time.
+describe("offset formatter caching", () => {
+  const naive = "2026-09-01 09:15:00"
+
+  const expected: ReadonlyArray<readonly [string, string]> = [
+    ["UTC", "2026-09-01T09:15:00.000Z"],
+    ["Europe/London", "2026-09-01T08:15:00.000Z"], // BST, UTC+1
+    ["America/New_York", "2026-09-01T13:15:00.000Z"], // EDT, UTC-4
+    ["Asia/Tokyo", "2026-09-01T00:15:00.000Z"], // JST, UTC+9, no DST
+    ["Australia/Adelaide", "2026-08-31T23:45:00.000Z"], // ACST, UTC+9:30
+  ]
+
+  it("keeps each timezone's offset distinct across repeated interleaved calls", () => {
+    for (let pass = 0; pass < 3; pass += 1) {
+      for (const [timeZone, iso] of expected) {
+        const result = convertToInstant(naive, timeZone)
+        expect(result.kind).toBe("ok")
+        if (result.kind !== "ok") {
+          throw new Error("unreachable: kind asserted above")
+        }
+        expect(result.instant.toISOString()).toBe(iso)
+      }
+    }
+  })
+
+  it("still resolves DST edges correctly after the same zone has been cached", () => {
+    // Warm the cache on a plain value, then hit both DST edges in that zone.
+    expect(convertToInstant(naive, "Europe/London").kind).toBe("ok")
+
+    // 01:30 on the fall-back night occurs twice — resolves to the earlier instant.
+    expect(convertToInstant("2026-10-25 01:30:00", "Europe/London").kind).toBe("ambiguous")
+    // 01:30 on the spring-forward night never occurs — resolves forward.
+    expect(convertToInstant("2026-03-29 01:30:00", "Europe/London").kind).toBe("nonexistent")
+  })
+})

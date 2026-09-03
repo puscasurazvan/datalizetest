@@ -91,6 +91,30 @@ const BOM = "\uFEFF"
 
 const INTEGER_PATTERN = /^-?(?:0|[1-9]\d*)$/
 const DECIMAL_PATTERN = /^-?(?:0|[1-9]\d{0,2}(?:,\d{3})*|[1-9]\d*)(?:\.\d+)?$/
+
+/**
+ * Postgres `bigint`'s exact range — `postgres-store.ts` maps the `integer`
+ * Datalize type onto it. `INTEGER_PATTERN` alone has no digit-count bound,
+ * so without this a column of long numeric identifiers (20-digit
+ * bank/PSP account or IMEI numbers) infers as `integer`, passes
+ * `encodeCell` unchanged, and reaches `COPY ... FROM STDIN` — which is
+ * all-or-nothing, so one out-of-range value aborts the entire load
+ * (cell-encoding.ts's module doc: this is exactly the failure that gate
+ * exists to prevent).
+ */
+const BIGINT_MAX = 9223372036854775807n
+const BIGINT_MIN = -9223372036854775808n
+
+/**
+ * `INTEGER_PATTERN` already guarantees `trimmed` is a valid integer
+ * literal (optional `-`, then digits with no invalid leading zero), so
+ * `BigInt(trimmed)` here never throws — this only ever narrows a match
+ * `INTEGER_PATTERN` already made, never validates shape on its own.
+ */
+function isWithinBigintRange(trimmed: string): boolean {
+  const value = BigInt(trimmed)
+  return value >= BIGINT_MIN && value <= BIGINT_MAX
+}
 const DATE_PATTERN = /^(\d{4})-(\d{2})-(\d{2})$/
 export type { DatetimeOffsetKind } from "./datetime"
 export type ColumnDatetimeOffset = DatetimeOffsetKind | "mixed"
@@ -124,7 +148,8 @@ function isValidCalendarDate(year: number, month: number, day: number): boolean 
 }
 
 export function parsesAsInteger(value: string): boolean {
-  return INTEGER_PATTERN.test(value.trim())
+  const trimmed = value.trim()
+  return INTEGER_PATTERN.test(trimmed) && isWithinBigintRange(trimmed)
 }
 
 export function parsesAsDecimal(value: string): boolean {

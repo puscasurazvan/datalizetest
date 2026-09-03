@@ -42,6 +42,27 @@
         "assertionStyle": "never",
         "objectLiteralTypeAssertions": "never"
       }
+    ],
+    "no-restricted-imports": [
+      "error",
+      {
+        "paths": [
+          {
+            "name": "react-querybuilder",
+            "importNames": ["formatQuery"],
+            "message": "formatQuery emits raw SQL. Queries are structured QueryAst, never raw SQL from a user or model (CONTEXT.md, docs/decisions/05). Map react-querybuilder's JSON RuleGroupType onto QueryAst instead."
+          },
+          {
+            "name": "@/shared/context/testing",
+            "message": "Test-only RequestContext constructor — it casts caller-supplied fields (including organizationId) into a branded RequestContext with no session lookup and no membership check. Production code must never import this; see src/shared/context/testing.ts's own doc comment."
+          },
+          {
+            "name": "@/shared/context/request-context",
+            "importNames": ["createRequestContextForJob"],
+            "message": "createRequestContextForJob takes an explicit organizationId — src/modules/imports/internal/job-context.ts's createContextForImportJob is its one intended caller, which re-derives that value from an already-authorized imports row rather than accepting it from an arbitrary caller. See request-context.ts's own doc comment before importing this elsewhere."
+          }
+        ]
+      }
     ]
   },
   "overrides": [
@@ -50,11 +71,45 @@
         "**/*.test.ts",
         "**/*.test.tsx",
         "**/*.integration.test.ts",
+        "tests/**",
         "scripts/**",
         "bench/**"
       ],
       "rules": {
-        "no-console": "off"
+        "no-console": "off",
+        "no-restricted-imports": [
+          "error",
+          {
+            "paths": [
+              {
+                "name": "react-querybuilder",
+                "importNames": ["formatQuery"],
+                "message": "formatQuery emits raw SQL. Queries are structured QueryAst, never raw SQL from a user or model (CONTEXT.md, docs/decisions/05). Map react-querybuilder's JSON RuleGroupType onto QueryAst instead."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/modules/imports/internal/job-context.ts"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "paths": [
+              {
+                "name": "react-querybuilder",
+                "importNames": ["formatQuery"],
+                "message": "formatQuery emits raw SQL. Queries are structured QueryAst, never raw SQL from a user or model (CONTEXT.md, docs/decisions/05). Map react-querybuilder's JSON RuleGroupType onto QueryAst instead."
+              },
+              {
+                "name": "@/shared/context/testing",
+                "message": "Test-only RequestContext constructor — it casts caller-supplied fields (including organizationId) into a branded RequestContext with no session lookup and no membership check. Production code must never import this; see src/shared/context/testing.ts's own doc comment."
+              }
+            ]
+          }
+        ]
       }
     }
   ],

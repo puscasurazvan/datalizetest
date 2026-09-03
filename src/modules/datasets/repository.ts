@@ -12,8 +12,12 @@ import { desc, eq } from "drizzle-orm"
 
 import { db } from "@/db/client"
 import { datasetColumns, datasets, datasetVersions } from "@/db/schema"
+import type { datasetColumnTypeEnum } from "@/db/schema"
 import type { RequestContext } from "@/shared/context/request-context"
 import { scopedWhere } from "@/shared/repository"
+
+/** The six canonical Datalize column types — drizzle's own enum, not a re-declaration. */
+export type DatasetColumnType = (typeof datasetColumnTypeEnum.enumValues)[number]
 
 export interface DatasetVersionSummary {
   readonly id: string
@@ -36,7 +40,7 @@ export interface DatasetSummary {
 export interface DatasetColumnSummary {
   readonly columnId: string
   readonly name: string
-  readonly type: string
+  readonly type: DatasetColumnType
   readonly nullable: boolean
   readonly position: number
 }

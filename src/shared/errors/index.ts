@@ -69,3 +69,28 @@ export function toSafeDto(error: unknown): SafeErrorDto {
   }
   return { code: "INTERNAL", message: "An unexpected error occurred." }
 }
+
+/**
+ * The one HTTP-status mapping for a `SafeErrorDto` code, shared by every
+ * Route Handler's `catch` block. No `default` case: adding an `AppErrorCode`
+ * without extending this switch fails `pnpm typecheck`, not a review.
+ */
+export function statusForErrorCode(code: SafeErrorCode): number {
+  switch (code) {
+    case "UNAUTHENTICATED":
+      return 401
+    case "FORBIDDEN":
+      return 403
+    case "NOT_FOUND":
+      return 404
+    case "VALIDATION":
+      return 400
+    case "SCHEMA_INCOMPATIBLE":
+    case "QUERY_TIMEOUT":
+    case "CONCURRENCY_LIMIT":
+    case "IMPORT_LIMIT_EXCEEDED":
+      return 422
+    case "INTERNAL":
+      return 500
+  }
+}

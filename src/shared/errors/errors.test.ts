@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest"
 
-import { AppError, toSafeDto } from "./index"
+import type { SafeErrorCode } from "./index"
+import { AppError, statusForErrorCode, toSafeDto } from "./index"
 
 describe("toSafeDto", () => {
   it("never leaks a physical table name, raw row data, or a stack trace", () => {
@@ -72,5 +73,27 @@ describe("toSafeDto", () => {
       code: "QUERY_TIMEOUT",
       message: "The query took too long to run.",
     })
+  })
+})
+
+describe("statusForErrorCode", () => {
+  it("maps every declared SafeErrorCode to its HTTP status", () => {
+    // The switch has no `default`, so a future SafeErrorCode fails
+    // `pnpm typecheck` before it can fail this list.
+    const cases: ReadonlyArray<[SafeErrorCode, number]> = [
+      ["UNAUTHENTICATED", 401],
+      ["FORBIDDEN", 403],
+      ["NOT_FOUND", 404],
+      ["VALIDATION", 400],
+      ["SCHEMA_INCOMPATIBLE", 422],
+      ["QUERY_TIMEOUT", 422],
+      ["CONCURRENCY_LIMIT", 422],
+      ["IMPORT_LIMIT_EXCEEDED", 422],
+      ["INTERNAL", 500],
+    ]
+
+    for (const [code, status] of cases) {
+      expect(statusForErrorCode(code)).toBe(status)
+    }
   })
 })

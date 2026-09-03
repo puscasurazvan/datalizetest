@@ -37,6 +37,27 @@ export async function listDatasetsForContext(
   return listDatasets(context)
 }
 
+/**
+ * The schema the query builder and compiler need: the current Dataset
+ * Version's Column IDs and types. Deliberately not `getDatasetDetail` —
+ * that also runs a 50-row `readRows` preview, which every query execution
+ * would otherwise pay for and never use.
+ */
+export async function getDatasetSchema(
+  context: RequestContext,
+  datasetId: string,
+): Promise<{ datasetVersionId: string; columns: readonly DatasetColumnSummary[] }> {
+  assertCan(toPolicyContext(context), "dataset:read")
+
+  const dataset = await findDatasetSummary(context, datasetId)
+  if (dataset === undefined || dataset.currentVersion === null) {
+    throw new AppError("NOT_FOUND", "Dataset not found.")
+  }
+
+  const columns = await listVersionColumns(context, dataset.currentVersion.id)
+  return { datasetVersionId: dataset.currentVersion.id, columns }
+}
+
 export async function getDatasetDetail(
   context: RequestContext,
   datasetId: string,

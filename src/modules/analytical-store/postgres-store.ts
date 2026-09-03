@@ -24,6 +24,7 @@ import { pipeline } from "node:stream/promises"
 import { asc, eq } from "drizzle-orm"
 import { from as pgCopyFrom } from "pg-copy-streams"
 
+import type { ResolvedQuery } from "@/modules/queries"
 import { analyticalPool, importPool } from "@/db/analytical"
 import { db } from "@/db/client"
 import { analyticalColumns, analyticalTables, datasetVersions } from "@/db/schema"
@@ -31,8 +32,10 @@ import type { RequestContext } from "@/shared/context/request-context"
 import { AppError } from "@/shared/errors"
 import { scopedWhere } from "@/shared/repository"
 
+import { compileQuery } from "./compile-query"
 import { encodeCopyLine } from "./copy-encoding"
 import type { CopyColumn } from "./copy-encoding"
+import { runQuery } from "./execute-query"
 import {
   ANALYTICAL_SCHEMA,
   assertDatasetVersionId,
@@ -47,6 +50,7 @@ import type {
   AnalyticalRow,
   AnalyticalStore,
   AnalyticalTableSummary,
+  ExecuteResult,
   LoadRowsResult,
   ReadRowsResult,
 } from "./types"
@@ -144,6 +148,33 @@ async function findRegisteredTable(
     .limit(1)
 
   return table
+}
+
+type ColumnMapping = readonly { readonly columnId: string; readonly physicalName: string }[]
+
+/**
+ * The Column ID -> physical name mapping for one Dataset Version, in
+ * ordinal order. Shared by `loadRows`, `readRows`, and `execute` so there
+ * is exactly one query for it, not three copies that can drift apart.
+ */
+async function loadColumnMapping(
+  context: RequestContext,
+  datasetVersionId: string,
+): Promise<ColumnMapping> {
+  return db
+    .select({
+      columnId: analyticalColumns.columnId,
+      physicalName: analyticalColumns.physicalName,
+    })
+    .from(analyticalColumns)
+    .where(
+      scopedWhere(
+        context,
+        analyticalColumns,
+        eq(analyticalColumns.datasetVersionId, datasetVersionId),
+      ),
+    )
+    .orderBy(asc(analyticalColumns.ordinal))
 }
 
 export class PostgresAnalyticalStore implements AnalyticalStore {
@@ -245,20 +276,7 @@ export class PostgresAnalyticalStore implements AnalyticalStore {
       )
     }
 
-    const mapping = await db
-      .select({
-        columnId: analyticalColumns.columnId,
-        physicalName: analyticalColumns.physicalName,
-      })
-      .from(analyticalColumns)
-      .where(
-        scopedWhere(
-          context,
-          analyticalColumns,
-          eq(analyticalColumns.datasetVersionId, datasetVersionId),
-        ),
-      )
-      .orderBy(asc(analyticalColumns.ordinal))
+    const mapping = await loadColumnMapping(context, datasetVersionId)
 
     if (mapping.length === 0) {
       // Zero-column dataset versions are rejected upstream — `import.load`
@@ -315,20 +333,7 @@ export class PostgresAnalyticalStore implements AnalyticalStore {
       throw new AppError("NOT_FOUND", "This dataset version has no loaded data.")
     }
 
-    const mapping = await db
-      .select({
-        columnId: analyticalColumns.columnId,
-        physicalName: analyticalColumns.physicalName,
-      })
-      .from(analyticalColumns)
-      .where(
-        scopedWhere(
-          context,
-          analyticalColumns,
-          eq(analyticalColumns.datasetVersionId, datasetVersionId),
-        ),
-      )
-      .orderBy(asc(analyticalColumns.ordinal))
+    const mapping = await loadColumnMapping(context, datasetVersionId)
 
     if (mapping.length === 0) {
       return { columnIds: [], rows: [] }
@@ -356,6 +361,45 @@ export class PostgresAnalyticalStore implements AnalyticalStore {
     } finally {
       client.release()
     }
+  }
+
+  async execute(
+    context: RequestContext,
+    datasetVersionId: string,
+    query: ResolvedQuery,
+    engineLimit: number,
+  ): Promise<ExecuteResult> {
+    assertDatasetVersionId(datasetVersionId)
+
+    const table = await findRegisteredTable(context, datasetVersionId)
+    if (!table) {
+      throw new AppError("NOT_FOUND", "This dataset version has no loaded data.")
+    }
+
+    const mapping = await loadColumnMapping(context, datasetVersionId)
+    const physicalNameByColumnId = new Map(
+      mapping.map((column): [string, string] => [column.columnId, column.physicalName]),
+    )
+
+    // compileQuery is pure — it can throw AppError("VALIDATION") itself for
+    // an unrecognized timezone, before this method ever opens a connection.
+    const compiled = compileQuery(
+      query,
+      physicalNameByColumnId,
+      qualifiedTableName(datasetVersionId),
+      context.organizationTimezone,
+      engineLimit,
+    )
+
+    // Dimensions then measures — compileQuery's own SELECT order — so
+    // position `i` in every returned row is named by position `i` here.
+    const keys = [
+      ...query.dimensions.map((dimension) => dimension.column.id),
+      ...query.measures.map((measure) => measure.alias),
+    ]
+
+    const { rows, durationMs } = await runQuery(context.organizationId, compiled, keys)
+    return { keys, rows, durationMs }
   }
 
   async dropVersion(context: RequestContext, datasetVersionId: string): Promise<void> {

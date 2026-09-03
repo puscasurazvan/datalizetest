@@ -4,6 +4,7 @@
  * result is a render-time error state, never a crash
  * (src/modules/visualizations/CLAUDE.md).
  */
+import type { DatalizeColumnType } from "@/modules/queries"
 import {
   type BarVisualizationConfig,
   type FieldRef,
@@ -11,42 +12,15 @@ import {
   fieldRefName,
 } from "./config"
 
-/**
- * The Datalize type tag every result column carries — the six canonical
- * types (docs/decisions/03 "Three Kinds of Date/Time Value", amending
- * decisions/04's original five-type list to add `date`; docs/decisions/06
- * #11). "date" is a calendar date only — never passed through
- * `AT TIME ZONE`. "datetime" names an input shape, never a column type:
- * every datetime-shaped input, offset-bearing or naive, is `timestamptz`.
- *
- * DECISION: defined locally rather than imported, because the real
- * QueryResult contract lives in src/modules/queries, which does not exist
- * yet in this repo. This must be unified with that module's QueryResult
- * once the executor lands — see decisions below.
- */
-export const DATALIZE_COLUMN_TYPES = [
-  "string",
-  "integer",
-  "decimal",
-  "boolean",
-  "date",
-  "timestamptz",
-] as const
-export type DatalizeColumnType = (typeof DATALIZE_COLUMN_TYPES)[number]
-
-export interface QueryResultColumn {
-  readonly name: string
-  readonly type: DatalizeColumnType
-}
+export type { DatalizeColumnType }
 
 /**
  * The shape of a Query Result this module validates a config against — a
  * structural stand-in for docs/decisions/05's QueryResult (columns, row
- * count, truncated flag), not the result contract itself. See the note on
- * DATALIZE_COLUMN_TYPES above.
+ * count, truncated flag), not the result contract itself.
  */
 export interface QueryResultShape {
-  readonly columns: readonly QueryResultColumn[]
+  readonly columns: readonly { readonly name: string; readonly type: DatalizeColumnType }[]
   readonly rowCount: number
   readonly truncated: boolean
 }
@@ -139,7 +113,10 @@ function validateBarConfig(
   return { ok: true }
 }
 
-function findColumn(result: QueryResultShape, field: FieldRef): QueryResultColumn | undefined {
+function findColumn(
+  result: QueryResultShape,
+  field: FieldRef,
+): QueryResultShape["columns"][number] | undefined {
   const name = fieldRefName(field)
   return result.columns.find((column) => column.name === name)
 }

@@ -2,14 +2,13 @@
  * Public types for the analytical store (this module's CLAUDE.md,
  * docs/adr/0002).
  *
- * The write surface plus `readRows`, a bounded preview read. The full
- * `execute()` query surface and its result types are still absent: they
- * belong to the query layer built on `QueryAst`, which the load benchmark
- * (docs/decisions/06 #15, docs/decisions/08) has now unblocked. `readRows`
- * is not a step toward it and must not grow into one — it takes no
- * filter, no projection and no ordering, so there is nothing in it for a
- * caller to smuggle a query through.
+ * The write surface, `readRows` (a bounded preview read), and `execute`
+ * (the query surface built on `ResolvedQuery` — this module's CLAUDE.md
+ * "Query execution"). `readRows` is not a step toward `execute` and must
+ * not grow into one — it takes no filter, no projection and no ordering,
+ * so there is nothing in it for a caller to smuggle a query through.
  */
+import type { ResolvedQuery } from "@/modules/queries"
 import type { RequestContext } from "@/shared/context/request-context"
 
 /** The six canonical Datalize column types (docs/decisions/04). */
@@ -64,6 +63,20 @@ export interface LoadRowsResult {
 }
 
 /**
+ * What `execute` hands back: `keys` names every SELECT position — Column
+ * IDs for the grouped dimensions, then measure aliases, in that order
+ * (`compileQuery`'s SELECT order) — and `rows` is keyed by those same
+ * strings, never a physical name, mirroring `AnalyticalTableSummary`'s
+ * type-level guarantee. `durationMs` brackets only the query itself, not
+ * the surrounding `BEGIN`/lock/`COMMIT` (execute-query.ts).
+ */
+export interface ExecuteResult {
+  readonly keys: readonly string[]
+  readonly rows: readonly AnalyticalRow[]
+  readonly durationMs: number
+}
+
+/**
  * One row to load, keyed by Column ID (never a physical column name — the
  * caller does not have one to give). A value is the cell's already-typed,
  * already-parsed string form (a `timestamptz` cell is an offset-bearing
@@ -77,11 +90,10 @@ export interface LoadRowsResult {
 export type AnalyticalRow = Readonly<Record<string, string | null>>
 
 /**
- * The write surface of the analytical store (docs/adr/0002; this module's
- * CLAUDE.md "Build order" — `execute()` is added later). Every method
- * takes the branded `RequestContext`; none accepts a bare `datasetId` or
- * trusts `datasetVersionId` without re-checking it belongs to
- * `context.organizationId`.
+ * The analytical store's interface (docs/adr/0002; this module's CLAUDE.md
+ * "Query execution"). Every method takes the branded `RequestContext`;
+ * none accepts a bare `datasetId` or trusts `datasetVersionId` without
+ * re-checking it belongs to `context.organizationId`.
  */
 export interface AnalyticalStore {
   /**
@@ -128,6 +140,28 @@ export interface AnalyticalStore {
     datasetVersionId: string,
     limit: number,
   ): Promise<ReadRowsResult>
+
+  /**
+   * Runs one already-validated, already-resolved query against a Dataset
+   * Version's physical table (queries/CLAUDE.md "Limits & execution").
+   * `query` is a `ResolvedQuery` — the one type crossing the queries ->
+   * analytical-store boundary (this is a type-only import: this module
+   * still never imports the QueryAst schema or touches a pool from the
+   * query layer's side). `engineLimit` is `LIMIT`'s bound value, already
+   * folded from the user's `limit` and the product-wide cap by the caller
+   * (`rowLimits`, queries/internal/limits.ts) — this store never derives
+   * it.
+   *
+   * Runs on `analyticalPool`, inside `BEGIN` / advisory-lock / `COMMIT`
+   * (execute-query.ts) — the 5-concurrent-queries-per-Organization limit
+   * and the 30s statement timeout both apply here, unlike `readRows`.
+   */
+  execute(
+    context: RequestContext,
+    datasetVersionId: string,
+    query: ResolvedQuery,
+    engineLimit: number,
+  ): Promise<ExecuteResult>
 
   /**
    * Drops the physical table and deletes its Column ID -> physical name

@@ -1,4 +1,5 @@
 import { z } from "zod"
+import { MAX_ROWS } from "../internal/limits"
 
 /**
  * The structured, versioned query contract. Never raw SQL from a user or model
@@ -106,7 +107,7 @@ export const queryAstSchema = z
     // with defined semantics in docs/decisions/05:449 (returnedRows: [], hasMore
     // reflects whether any row exists, truncated: false). Only negative and
     // non-integer values are rejected.
-    limit: z.number().int().min(0).max(10000).optional(),
+    limit: z.number().int().min(0).max(MAX_ROWS).optional(),
   })
   .superRefine((query, ctx) => {
     if (query.dimensions.length === 0 && query.measures.length === 0) {

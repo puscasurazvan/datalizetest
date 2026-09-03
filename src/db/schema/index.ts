@@ -12,3 +12,6 @@ export * from "./auth"
 // Phase B: Dataset, Dataset Version, Dataset Column, Import, Import Error,
 // and the analytical store's own registry — see src/db/schema/datasets.ts.
 export * from "./datasets"
+
+// Query pipeline: the query_executions audit trail — see src/db/schema/queries.ts.
+export * from "./queries"

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest"
 import type { QueryAst } from "../schema/query-ast"
-import type { DatasetColumn } from "./validator"
-import { validateQueryAgainstDataset } from "./validator"
+import type { DatasetColumn, ResolvedQuery } from "./validator"
+import { singleCurrencyRefusal, validateQueryAgainstDataset } from "./validator"
 
 const columns: DatasetColumn[] = [
   { id: "col_amount", name: "amount", type: "decimal", nullable: false },
@@ -20,6 +20,12 @@ function query(overrides: Partial<QueryAst>): QueryAst {
     filters: [],
     ...overrides,
   }
+}
+
+function resolve(ast: QueryAst, datasetColumns: DatasetColumn[]): ResolvedQuery {
+  const result = validateQueryAgainstDataset(ast, datasetColumns)
+  if (!result.ok) throw new Error("test setup query failed to validate")
+  return result.query
 }
 
 describe("validateQueryAgainstDataset — happy path", () => {
@@ -309,6 +315,97 @@ describe("validateQueryAgainstDataset — orderBy resolution", () => {
         ref: { kind: "dimension", columnId: "col_active" },
       }),
     )
+  })
+})
+
+describe("singleCurrencyRefusal", () => {
+  const currencyColumns: DatasetColumn[] = [
+    { id: "col_amount", name: "amount", type: "decimal", nullable: false },
+    { id: "col_currency", name: "currency", type: "string", nullable: false },
+  ]
+
+  it("refuses sum(amount) when currency is not pinned", () => {
+    const resolved = resolve(
+      query({ measures: [{ field: "col_amount", aggregation: "sum", alias: "total" }] }),
+      currencyColumns,
+    )
+    expect(singleCurrencyRefusal(resolved, currencyColumns)).toContain("currency")
+  })
+
+  it("allows sum(amount) when currency is pinned by an eq filter", () => {
+    const resolved = resolve(
+      query({
+        measures: [{ field: "col_amount", aggregation: "sum", alias: "total" }],
+        filters: [{ columnId: "col_currency", operator: "eq", value: "USD" }],
+      }),
+      currencyColumns,
+    )
+    expect(singleCurrencyRefusal(resolved, currencyColumns)).toBeNull()
+  })
+
+  it("allows sum(amount) when currency is pinned by an in filter of exactly one value", () => {
+    const resolved = resolve(
+      query({
+        measures: [{ field: "col_amount", aggregation: "sum", alias: "total" }],
+        filters: [{ columnId: "col_currency", operator: "in", value: ["USD"] }],
+      }),
+      currencyColumns,
+    )
+    expect(singleCurrencyRefusal(resolved, currencyColumns)).toBeNull()
+  })
+
+  it("refuses sum(amount) when the in filter names more than one currency", () => {
+    const resolved = resolve(
+      query({
+        measures: [{ field: "col_amount", aggregation: "sum", alias: "total" }],
+        filters: [{ columnId: "col_currency", operator: "in", value: ["USD", "EUR"] }],
+      }),
+      currencyColumns,
+    )
+    expect(singleCurrencyRefusal(resolved, currencyColumns)).not.toBeNull()
+  })
+
+  it("allows sum(amount) when grouped by currency", () => {
+    const resolved = resolve(
+      query({
+        dimensions: [{ columnId: "col_currency" }],
+        measures: [{ field: "col_amount", aggregation: "sum", alias: "total" }],
+      }),
+      currencyColumns,
+    )
+    expect(singleCurrencyRefusal(resolved, currencyColumns)).toBeNull()
+  })
+
+  it("allows avg/min/max the same way it allows sum", () => {
+    for (const aggregation of ["avg", "min", "max"] as const) {
+      const refused = resolve(
+        query({ measures: [{ field: "col_amount", aggregation, alias: "n" }] }),
+        currencyColumns,
+      )
+      expect(singleCurrencyRefusal(refused, currencyColumns)).not.toBeNull()
+
+      const pinned = resolve(
+        query({
+          measures: [{ field: "col_amount", aggregation, alias: "n" }],
+          filters: [{ columnId: "col_currency", operator: "eq", value: "USD" }],
+        }),
+        currencyColumns,
+      )
+      expect(singleCurrencyRefusal(pinned, currencyColumns)).toBeNull()
+    }
+  })
+
+  it("allows a dataset with no currency column", () => {
+    const resolved = resolve(
+      query({ measures: [{ field: "col_amount", aggregation: "sum", alias: "total" }] }),
+      columns,
+    )
+    expect(singleCurrencyRefusal(resolved, columns)).toBeNull()
+  })
+
+  it("allows count(*) regardless of currency, since it aggregates no decimal column", () => {
+    const resolved = resolve(query({}), currencyColumns)
+    expect(singleCurrencyRefusal(resolved, currencyColumns)).toBeNull()
   })
 })
 

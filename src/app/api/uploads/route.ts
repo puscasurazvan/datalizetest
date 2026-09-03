@@ -17,7 +17,7 @@ import { assertCan } from "@/modules/auth/policy"
 import { toPolicyContext } from "@/modules/organizations"
 import { getStorageProvider } from "@/modules/storage"
 import { createRequestContext } from "@/shared/context/request-context"
-import { toSafeDto } from "@/shared/errors"
+import { statusForErrorCode, toSafeDto } from "@/shared/errors"
 
 export async function POST(): Promise<NextResponse> {
   try {
@@ -39,25 +39,5 @@ export async function POST(): Promise<NextResponse> {
     const safe = toSafeDto(error)
     const status = statusForErrorCode(safe.code)
     return NextResponse.json(safe, { status })
-  }
-}
-
-function statusForErrorCode(code: ReturnType<typeof toSafeDto>["code"]): number {
-  switch (code) {
-    case "UNAUTHENTICATED":
-      return 401
-    case "FORBIDDEN":
-      return 403
-    case "NOT_FOUND":
-      return 404
-    case "VALIDATION":
-      return 400
-    case "SCHEMA_INCOMPATIBLE":
-    case "QUERY_TIMEOUT":
-    case "CONCURRENCY_LIMIT":
-    case "IMPORT_LIMIT_EXCEEDED":
-      return 422
-    case "INTERNAL":
-      return 500
   }
 }

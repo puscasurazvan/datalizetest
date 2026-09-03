@@ -14,6 +14,7 @@ export type {
   AnalyticalRow,
   AnalyticalStore,
   AnalyticalTableSummary,
+  ExecuteResult,
   LoadRowsResult,
   ReadRowsResult,
 } from "./types"

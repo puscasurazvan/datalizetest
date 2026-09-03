@@ -36,6 +36,13 @@
       "when": 1788432960395,
       "tag": "0004_fix_confirmed_defects",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1788468086500,
+      "tag": "0005_woozy_spacker_dave",
+      "breakpoints": true
     }
   ]
 }

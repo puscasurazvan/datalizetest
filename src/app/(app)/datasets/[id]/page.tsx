@@ -2,6 +2,7 @@ import type { ReactNode } from "react"
 import { notFound } from "next/navigation"
 
 import { DatasetHeader } from "./dataset-header"
+import { QueryPanel } from "./query-panel"
 import { VersionHistory } from "./version-history"
 import { DatasetPreviewTable } from "@/components/data/dataset-preview-table"
 import { DatasetSchemaTable } from "@/components/data/dataset-schema-table"
@@ -60,6 +61,17 @@ export default async function DatasetDetailPage({ params }: { params: Promise<{ 
         note="Column IDs are stable across versions, so a saved query survives a re-upload that only adds columns."
       >
         <DatasetSchemaTable columns={columns} />
+      </DetailSection>
+
+      <DetailSection
+        title="Query"
+        note="One dimension, one measure, one filter — the flagship shape: a total grouped by month, pinned to a single currency."
+      >
+        <QueryPanel
+          datasetId={dataset.id}
+          columns={columns}
+          organizationTimezone={context.organizationTimezone}
+        />
       </DetailSection>
 
       <DetailSection

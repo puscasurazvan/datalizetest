@@ -1,12 +1,12 @@
 /**
  * VisualizationConfig — the contract between a Query Result and a Chart
- * Adapter: `Query Result → Visualization Config → Chart Adapter → ECharts`
+ * Adapter: `Query Result → Visualization Config → Chart Adapter → Recharts`
  * (docs/reference/Datalize.md §17, src/modules/visualizations/CLAUDE.md).
  *
  * Slice 1 ships exactly two chart types. Do not add "line", "area", or
  * "kpi" here — they are Slice 2 and adding them now is speculative.
  *
- * ECharts is not imported here and must not be: this file is the contract
+ * Recharts is not imported here and must not be: this file is the contract
  * an adapter is written against later, not the adapter itself.
  */
 

@@ -1,3 +1,4 @@
+import type { AnalyticalColumnType } from "@/modules/analytical-store"
 import type {
   Aggregation,
   Dimension,
@@ -14,17 +15,13 @@ import type {
  * that does not fit the type is rejected the same as a missing column.
  */
 
-// The canonical six (docs/decisions/03, 04). "date" is a calendar date — no
-// instant, never passed through AT TIME ZONE; "timestamptz" is the instant
-// type, covering both offset-bearing and naive import input. "datetime" is an
-// input SHAPE only and is never a column type.
-export type DatalizeColumnType =
-  | "string"
-  | "integer"
-  | "decimal"
-  | "boolean"
-  | "date"
-  | "timestamptz"
+// The canonical six live once, in analytical-store (docs/decisions/03, 04) — this
+// is a type-only import, so it does not create the runtime edge queries/CLAUDE.md
+// forbids (this module still never imports @/db/analytical or touches a pool).
+// "date" is a calendar date — no instant, never passed through AT TIME ZONE;
+// "timestamptz" is the instant type, covering both offset-bearing and naive
+// import input. "datetime" is an input SHAPE only and is never a column type.
+export type DatalizeColumnType = AnalyticalColumnType
 
 export type DatasetColumn = {
   id: string
@@ -89,7 +86,10 @@ export type ValidationResult =
   | { ok: false; error: SchemaIncompatibleError }
 
 const ORDERABLE: FilterOperator[] = ["gt", "gte", "lt", "lte", "between"]
-const OPERATORS_BY_TYPE: Record<DatalizeColumnType, ReadonlySet<FilterOperator>> = {
+// Exported so the query builder's operator/aggregation dropdowns read the same
+// table this validator enforces against — a dropdown that hard-codes its own
+// list can drift out of sync and offer a choice the validator then rejects.
+export const OPERATORS_BY_TYPE: Record<DatalizeColumnType, ReadonlySet<FilterOperator>> = {
   string: new Set(["eq", "neq", "in", "is_null", "is_not_null"]),
   integer: new Set(["eq", "neq", "in", "is_null", "is_not_null", ...ORDERABLE]),
   decimal: new Set(["eq", "neq", "in", "is_null", "is_not_null", ...ORDERABLE]),
@@ -100,7 +100,7 @@ const OPERATORS_BY_TYPE: Record<DatalizeColumnType, ReadonlySet<FilterOperator>>
 
 // sum/avg need a numeric column; min/max need an orderable one (Postgres has no
 // min/max(boolean)); count and count_distinct apply to any column, null included.
-const AGGREGATIONS_BY_TYPE: Record<DatalizeColumnType, ReadonlySet<Aggregation>> = {
+export const AGGREGATIONS_BY_TYPE: Record<DatalizeColumnType, ReadonlySet<Aggregation>> = {
   string: new Set(["count", "count_distinct", "min", "max"]),
   integer: new Set(["count", "count_distinct", "sum", "avg", "min", "max"]),
   decimal: new Set(["count", "count_distinct", "sum", "avg", "min", "max"]),
@@ -199,6 +199,62 @@ function requireColumn(columns: DatasetColumn[], columnId: string): ResolvedColu
   if (!column)
     throw new Error(`invariant violated: column "${columnId}" missing after passing validation`)
   return { id: column.id, name: column.name, type: column.type }
+}
+
+// ponytail: a column-name heuristic ("currency", case-insensitive) — the dataset
+// model has no monetary-column tag yet, so this is the only signal available.
+// Replace with a real tag on DatasetColumn once one exists; until then this is
+// the only thing standing between `transactions_stripe.csv`'s mixed USD/EUR
+// rows (decisions/01:60) and a SUM that silently adds two currencies together.
+const CURRENCY_AGGREGATIONS: ReadonlySet<Aggregation> = new Set(["sum", "avg", "min", "max"])
+
+/**
+ * Refuses a query that aggregates a decimal column across rows that may carry
+ * different currencies — called only after validateQueryAgainstDataset has
+ * already passed (docs/decisions/01:60, this plan's "Currency rule placement").
+ * Returns a user-facing message, or null when the query is safe: no currency
+ * column exists, no measure needs it, or the caller already pinned one
+ * currency by an equality filter, a single-value "in" filter, or grouping by
+ * currency.
+ */
+export function singleCurrencyRefusal(
+  resolved: ResolvedQuery,
+  columns: DatasetColumn[],
+): string | null {
+  const currencyColumn = columns.find(
+    (column) => column.type === "string" && column.name.toLowerCase() === "currency",
+  )
+  if (!currencyColumn) return null
+
+  const aggregatesMoney = resolved.measures.some(
+    (measure) =>
+      measure.column !== null &&
+      measure.column.type === "decimal" &&
+      CURRENCY_AGGREGATIONS.has(measure.aggregation),
+  )
+  if (!aggregatesMoney) return null
+
+  if (isCurrencyPinned(resolved, currencyColumn.id)) return null
+
+  return (
+    `This query aggregates an amount without pinning "${currencyColumn.name}" to one value — ` +
+    `the dataset mixes currencies, so the total would silently add different currencies ` +
+    `together. Filter "${currencyColumn.name}" to a single value, or group by it, first.`
+  )
+}
+
+function isCurrencyPinned(resolved: ResolvedQuery, currencyColumnId: string): boolean {
+  const groupedByCurrency = resolved.dimensions.some(
+    (dimension) => dimension.column.id === currencyColumnId,
+  )
+  if (groupedByCurrency) return true
+
+  return resolved.filters.some((filter) => {
+    if (filter.column.id !== currencyColumnId) return false
+    if (filter.operator === "eq") return true
+    if (filter.operator === "in") return filter.value.length === 1
+    return false
+  })
 }
 
 function resolveQuery(ast: QueryAst, columns: DatasetColumn[]): ResolvedQuery {

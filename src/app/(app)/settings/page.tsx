@@ -1,6 +1,6 @@
 import { headers } from "next/headers"
 
-import { Card } from "@/components/ui/card"
+import { Sheet } from "@/components/drawing/sheet"
 import { auth } from "@/modules/auth"
 import { can } from "@/modules/auth/policy"
 import { listAvailableTimezones, toPolicyContext } from "@/modules/organizations"
@@ -18,20 +18,43 @@ export default async function SettingsPage() {
   ])
 
   const canEditTimezone = can(toPolicyContext(context), "organization:update")
+  const workspaceName = organization?.name ?? "This workspace"
 
   return (
-    <div className="mx-auto max-w-lg">
-      <h1 className="mb-1 text-xl font-semibold text-foreground">Workspace settings</h1>
-      <p className="mb-6 text-sm text-muted-foreground">{organization?.name ?? "This workspace"}</p>
+    <div className="mx-auto max-w-3xl">
+      <p className="mb-1 font-mono text-[9.5px] font-semibold tracking-[0.16em] text-muted-foreground">
+        WORKSPACE SETTINGS
+      </p>
+      <h1 className="font-display mb-7 text-[30px] leading-[1.05] tracking-[-0.02em]">
+        {workspaceName}
+      </h1>
 
-      <Card>
-        <h2 className="mb-4 text-sm font-medium text-foreground">Timezone</h2>
+      <Sheet
+        title="Date grouping"
+        note="This is the interpretation applied to every CSV timestamp that arrives without an offset. It is stamped onto each Dataset Version at import and never re-applied afterwards."
+        lineageHeading="APPLIES TO"
+        lineage={[
+          { label: "naive timestamps" },
+          { label: "date grouping" },
+          { label: "new imports only" },
+        ]}
+        titleBlock={[
+          { label: "CURRENT", value: context.organizationTimezone, tone: "caution" },
+          { label: "ZONES AVAILABLE", value: availableTimezones.length.toLocaleString("en-US") },
+          { label: "SCOPE", value: "Future imports" },
+          {
+            label: "YOU CAN EDIT",
+            value: canEditTimezone ? "Yes" : "No — owner or admin",
+            tone: canEditTimezone ? "checked" : undefined,
+          },
+        ]}
+      >
         <TimezoneForm
           currentTimezone={context.organizationTimezone}
           availableTimezones={availableTimezones}
           canEdit={canEditTimezone}
         />
-      </Card>
+      </Sheet>
     </div>
   )
 }

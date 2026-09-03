@@ -31,8 +31,8 @@ export function TimezoneForm({ currentTimezone, availableTimezones, canEdit }: T
   const isRecognised = availableTimezones.includes(selectedTimezone)
 
   return (
-    <form action={formAction} className="space-y-4">
-      <div>
+    <form action={formAction} className="flex flex-col gap-4">
+      <div className="flex flex-col gap-1.5">
         <Label htmlFor="timezone">Timezone</Label>
         <NativeSelect
           id="timezone"
@@ -71,7 +71,7 @@ export function TimezoneForm({ currentTimezone, availableTimezones, canEdit }: T
       ) : null}
 
       {canEdit ? (
-        <Button type="submit" disabled={pending}>
+        <Button type="submit" disabled={pending} className="self-start">
           {pending ? "Saving…" : "Save timezone"}
         </Button>
       ) : (

@@ -27,7 +27,7 @@ test("sign up, land in the personal workspace, and change its timezone", async (
   await expect(page.getByRole("heading", { name: "Datasets" })).toBeVisible()
   await expect(page.getByText("No datasets yet")).toBeVisible()
 
-  await page.getByRole("link", { name: "Workspace settings" }).click()
+  await page.getByRole("link", { name: "Settings", exact: true }).click()
   await expect(page).toHaveURL("/settings")
   await expect(
     page.getByText(

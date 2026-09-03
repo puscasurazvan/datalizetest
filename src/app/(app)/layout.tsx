@@ -7,30 +7,9 @@ import { SelectWorkspacePrompt } from "@/components/shell/select-workspace-promp
 import { Card } from "@/components/ui/card"
 import { auth } from "@/modules/auth"
 import type { OrganizationSummary } from "@/modules/organizations"
-import { createRequestContext, type RequestContext } from "@/shared/context/request-context"
-import { AppError } from "@/shared/errors"
 
+import { resolveActiveContext } from "./active-context"
 import { CreateWorkspaceForm } from "./workspaces/new/create-workspace-form"
-
-/**
- * `createRequestContext()` throws `FORBIDDEN` when the session has no
- * active organization, or a stale one (docs/decisions/06 #14) — both cases
- * this layout must recover from rather than let bubble as a 500. Setting
- * `sessions.activeOrganizationId` itself only happens through a real HTTP
- * request (a Server Action, or Better Auth's own route) — a plain Server
- * Component render cannot set the response cookie that write may need, so
- * that recovery happens client-side in `SelectWorkspacePrompt`, not here.
- */
-async function resolveActiveContext(): Promise<RequestContext | "no-active-organization"> {
-  try {
-    return await createRequestContext()
-  } catch (error) {
-    if (error instanceof AppError && error.code === "FORBIDDEN") {
-      return "no-active-organization"
-    }
-    throw error
-  }
-}
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const requestHeaders = await headers()

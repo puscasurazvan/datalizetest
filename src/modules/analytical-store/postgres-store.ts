@@ -1,0 +1,329 @@
+/**
+ * `PostgresAnalyticalStore` — the Postgres implementation of the analytical
+ * store's write surface (./types.ts, docs/adr/0002, this module's
+ * CLAUDE.md).
+ *
+ * Pool discipline (src/db/CLAUDE.md "Three pools, never cross them"):
+ * - DDL that touches the `analytical` schema (`CREATE TABLE`, `TRUNCATE`,
+ *   `DROP TABLE`) and row loading (`COPY ... FROM STDIN`) run on
+ *   `importPool` — never on `analyticalPool`, which is reserved for
+ *   interactive query execution and never touched by this module.
+ * - Every write to `analytical_tables` / `analytical_columns` — this
+ *   module's own registry, a `public`-schema metadata table — runs on the
+ *   application pool (`db`, `@/db/client`), after the physical DDL has
+ *   already succeeded. This is the "no transaction across pools" ordering
+ *   docs/decisions/06 #16 requires: the physical operation commits first,
+ *   the metadata commit is strictly last, so a crash in between leaves at
+ *   worst a stale metadata row an idempotent retry corrects — never a
+ *   metadata row pointing at a physical table that doesn't exist.
+ */
+import { randomUUID } from "node:crypto"
+import { Readable } from "node:stream"
+import { pipeline } from "node:stream/promises"
+
+import { asc, eq } from "drizzle-orm"
+import { from as pgCopyFrom } from "pg-copy-streams"
+
+import { importPool } from "@/db/analytical"
+import { db } from "@/db/client"
+import { analyticalColumns, analyticalTables, datasetVersions } from "@/db/schema"
+import type { RequestContext } from "@/shared/context/request-context"
+import { AppError } from "@/shared/errors"
+import { scopedWhere } from "@/shared/repository"
+
+import { encodeCopyLine } from "./copy-encoding"
+import type { CopyColumn } from "./copy-encoding"
+import {
+  ANALYTICAL_SCHEMA,
+  assertDatasetVersionId,
+  physicalColumnName,
+  physicalTableName,
+  qualifiedTableName,
+  quoteIdentifier,
+} from "./physical-names"
+import type {
+  AnalyticalColumnDefinition,
+  AnalyticalColumnType,
+  AnalyticalRow,
+  AnalyticalStore,
+  AnalyticalTableSummary,
+  LoadRowsResult,
+} from "./types"
+
+/**
+ * The six Datalize column types, mapped to Postgres (docs/decisions/04,
+ * docs/decisions/06 #11). `decimal` is `numeric`, never `double precision`
+ * — a `SUM(amount)` over a million rows must not lose precision on the
+ * product's first query, and `numeric` crosses the wire as a string,
+ * matching how `AnalyticalRow` already represents a decimal cell.
+ */
+const PG_TYPE_BY_ANALYTICAL_TYPE: Record<AnalyticalColumnType, string> = {
+  string: "text",
+  integer: "bigint",
+  decimal: "numeric",
+  boolean: "boolean",
+  date: "date",
+  timestamptz: "timestamptz",
+}
+
+/**
+ * Wraps an unexpected failure from the pg driver (DDL or `COPY`) so its
+ * `.message` — which can and does name the physical table
+ * (`relation "analytical.dv_..." does not exist`) — never becomes this
+ * module's own thrown error's message. Deliberately a plain `Error`, not
+ * an `AppError`: none of the small, closed `AppErrorCode` set
+ * (src/shared/errors/index.ts) names "unexpected storage failure", and
+ * `toSafeDto` already masks any non-`AppError` behind a generic `INTERNAL`
+ * message regardless of what `.message` says — so forcing a wrong code
+ * onto this would buy no additional safety, only a misleading label. The
+ * original error is preserved as `cause` for server-side logs.
+ */
+function safeStoreError(message: string, cause: unknown): Error {
+  return new Error(message, { cause })
+}
+
+async function assertVersionInOrganization(
+  context: RequestContext,
+  datasetVersionId: string,
+): Promise<void> {
+  const [version] = await db
+    .select({ id: datasetVersions.id })
+    .from(datasetVersions)
+    .where(scopedWhere(context, datasetVersions, eq(datasetVersions.id, datasetVersionId)))
+    .limit(1)
+
+  if (!version) {
+    throw new AppError("NOT_FOUND", "Dataset version not found.")
+  }
+}
+
+type RegisteredTable = {
+  readonly tableName: string
+}
+
+async function findRegisteredTable(
+  context: RequestContext,
+  datasetVersionId: string,
+): Promise<RegisteredTable | undefined> {
+  const [table] = await db
+    .select({ tableName: analyticalTables.tableName })
+    .from(analyticalTables)
+    .where(
+      scopedWhere(
+        context,
+        analyticalTables,
+        eq(analyticalTables.datasetVersionId, datasetVersionId),
+      ),
+    )
+    .limit(1)
+
+  return table
+}
+
+export class PostgresAnalyticalStore implements AnalyticalStore {
+  async createVersionTable(
+    context: RequestContext,
+    datasetVersionId: string,
+    columns: readonly AnalyticalColumnDefinition[],
+  ): Promise<AnalyticalTableSummary> {
+    assertDatasetVersionId(datasetVersionId)
+    await assertVersionInOrganization(context, datasetVersionId)
+
+    const tableName = physicalTableName(datasetVersionId)
+    const qualifiedTable = qualifiedTableName(datasetVersionId)
+    const columnDefinitions = columns
+      .map(
+        (column, ordinal) =>
+          `${quoteIdentifier(physicalColumnName(ordinal))} ${PG_TYPE_BY_ANALYTICAL_TYPE[column.type]}`,
+      )
+      .join(", ")
+
+    const ddlClient = await importPool.connect()
+    try {
+      // Idempotent by construction: IF NOT EXISTS makes a second CREATE a
+      // no-op, and the unconditional TRUNCATE that follows clears any rows
+      // a previous, incomplete attempt already loaded — together these are
+      // what let a Trigger.dev retry of import.load converge instead of
+      // duplicating or failing (docs/decisions/06 #16).
+      await ddlClient.query(`CREATE TABLE IF NOT EXISTS ${qualifiedTable} (${columnDefinitions})`)
+      await ddlClient.query(`TRUNCATE TABLE ${qualifiedTable}`)
+    } catch (error) {
+      throw safeStoreError("Could not create the dataset version's physical table.", error)
+    } finally {
+      ddlClient.release()
+    }
+
+    try {
+      await db.transaction(async (tx) => {
+        await tx
+          .insert(analyticalTables)
+          .values({
+            datasetVersionId,
+            organizationId: context.organizationId,
+            schemaName: ANALYTICAL_SCHEMA,
+            tableName,
+          })
+          .onConflictDoUpdate({
+            target: analyticalTables.datasetVersionId,
+            set: { schemaName: ANALYTICAL_SCHEMA, tableName, droppedAt: null },
+          })
+
+        // Delete-then-reinsert rather than a per-row upsert: a retry's
+        // `columns` is expected to be identical to the first attempt's,
+        // but this also converges correctly if it is not (e.g. a
+        // corrected `confirmedSchema` after a failed first load), which a
+        // partial upsert onto stale rows would not.
+        await tx
+          .delete(analyticalColumns)
+          .where(
+            scopedWhere(
+              context,
+              analyticalColumns,
+              eq(analyticalColumns.datasetVersionId, datasetVersionId),
+            ),
+          )
+
+        if (columns.length > 0) {
+          await tx.insert(analyticalColumns).values(
+            columns.map((column, ordinal) => ({
+              id: randomUUID(),
+              organizationId: context.organizationId,
+              datasetVersionId,
+              columnId: column.columnId,
+              physicalName: physicalColumnName(ordinal),
+              pgType: PG_TYPE_BY_ANALYTICAL_TYPE[column.type],
+              ordinal,
+            })),
+          )
+        }
+      })
+    } catch (error) {
+      throw safeStoreError("Could not persist the dataset version's column mapping.", error)
+    }
+
+    return { datasetVersionId, columnIds: columns.map((column) => column.columnId) }
+  }
+
+  async loadRows(
+    context: RequestContext,
+    datasetVersionId: string,
+    rows: AsyncIterable<AnalyticalRow>,
+  ): Promise<LoadRowsResult> {
+    assertDatasetVersionId(datasetVersionId)
+
+    const table = await findRegisteredTable(context, datasetVersionId)
+    if (!table) {
+      throw new AppError(
+        "NOT_FOUND",
+        "No physical table is registered for this dataset version. Call createVersionTable first.",
+      )
+    }
+
+    const mapping = await db
+      .select({
+        columnId: analyticalColumns.columnId,
+        physicalName: analyticalColumns.physicalName,
+      })
+      .from(analyticalColumns)
+      .where(
+        scopedWhere(
+          context,
+          analyticalColumns,
+          eq(analyticalColumns.datasetVersionId, datasetVersionId),
+        ),
+      )
+      .orderBy(asc(analyticalColumns.ordinal))
+
+    if (mapping.length === 0) {
+      // Zero-column dataset versions are rejected upstream — `import.load`
+      // (../imports/internal/load.ts) throws before ever calling
+      // `createVersionTable` with an empty column list — so this branch is
+      // a defensive backstop for a caller that reaches `loadRows` directly
+      // against a zero-column registration. `rows` must still be closed
+      // even though nothing here reads it: returning without ever
+      // touching it abandons the caller's stream (an S3 object body, in
+      // the real path) open indefinitely, since nothing else will ever
+      // read or destroy it. Pulling exactly one item then breaking is the
+      // minimal way to trigger cleanup — an async generator's `finally`
+      // (e.g. `../imports/internal/csv-stream.ts`'s `streamRows`, which
+      // destroys its source stream there) only runs once the generator has
+      // been entered at least once; `break` then calls the iterator's own
+      // `return()`, which propagates through that `finally` and releases
+      // the underlying reader, without reading the rest of the object.
+      for await (const firstRow of rows) {
+        void firstRow // pulled only to trigger cleanup below — its value is never otherwise read.
+        break
+      }
+      return { rowCount: 0 }
+    }
+
+    const copyColumns: CopyColumn[] = mapping.map((column) => ({ columnId: column.columnId }))
+    const columnList = mapping.map((column) => quoteIdentifier(column.physicalName)).join(", ")
+    const copySql = `COPY ${qualifiedTableName(datasetVersionId)} (${columnList}) FROM STDIN`
+
+    const client = await importPool.connect()
+    try {
+      const copyStream = client.query(pgCopyFrom(copySql))
+      await pipeline(Readable.from(encodedLines(rows, copyColumns)), copyStream)
+      client.release()
+      return { rowCount: copyStream.rowCount }
+    } catch (error) {
+      client.release(error instanceof Error ? error : new Error(String(error)))
+      throw safeStoreError("Could not load rows into the dataset version's physical table.", error)
+    }
+  }
+
+  async dropVersion(context: RequestContext, datasetVersionId: string): Promise<void> {
+    assertDatasetVersionId(datasetVersionId)
+
+    const table = await findRegisteredTable(context, datasetVersionId)
+    if (!table) {
+      // Idempotent no-op — mirrors StorageProvider.deleteObject
+      // (src/modules/storage/provider.ts): nothing registered, nothing to do.
+      return
+    }
+
+    const ddlClient = await importPool.connect()
+    try {
+      await ddlClient.query(`DROP TABLE IF EXISTS ${qualifiedTableName(datasetVersionId)}`)
+    } catch (error) {
+      throw safeStoreError("Could not drop the dataset version's physical table.", error)
+    } finally {
+      ddlClient.release()
+    }
+
+    try {
+      await db.transaction(async (tx) => {
+        await tx
+          .delete(analyticalColumns)
+          .where(
+            scopedWhere(
+              context,
+              analyticalColumns,
+              eq(analyticalColumns.datasetVersionId, datasetVersionId),
+            ),
+          )
+        await tx
+          .delete(analyticalTables)
+          .where(
+            scopedWhere(
+              context,
+              analyticalTables,
+              eq(analyticalTables.datasetVersionId, datasetVersionId),
+            ),
+          )
+      })
+    } catch (error) {
+      throw safeStoreError("Could not remove the dataset version's column mapping.", error)
+    }
+  }
+}
+
+async function* encodedLines(
+  rows: AsyncIterable<AnalyticalRow>,
+  columns: readonly CopyColumn[],
+): AsyncGenerator<string> {
+  for await (const row of rows) {
+    yield `${encodeCopyLine(row, columns)}\n`
+  }
+}

@@ -4,9 +4,19 @@
 
 - `VisualizationConfig` is a discriminated union. Slice 1 ships `table` and
   `bar` only — do not add other chart types ahead of scope.
-- ECharts is imported ONLY inside this module, behind the
-  `Query Result → Visualization Config → Chart Adapter → ECharts`
-  pipeline. Its options types must never escape the module boundary.
+- **Recharts** is imported ONLY inside this module, behind the
+  `Query Result → Visualization Config → Chart Adapter → Recharts`
+  pipeline. Its prop types must never escape the module boundary.
+- Recharts replaced ECharts here on 2026-09-03: shadcn/ui's chart layer is
+  built on Recharts, results are capped at 10,000 rows (decisions/05) and
+  aggregates at a few dozen groups, so ECharts' canvas renderer had no
+  workload to justify it. What the boundary protects is the _adapter_, not
+  the vendor — revisit only if a measured workload needs canvas.
+- Do NOT install shadcn's own `chart` component. It lands in
+  `src/components/ui`, which exports Recharts-typed props app-wide and
+  breaks this boundary, and it carries nine type assertions against
+  CLAUDE.md's "No casts". Its CSS-variable theming is already in
+  globals.css as `--chart-1` … `--chart-5`.
 
 ## Validation
 

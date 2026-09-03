@@ -42,7 +42,7 @@ export function CreateWorkspaceForm() {
           name="name"
           autoComplete="off"
           required
-          invalid={Boolean(fieldErrors.name)}
+          aria-invalid={Boolean(fieldErrors.name)}
           aria-describedby={nameErrorId}
         />
         <FieldError id="workspace-name-error" message={fieldErrors.name} />

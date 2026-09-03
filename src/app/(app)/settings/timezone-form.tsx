@@ -5,7 +5,7 @@ import { useActionState } from "react"
 import { Button } from "@/components/ui/button"
 import { FieldError } from "@/components/ui/field-error"
 import { Label } from "@/components/ui/label"
-import { Select } from "@/components/ui/select"
+import { NativeSelect } from "@/components/ui/native-select"
 
 import { updateTimezoneAction } from "./actions"
 
@@ -34,7 +34,7 @@ export function TimezoneForm({ currentTimezone, availableTimezones, canEdit }: T
     <form action={formAction} className="space-y-4">
       <div>
         <Label htmlFor="timezone">Timezone</Label>
-        <Select
+        <NativeSelect
           id="timezone"
           name="timezone"
           defaultValue={selectedTimezone}
@@ -49,7 +49,7 @@ export function TimezoneForm({ currentTimezone, availableTimezones, canEdit }: T
               {timezone}
             </option>
           ))}
-        </Select>
+        </NativeSelect>
         <FieldError id="timezone-error" message={fieldErrors.timezone} />
       </div>
 

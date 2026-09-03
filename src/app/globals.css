@@ -1,69 +1,244 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
+/*
+ * shadcn ships `@custom-variant dark (&:is(.dark *))`, so its `dark:`
+ * utilities fire only when something sets a `.dark` class. This app resolves
+ * the theme from `prefers-color-scheme`, which would leave the tokens
+ * flipping while the utilities stayed light. Both paths are declared here.
+ */
+@custom-variant dark {
+  &:is(.dark *) {
+    @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    &:not(.light *) {
+      @slot;
+    }
+  }
+}
+
+/*
+ * The Drawing Sheet — see DESIGN.md.
+ *
+ * A plotted CAD sheet: cool near-white stock, graphite line work, and redline
+ * as the only accent. shadcn's full token contract is kept intact so its
+ * components work unmodified; the values are ours. The extra `--desk`,
+ * `--hairline-*`, `--redline`, `--caution` and `--checked` tokens are the
+ * drafting vocabulary shadcn has no equivalent for.
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --card: #ffffff;
-  --border: #e4e4e7;
-  --muted: #f4f4f5;
-  --muted-foreground: #71717a;
-  --accent: #171717;
-  --accent-foreground: #ffffff;
-  --danger: #dc2626;
+  /* drafting vocabulary */
+  --sheet: #fcfcfd;
+  --desk: #edeff2;
+  --graphite: #1b1d21;
+  --graphite-2: #5c636e;
+  --hairline: #c4cad3;
+  --hairline-faint: #e4e8ed;
+  --redline: #c8102e;
+  --redline-wash: #fbeaed;
+  --caution: #a85b00;
+  --caution-wash: #fbf1e4;
+  --checked: #1f6b3b;
+  --checked-wash: #e9f2ec;
+
+  /* shadcn contract */
+  --background: var(--sheet);
+  --foreground: var(--graphite);
+  --card: var(--sheet);
+  --card-foreground: var(--graphite);
+  --popover: var(--sheet);
+  --popover-foreground: var(--graphite);
+  --primary: var(--graphite);
+  --primary-foreground: var(--sheet);
+  --secondary: var(--desk);
+  --secondary-foreground: var(--graphite);
+  --muted: var(--desk);
+  --muted-foreground: var(--graphite-2);
+  --accent: var(--desk);
+  --accent-foreground: var(--graphite);
+  --destructive: var(--redline);
+  --danger: var(--redline);
   --danger-foreground: #ffffff;
-  --ring: #2563eb;
+  --border: var(--hairline);
+  --input: var(--hairline);
+  --ring: var(--redline);
+
+  /*
+   * Chart series. A graphite ramp, not a hue wheel: PRODUCT.md requires that
+   * colour never be the only channel carrying meaning, so a series is told
+   * apart by position and hatch first. Redline is the emphasised series only.
+   */
+  --chart-1: #1b1d21;
+  --chart-2: #4a525c;
+  --chart-3: #78818d;
+  --chart-4: #a6aeb9;
+  --chart-5: var(--redline);
+
+  /* A drawing has no soft corners. */
+  --radius: 0.125rem;
+
+  --sidebar: var(--desk);
+  --sidebar-foreground: var(--graphite);
+  --sidebar-primary: var(--graphite);
+  --sidebar-primary-foreground: var(--sheet);
+  --sidebar-accent: var(--sheet);
+  --sidebar-accent-foreground: var(--graphite);
+  --sidebar-border: var(--hairline);
+  --sidebar-ring: var(--redline);
+}
+
+/*
+ * The negative print. Declared twice on purpose: `.dark` is shadcn's own
+ * contract and wins when the app sets it, and the media query covers the
+ * viewer who has chosen nothing — without it a system-dark visitor gets
+ * light tokens on a dark host ground.
+ */
+.dark {
+  --sheet: #15181c;
+  --desk: #0b0d0f;
+  --graphite: #e9ebee;
+  --graphite-2: #9aa2ad;
+  --hairline: #333a42;
+  --hairline-faint: #22272c;
+  --redline: #ff6178;
+  --redline-wash: #2b1418;
+  --caution: #e0a050;
+  --caution-wash: #2a1f12;
+  --checked: #6bbf8c;
+  --checked-wash: #12231a;
+
+  --chart-1: #e9ebee;
+  --chart-2: #aab2bd;
+  --chart-3: #7d8691;
+  --chart-4: #565e68;
+  --chart-5: var(--redline);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    --sheet: #15181c;
+    --desk: #0b0d0f;
+    --graphite: #e9ebee;
+    --graphite-2: #9aa2ad;
+    --hairline: #333a42;
+    --hairline-faint: #22272c;
+    --redline: #ff6178;
+    --redline-wash: #2b1418;
+    --caution: #e0a050;
+    --caution-wash: #2a1f12;
+    --checked: #6bbf8c;
+    --checked-wash: #12231a;
+
+    --chart-1: #e9ebee;
+    --chart-2: #aab2bd;
+    --chart-3: #7d8691;
+    --chart-4: #565e68;
+    --chart-5: var(--redline);
+  }
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
-  --color-border: var(--border);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
   --color-danger: var(--danger);
   --color-danger-foreground: var(--danger-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
   --color-ring: var(--ring);
+
+  /* drafting vocabulary, available as Tailwind utilities */
+  --color-sheet: var(--sheet);
+  --color-desk: var(--desk);
+  --color-hairline: var(--hairline);
+  --color-hairline-faint: var(--hairline-faint);
+  --color-redline: var(--redline);
+  --color-redline-wash: var(--redline-wash);
+  --color-caution: var(--caution);
+  --color-caution-wash: var(--caution-wash);
+  --color-checked: var(--checked);
+  --color-checked-wash: var(--checked-wash);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --radius-sm: calc(var(--radius) - 1px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 2px);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  /*
+   * The researched type system (commit a00576d). All three faces are tabular
+   * by default; --font-sans is Familjen Grotesk, never a scaffold face.
+   */
   --font-sans: var(--font-familjen-grotesk);
   --font-display: var(--font-newsreader);
   --font-mono: var(--font-sometype-mono);
+  --font-heading: var(--font-familjen-grotesk);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --card: #111113;
-    --border: #27272a;
-    --muted: #18181b;
-    --muted-foreground: #a1a1aa;
-    --accent: #ededed;
-    --accent-foreground: #0a0a0a;
-    --danger: #f87171;
-    --danger-foreground: #450a0a;
-    --ring: #60a5fa;
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  }
+
+  /*
+   * Figures. The three faces are tabular in their default figure set, so a
+   * table needs no declaration to align — the risk runs the other way, and
+   * running prose has to opt out or it reads mechanically.
+   */
+  p,
+  li {
+    font-variant-numeric: proportional-nums;
+  }
+
+  table,
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Browser surfaces the design still owns. */
+  ::selection {
+    background: var(--redline);
+    color: #ffffff;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
-}
-
-/*
- * Figures. The three faces are tabular in their default figure set, so a table
- * needs no declaration to align — the risk runs the other way, and running prose
- * has to opt out or it reads mechanically.
- */
-p,
-li {
-  font-variant-numeric: proportional-nums;
-}
-
-table,
-.tabular {
-  font-variant-numeric: tabular-nums;
+/* sonner's custom properties, kept here rather than as a cast inline style. */
+.toaster {
+  --normal-bg: var(--popover);
+  --normal-text: var(--popover-foreground);
+  --normal-border: var(--border);
+  --border-radius: var(--radius);
 }

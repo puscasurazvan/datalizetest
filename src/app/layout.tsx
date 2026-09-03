@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { Familjen_Grotesk, Newsreader, Sometype_Mono } from "next/font/google"
 import "./globals.css"
+import { cn } from "@/lib/utils"
 
 /**
  * All three faces are TABULAR BY DEFAULT — every digit shares one advance with no
@@ -45,7 +46,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${sans.variable} ${display.variable} ${mono.variable} h-full antialiased`}
+      className={cn(
+        "h-full",
+        "antialiased",
+        sans.variable,
+        display.variable,
+        mono.variable,
+        "font-sans",
+      )}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>

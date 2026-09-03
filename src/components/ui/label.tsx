@@ -1,16 +1,27 @@
-import type { LabelHTMLAttributes } from "react"
+"use client"
 
-export type LabelProps = LabelHTMLAttributes<HTMLLabelElement>
+import * as React from "react"
+
+import { cn } from "@/lib/utils"
 
 /**
- * A real `<label>`. Every caller must pass `htmlFor` matching the
- * control's `id` — the linter can't see that through a generic primitive's
- * spread props, so it's enforced by convention here and reviewed at each
- * call site instead.
+ * The association is the caller's to make: every call site passes `htmlFor`
+ * (or wraps its control), which is the contract this primitive forwards. The
+ * rule cannot see across that boundary, so it is silenced here and enforced
+ * at the call sites instead — see src/components/CLAUDE.md "Every component".
  */
-export function Label({ className = "", ...props }: LabelProps) {
+function Label({ className, ...props }: React.ComponentProps<"label">) {
   return (
-    // oxlint-disable-next-line jsx-a11y/label-has-associated-control -- htmlFor is required by every call site; the rule can't see it through spread props on a generic primitive.
-    <label className={`mb-1.5 block text-sm font-medium text-foreground ${className}`} {...props} />
+    // oxlint-disable-next-line jsx-a11y/label-has-associated-control
+    <label
+      data-slot="label"
+      className={cn(
+        "flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50",
+        className,
+      )}
+      {...props}
+    />
   )
 }
+
+export { Label }

@@ -129,6 +129,10 @@ describe("a stored timezone the allowlist does not contain", () => {
     render(
       <TimezoneForm
         currentTimezone="Asia/Calcutta"
+        // Test fixture, rendered once per test; there is no re-render loop for a fresh array
+        // reference to defeat, and inlining it here (rather than a shared constant) keeps the
+        // scenario each test names legible at the call site.
+        // oxlint-disable-next-line react-perf/jsx-no-new-array-as-prop
         availableTimezones={["Africa/Abidjan", "UTC"]}
         canEdit
       />,
@@ -141,6 +145,10 @@ describe("a stored timezone the allowlist does not contain", () => {
 
   it("does not add that option when the stored value is recognised", () => {
     render(
+      // Test fixture, rendered once per test; there is no re-render loop for a fresh array
+      // reference to defeat, and inlining it here (rather than a shared constant) keeps the
+      // scenario each test names legible at the call site.
+      // oxlint-disable-next-line react-perf/jsx-no-new-array-as-prop
       <TimezoneForm currentTimezone="UTC" availableTimezones={["Africa/Abidjan", "UTC"]} canEdit />,
     )
 

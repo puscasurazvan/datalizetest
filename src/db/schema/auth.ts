@@ -132,7 +132,13 @@ export const organizationMembers = pgTable(
     userId: text("user_id")
       .notNull()
       .references(() => users.id, { onDelete: "cascade" }),
-    role: text("role").notNull().default("member"),
+    // docs/decisions/06 #19: must default to "viewer", not Better Auth's
+    // built-in "member" — "member" is not a value `Role` (src/modules/auth/policy.ts)
+    // can represent, and `ROLE_PERMISSIONS["member"]` is `undefined`. `viewer`
+    // is the least-privileged role, the correct fail-closed default for a
+    // row inserted with no explicit role (a future backfill/seed/direct SQL
+    // fix, or a Better Auth route that stops passing one).
+    role: text("role").notNull().default("viewer"),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   },
   (table) => [

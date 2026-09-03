@@ -9,4 +9,6 @@
 // Phase A (auth): Better Auth's tables — see src/modules/auth/auth.ts.
 export * from "./auth"
 
-// Tables are added in Phase A (auth) and Phase B (datasets, imports).
+// Phase B: Dataset, Dataset Version, Dataset Column, Import, Import Error,
+// and the analytical store's own registry — see src/db/schema/datasets.ts.
+export * from "./datasets"

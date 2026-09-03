@@ -15,6 +15,27 @@
       "when": 1788377003666,
       "tag": "0001_certain_magdalene",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1788426886227,
+      "tag": "0002_dear_the_enforcers",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1788426897194,
+      "tag": "0003_create_analytical_schema",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1788432960395,
+      "tag": "0004_fix_confirmed_defects",
+      "breakpoints": true
     }
   ]
 }

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest"
 
-import { configuredSocialProviders, EnvironmentError, parseEnv } from "./env"
+import { configuredSocialProviders, devSignInEnabled, EnvironmentError, parseEnv } from "./env"
 
 const valid = {
   DATABASE_URL: "postgresql://datalize:datalize@localhost:5433/datalize",
@@ -129,5 +129,42 @@ describe("configuredSocialProviders", () => {
       GITHUB_CLIENT_SECRET: "secret",
     })
     expect(configuredSocialProviders(environment)).toEqual(["google", "github"])
+  })
+})
+
+// The development sign-in route establishes a real session. What keeps it a
+// dev tool rather than a backdoor is that production refuses to boot with it
+// set — so that refusal is the test that matters, not the route's own check.
+describe("DEV_SIGN_IN", () => {
+  it("refuses to boot in production when it is set", () => {
+    expect(() => parseEnv({ ...valid, NODE_ENV: "production", DEV_SIGN_IN: "true" })).toThrowError(
+      EnvironmentError,
+    )
+    expect(() => parseEnv({ ...valid, NODE_ENV: "production", DEV_SIGN_IN: "true" })).toThrowError(
+      /DEV_SIGN_IN/,
+    )
+  })
+
+  it("boots in production when it is unset or blank", () => {
+    expect(() => parseEnv({ ...valid, NODE_ENV: "production" })).not.toThrow()
+    // `.env.example` ships it blank, and a declared-but-unset Vercel variable
+    // arrives as "" — neither may be read as "on".
+    expect(() => parseEnv({ ...valid, NODE_ENV: "production", DEV_SIGN_IN: "" })).not.toThrow()
+    expect(devSignInEnabled(parseEnv({ ...valid, NODE_ENV: "production", DEV_SIGN_IN: "" }))).toBe(
+      false,
+    )
+  })
+
+  it("is off unless explicitly set, even in development", () => {
+    expect(devSignInEnabled(parseEnv({ ...valid, NODE_ENV: "development" }))).toBe(false)
+    expect(devSignInEnabled(parseEnv({ ...valid, NODE_ENV: "development", DEV_SIGN_IN: "" }))).toBe(
+      false,
+    )
+  })
+
+  it("is on in development once set", () => {
+    expect(
+      devSignInEnabled(parseEnv({ ...valid, NODE_ENV: "development", DEV_SIGN_IN: "true" })),
+    ).toBe(true)
   })
 })

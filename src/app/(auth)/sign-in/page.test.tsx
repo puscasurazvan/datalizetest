@@ -4,8 +4,11 @@ import "@testing-library/jest-dom/vitest"
 import { cleanup, render, screen } from "@testing-library/react"
 import { afterEach, describe, expect, it, vi } from "vitest"
 
+const devSignInEnabled = vi.fn<() => boolean>(() => false)
+
 vi.mock("@/shared/env", () => ({
   configuredSocialProviders: () => [],
+  devSignInEnabled: () => devSignInEnabled(),
 }))
 
 vi.mock("./sign-in-form", () => ({
@@ -58,5 +61,24 @@ describe("SignInPage OAuth callback error", () => {
     const alert = screen.getByRole("alert")
     expect(alert).toHaveTextContent("Something went wrong signing you in.")
     expect(alert).not.toHaveTextContent("state_not_found")
+  })
+})
+
+describe("SignInPage development sign-in", () => {
+  const linkName = /sign in as the demo user/i
+
+  it("offers no development sign-in by default", async () => {
+    devSignInEnabled.mockReturnValue(false)
+    render(await SignInPage({ searchParams: Promise.resolve({}) }))
+
+    expect(screen.queryByRole("link", { name: linkName })).not.toBeInTheDocument()
+  })
+
+  it("offers it when the environment enables it, as a real document navigation", async () => {
+    devSignInEnabled.mockReturnValue(true)
+    render(await SignInPage({ searchParams: Promise.resolve({}) }))
+
+    const link = screen.getByRole("link", { name: linkName })
+    expect(link).toHaveAttribute("href", "/api/dev/sign-in")
   })
 })

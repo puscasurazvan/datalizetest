@@ -84,6 +84,21 @@ const schema = z
 
     SENTRY_DSN: optionalSecret(),
 
+    // One-click sign-in as a seeded local user, for development only. It
+    // mints nothing: the route it enables calls Better Auth's own
+    // `signInEmail` with a real password, so there is no second way to
+    // establish a session and no branch anywhere in the tenant path. The
+    // `superRefine` below refuses to boot if it is ever set in production
+    // — a bypass that can be switched on in production is not a dev tool,
+    // it is a backdoor, and the difference has to be enforced rather than
+    // documented.
+    //
+    // Set it in `.env.development.local`, which Next.js loads only for
+    // `next dev`. `.env.local` is read by `next build` too, where
+    // NODE_ENV is production, so putting it there makes your own build
+    // fail the check above — correctly, but confusingly.
+    DEV_SIGN_IN: optionalSecret(),
+
     NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
   })
   .superRefine((value, ctx) => {
@@ -101,6 +116,16 @@ const schema = z
       "GITHUB_CLIENT_SECRET",
       value.GITHUB_CLIENT_SECRET,
     )
+
+    if (value.NODE_ENV === "production" && value.DEV_SIGN_IN !== undefined) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["DEV_SIGN_IN"],
+        message:
+          "DEV_SIGN_IN must not be set when NODE_ENV is production. It exists for local " +
+          "development only; unset it rather than relying on the route's own check.",
+      })
+    }
   })
 
 export type Env = z.infer<typeof schema>
@@ -131,6 +156,18 @@ export function configuredSocialProviders(environment: Env = env()): SocialProvi
     providers.push("github")
   }
   return providers
+}
+
+/**
+ * Whether the development sign-in route and its button exist at all.
+ *
+ * Read by both `src/app/api/dev/sign-in/route.ts` and the sign-in page, so
+ * the route and the button can never disagree about whether the thing is
+ * on — the same argument as `configuredSocialProviders` above. Production
+ * cannot reach this returning `true`: the schema refuses to parse.
+ */
+export function devSignInEnabled(environment: Env = env()): boolean {
+  return environment.NODE_ENV !== "production" && environment.DEV_SIGN_IN !== undefined
 }
 
 export class EnvironmentError extends Error {

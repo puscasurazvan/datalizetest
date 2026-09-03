@@ -1,7 +1,7 @@
 import Link from "next/link"
 
-import { Card } from "@/components/ui/card"
-import { configuredSocialProviders } from "@/shared/env"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { configuredSocialProviders, devSignInEnabled } from "@/shared/env"
 
 import { SOCIAL_PROVIDER_LABELS } from "../social-providers"
 import { SocialSignInButtons } from "../social-sign-in-buttons"
@@ -39,20 +39,40 @@ export default async function SignInPage({ searchParams }: SignInPageProps) {
 
   return (
     <Card>
-      <h1 className="mb-6 text-xl font-semibold text-foreground">Sign in</h1>
-      {oauthError ? (
-        <p role="alert" className="mb-4 text-sm text-danger">
-          {oauthError}
-        </p>
-      ) : null}
-      <SocialSignInButtons providers={configuredSocialProviders()} />
-      <SignInForm />
-      <p className="mt-6 text-center text-sm text-muted-foreground">
+      <CardHeader className="border-b border-hairline">
+        <CardTitle className="text-[15px] font-semibold">Sign in</CardTitle>
+      </CardHeader>
+      <CardContent className="flex flex-col gap-4">
+        {oauthError ? (
+          <p role="alert" className="text-sm text-danger">
+            {oauthError}
+          </p>
+        ) : null}
+        <SocialSignInButtons providers={configuredSocialProviders()} />
+        <SignInForm />
+        {devSignInEnabled() ? (
+          // A real document navigation, not `next/link`: the target is a Route
+          // Handler rather than a page, and the browser has to follow its
+          // redirect and store the `set-cookie` it carries. A client-side
+          // transition would do neither.
+          // oxlint-disable-next-line next/no-html-link-for-pages
+          <a
+            href="/api/dev/sign-in"
+            className="block rounded-md border border-dashed border-border px-3 py-2 text-center text-sm text-muted-foreground hover:text-foreground"
+          >
+            Sign in as the demo user (development only)
+          </a>
+        ) : null}
+      </CardContent>
+      <CardFooter className="border-t border-hairline pt-4 font-mono text-[11px] text-muted-foreground">
         Don&apos;t have an account?{" "}
-        <Link href="/sign-up" className="font-medium text-foreground underline underline-offset-4">
+        <Link
+          href="/sign-up"
+          className="ml-1 font-medium text-foreground underline underline-offset-4"
+        >
           Create one
         </Link>
-      </p>
+      </CardFooter>
     </Card>
   )
 }

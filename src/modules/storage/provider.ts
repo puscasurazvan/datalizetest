@@ -3,11 +3,11 @@
  * storage (src/modules/storage/CLAUDE.md, docs/reference/Datalize.md §22).
  *
  * Only what the CSV import path needs: create a presigned upload target,
- * read an object back as a stream, delete an object, and stat one. There is
- * no S3-compatible implementation here — the AWS SDK is not installed in
- * this repo; `InMemoryStorageProvider` (./in-memory.ts) is the only
- * implementation. An S3 adapter is a follow-up, written against this
- * interface once the AWS SDK is a dependency.
+ * read an object back as a stream, delete an object, and stat one. Two
+ * implementations exist: `S3StorageProvider` (./s3.ts), the production
+ * adapter against any S3-compatible store (AWS S3, MinIO, R2), and
+ * `InMemoryStorageProvider` (./in-memory.ts) for tests and an unconfigured
+ * dev environment. `getStorageProvider()` (./index.ts) picks between them.
  *
  * Every method takes an `ObjectKey`, never a bare `string` — see
  * ./object-key.ts for why a client-supplied key cannot reach these methods.

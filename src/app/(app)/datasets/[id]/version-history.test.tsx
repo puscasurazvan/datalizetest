@@ -58,4 +58,27 @@ describe("VersionHistory", () => {
     expect(screen.queryByText(/Active ·/)).not.toBeInTheDocument()
     expect(container.querySelectorAll(".line-through")).toHaveLength(2)
   })
+
+  it("never strikes through a non-active RUNNING or FAILED version — neither ever succeeded", () => {
+    const running = version({ id: "v3", versionNumber: 3, status: "RUNNING", rowCount: null })
+    const failed = version({ id: "v4", versionNumber: 4, status: "FAILED", rowCount: null })
+    const { container } = render(
+      <VersionHistory versions={[running, failed, V1]} activeVersionId={null} />,
+    )
+
+    // Only v1 (COMPLETED, non-active) was actually superseded.
+    const struck = container.querySelectorAll(".line-through")
+    expect(struck).toHaveLength(1)
+    expect(struck[0]).toHaveTextContent("v1")
+  })
+
+  it("badges a non-active RUNNING or FAILED version with its own status, not an Active label", () => {
+    const running = version({ id: "v3", versionNumber: 3, status: "RUNNING", rowCount: null })
+    const failed = version({ id: "v4", versionNumber: 4, status: "FAILED", rowCount: null })
+    render(<VersionHistory versions={[running, failed]} activeVersionId={null} />)
+
+    expect(screen.getByText("RUNNING")).toBeInTheDocument()
+    expect(screen.getByText("FAILED")).toBeInTheDocument()
+    expect(screen.queryByText(/Active ·/)).not.toBeInTheDocument()
+  })
 })

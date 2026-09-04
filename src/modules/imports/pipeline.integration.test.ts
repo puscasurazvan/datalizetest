@@ -32,7 +32,7 @@ import { loadImport } from "./internal/load"
 import { startImport } from "./internal/start"
 import { registerImportTasks } from "./internal/register-tasks"
 import { parseProposedSchema } from "./internal/schema-types"
-import { getImportForContext } from "./repository/import-repository"
+import { getImportForContext, recordConfirmedSchema } from "./repository/import-repository"
 
 async function physicalRowCount(versionId: string): Promise<number> {
   const result = await importPool.query<{ count: string }>(
@@ -262,6 +262,67 @@ describe("import pipeline (integration)", () => {
     expect(afterSecondDispatch.rowsImported).toBe(1000)
   })
 
+  // Regression for the confirmed defect (plan H1): recordConfirmedSchema's
+  // WHERE used to carry only organization + id, so a second confirmImport
+  // call — the two-tab race — passed the same pre-read AWAITING_CONFIRMATION
+  // check, wrote confirmedSchema/QUEUED a second time, and dispatched a
+  // second IMPORT_LOAD. InlineDispatcher doesn't dedupe on idempotencyKey
+  // (jobs/CLAUDE.md), and createRunningVersion's isNull guard protects only
+  // the imports UPDATE, not the dataset_versions INSERT — two RUNNING
+  // versions, one orphaned. The fix is a status predicate on
+  // recordConfirmedSchema's WHERE: only the confirm that still finds
+  // AWAITING_CONFIRMATION at write time commits: the second sees 0 rows
+  // updated and throws VALIDATION instead of ever reaching enqueue.
+  it("two concurrent confirmImport calls on the same import produce one dataset_versions row, not two", async () => {
+    const context = contextFor("UTC")
+    activeContext = context
+
+    const objectKey = await uploadFixture("transactions_stripe.csv")
+    const { importId } = await startImport(
+      context,
+      {
+        objectKey,
+        originalFilename: "transactions_stripe.csv",
+        contentType: "text/csv",
+        datasetName: `Confirm Race ${runId}`,
+      },
+      { storage, jobDispatcher: getJobDispatcher() },
+    )
+
+    // Fired without awaiting either first — this is the two-tab race
+    // itself, not a sequential re-confirm (which the pre-existing pre-read
+    // check in confirm.ts already caught, before this fix). Both calls'
+    // synchronous prefix (assertCan, then the first `await
+    // getImportForContext`) runs before either reaches `recordConfirmedSchema`,
+    // so both read AWAITING_CONFIRMATION and both attempt the write —
+    // exactly the sequence H1 names.
+    const results = await Promise.allSettled([
+      confirmImport(context, { importId }, { jobDispatcher: getJobDispatcher() }),
+      confirmImport(context, { importId }, { jobDispatcher: getJobDispatcher() }),
+    ])
+
+    const fulfilled = results.filter((r) => r.status === "fulfilled")
+    const rejected = results.filter((r) => r.status === "rejected")
+    expect(fulfilled).toHaveLength(1)
+    expect(rejected).toHaveLength(1)
+    if (rejected[0]?.status !== "rejected") throw new Error("expected a rejection")
+    expect(rejected[0].reason).toMatchObject({
+      code: "VALIDATION",
+      message: "This import is not awaiting confirmation.",
+    })
+
+    const finished = await getImportForContext(context, importId)
+    const versionId = finished.datasetVersionId
+    if (versionId === null) throw new Error("expected a dataset version id")
+    createdVersionIds.push(versionId)
+
+    const versions = await db
+      .select()
+      .from(datasetVersions)
+      .where(eq(datasetVersions.datasetId, finished.datasetId))
+    expect(versions).toHaveLength(1)
+  })
+
   it("a file breaching the column ceiling fails with the bound named and creates no physical table", async () => {
     const context = contextFor("UTC")
     activeContext = context
@@ -372,6 +433,12 @@ describe("import pipeline (integration)", () => {
     const confirmed = await getImportForContext(context, importId)
     expect(confirmed.status).toBe("QUEUED")
     expect(confirmed.datasetVersionId).toBeNull()
+
+    // H1's WHERE predicate itself, proved deterministically rather than by
+    // scheduling luck: this import is already past AWAITING_CONFIRMATION,
+    // so a second `recordConfirmedSchema` call — exactly what the losing
+    // side of a two-tab race runs — must match and update zero rows.
+    expect(await recordConfirmedSchema(context, importId, confirmed.confirmedSchema)).toBe(0)
 
     await storage.deleteObject(parseKeyOrThrow(objectKey, organizationId))
 

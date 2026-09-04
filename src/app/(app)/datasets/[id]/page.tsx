@@ -2,11 +2,15 @@ import type { ReactNode } from "react"
 import { notFound } from "next/navigation"
 
 import { DatasetHeader } from "./dataset-header"
+import { OpenImportBanner } from "./open-import-banner"
 import { QueryPanel } from "./query-panel"
 import { VersionHistory } from "./version-history"
 import { DatasetPreviewTable } from "@/components/data/dataset-preview-table"
 import { DatasetSchemaTable } from "@/components/data/dataset-schema-table"
+import { can } from "@/modules/auth/policy"
 import { getDatasetDetail, PREVIEW_ROW_LIMIT } from "@/modules/datasets"
+import { findOpenImportForDataset } from "@/modules/imports"
+import { toPolicyContext } from "@/modules/organizations"
 import { resolveActiveContext } from "../../active-context"
 import { type RequestContext } from "@/shared/context/request-context"
 import { AppError } from "@/shared/errors"
@@ -25,14 +29,27 @@ export default async function DatasetDetailPage({ params }: { params: Promise<{ 
 
   const { dataset, versions, columns, previewRows, previewUnavailable } = detail
   const version = dataset.currentVersion
+  // `dataset:manage`, not `dataset:read` (dataset-header.tsx's doc): a
+  // viewer can watch this Dataset but not add a version to it.
+  const canAddVersion = can(toPolicyContext(context), "dataset:manage")
+  const openImport = await findOpenImportForDataset(context, dataset.id)
 
   if (version === null) {
     return (
       <>
-        <DatasetHeader name={dataset.name} version={null} />
-        <div className="rounded-xl border border-hairline bg-surface-raised p-space-md text-body-sm text-ink-muted">
-          This Dataset has no current version. An import that never completed leaves it here.
-        </div>
+        <DatasetHeader
+          datasetId={dataset.id}
+          name={dataset.name}
+          version={null}
+          canAddVersion={canAddVersion}
+        />
+        {openImport !== undefined ? (
+          <OpenImportBanner view={openImport} />
+        ) : (
+          <div className="rounded-xl border border-hairline bg-surface-raised p-space-md text-body-sm text-ink-muted">
+            This Dataset has no current version. An import that never completed leaves it here.
+          </div>
+        )}
         {versions.length > 0 ? (
           <DetailSection
             title="Version history"
@@ -47,7 +64,13 @@ export default async function DatasetDetailPage({ params }: { params: Promise<{ 
 
   return (
     <>
-      <DatasetHeader name={dataset.name} version={version} />
+      <DatasetHeader
+        datasetId={dataset.id}
+        name={dataset.name}
+        version={version}
+        canAddVersion={canAddVersion}
+      />
+      {openImport !== undefined ? <OpenImportBanner view={openImport} /> : null}
 
       <DetailSection
         title="Version history"

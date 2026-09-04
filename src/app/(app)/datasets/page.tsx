@@ -2,6 +2,7 @@ import { Database, Globe, Layers, ShieldAlert, Table2 } from "lucide-react"
 
 import { DatasetTable } from "./dataset-table"
 import { MetricTile } from "./metric-tile"
+import { ImportCsvButton } from "@/components/data/import-csv-button"
 import { ImportSampleButtons } from "@/components/data/import-sample-buttons"
 import { Sheet } from "@/components/provenance/sheet"
 import { listDatasetsForContext } from "@/modules/datasets"
@@ -33,7 +34,10 @@ export default async function DatasetsPage() {
             <span className="text-ink">{context.organizationTimezone}</span>
           </span>
         </div>
-        <ImportSampleButtons />
+        <div className="flex flex-wrap items-center gap-space-sm">
+          <ImportCsvButton />
+          <ImportSampleButtons />
+        </div>
       </header>
 
       <div className="grid grid-cols-1 gap-space-md sm:grid-cols-2 xl:grid-cols-4">
@@ -86,12 +90,13 @@ function EmptyState() {
         { label: "ACCEPTS", value: "CSV up to 50 MB" },
         { label: "CEILING", value: "1M rows · 100 columns" },
         { label: "ON REPEAT UPLOAD", value: "Idempotent — no duplicate", tone: "verified" },
-        { label: "STATUS", value: "Ready for a sample" },
+        { label: "STATUS", value: "Ready for a file" },
       ]}
     >
       <p className="max-w-[62ch] text-[13px] text-ink-muted">
-        Nothing has been imported into this workspace yet. Use one of the samples above — each one
-        runs the real import pipeline, so what you get back is a genuine Dataset Version.
+        Nothing has been imported into this workspace yet. Import a CSV to create your first
+        Dataset, or run one of the samples above — both go through the real import pipeline, so what
+        you get back is a genuine Dataset Version either way.
       </p>
     </Sheet>
   )

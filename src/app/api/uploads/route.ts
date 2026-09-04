@@ -17,7 +17,7 @@ import { assertCan } from "@/modules/auth/policy"
 import { toPolicyContext } from "@/modules/organizations"
 import { getStorageProvider } from "@/modules/storage"
 import { createRequestContext } from "@/shared/context/request-context"
-import { statusForErrorCode, toSafeDto } from "@/shared/errors"
+import { AppError, statusForErrorCode, toSafeDto } from "@/shared/errors"
 
 export async function POST(): Promise<NextResponse> {
   try {
@@ -28,6 +28,21 @@ export async function POST(): Promise<NextResponse> {
     // turn into an import.
     assertCan(toPolicyContext(context), "dataset:create")
     const target = await getStorageProvider().createUploadTarget(context.organizationId)
+
+    // getStorageProvider() (src/modules/storage/index.ts) silently falls
+    // back to InMemoryStorageProvider when no STORAGE_* variable is set —
+    // a fresh clone or CI, deliberately, so `pnpm test` needs no S3. Its
+    // upload URL is `memory://<key>`, which no browser can PUT to. Refusing
+    // it here turns a bare fetch TypeError in the upload dialog into a
+    // legible error naming the actual cause.
+    const url = target.url.reveal()
+    if (!url.startsWith("http://") && !url.startsWith("https://")) {
+      throw new AppError(
+        "VALIDATION",
+        "File uploads are not configured for this environment. Set the STORAGE_* " +
+          "environment variables (see .env.example) and restart the server.",
+      )
+    }
 
     return NextResponse.json({
       key: target.key.value,

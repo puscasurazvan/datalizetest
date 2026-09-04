@@ -18,6 +18,19 @@ env:
   TEST_BETTER_AUTH_SECRET: test-secret-that-is-at-least-32-characters-long
   TEST_BETTER_AUTH_URL: http://localhost:3000
 
+  # Same MinIO credentials docker-compose.yml uses locally (H6): once these
+  # are set, getStorageProvider() (src/modules/storage/index.ts) stops
+  # returning InMemoryStorageProvider and e2e/import.spec.ts's upload goes
+  # through a real presigned PUT. STORAGE_ENDPOINT is host-visible on
+  # purpose, same reasoning as .env.example — the e2e run's browser and the
+  # `pnpm start` server it drives both reach MinIO as `localhost`, not a
+  # Docker service name, on a plain (non-containerized) GitHub Actions job.
+  TEST_STORAGE_ENDPOINT: http://localhost:9000
+  TEST_STORAGE_REGION: us-east-1
+  TEST_STORAGE_BUCKET: datalize-uploads
+  TEST_STORAGE_ACCESS_KEY_ID: datalize
+  TEST_STORAGE_SECRET_ACCESS_KEY: datalize-dev-secret
+
 jobs:
   ci:
     runs-on: ubuntu-latest
@@ -36,6 +49,14 @@ jobs:
           --health-interval=5s
           --health-timeout=5s
           --health-retries=10
+
+      # No `minio` entry here: unlike postgres, the minio image needs a
+      # command (`server /data`) to not just print usage and exit, and a
+      # GitHub Actions `services:` container has no `command:` key to supply
+      # one — only `options`, which appends `docker create` flags, not a CMD
+      # override. So MinIO is started by hand in the "Start MinIO" step
+      # below (`docker run`, where a command IS just an argument) instead of
+      # declared as a service.
 
     steps:
       - name: Check out
@@ -111,6 +132,23 @@ jobs:
       - name: Install Playwright browsers
         run: pnpm exec playwright install --with-deps chromium
 
+      # Same image/command/credentials as docker-compose.yml's `minio` +
+      # `minio-init`, run directly rather than as a job service (see the
+      # comment on the removed `minio:` services entry above). Bucket
+      # creation is inline here rather than a second container, since a
+      # `docker run` step is already a one-shot command with nothing to
+      # keep running afterward — `mc` just needs to reach the server once.
+      - name: Start MinIO
+        run: |
+          docker run -d --name minio -p 9000:9000 \
+            -e MINIO_ROOT_USER=${{ env.TEST_STORAGE_ACCESS_KEY_ID }} \
+            -e MINIO_ROOT_PASSWORD=${{ env.TEST_STORAGE_SECRET_ACCESS_KEY }} \
+            minio/minio:RELEASE.2025-04-08T15-41-24Z server /data
+          timeout 30s sh -c 'until docker exec minio mc ready local; do sleep 1; done'
+          docker exec minio mc alias set local http://localhost:9000 \
+            ${{ env.TEST_STORAGE_ACCESS_KEY_ID }} ${{ env.TEST_STORAGE_SECRET_ACCESS_KEY }}
+          docker exec minio mc mb --ignore-existing local/${{ env.TEST_STORAGE_BUCKET }}
+
       - name: End-to-end tests
         run: pnpm test:e2e
         env:
@@ -121,6 +159,17 @@ jobs:
           ANALYTICAL_DATABASE_URL: ${{ env.TEST_DATABASE_URL }}
           BETTER_AUTH_SECRET: ${{ env.TEST_BETTER_AUTH_SECRET }}
           BETTER_AUTH_URL: ${{ env.TEST_BETTER_AUTH_URL }}
+          # Set only here (H6): `pnpm build` above must keep exercising the
+          # ordinary "storage unconfigured" boot path too, and every earlier
+          # step needs no bucket at all. Once these are set,
+          # getStorageProvider() takes the S3StorageProvider branch and
+          # e2e/datasets.spec.ts's sample import — not just the new
+          # e2e/import.spec.ts — goes through a real presigned PUT.
+          STORAGE_ENDPOINT: ${{ env.TEST_STORAGE_ENDPOINT }}
+          STORAGE_REGION: ${{ env.TEST_STORAGE_REGION }}
+          STORAGE_BUCKET: ${{ env.TEST_STORAGE_BUCKET }}
+          STORAGE_ACCESS_KEY_ID: ${{ env.TEST_STORAGE_ACCESS_KEY_ID }}
+          STORAGE_SECRET_ACCESS_KEY: ${{ env.TEST_STORAGE_SECRET_ACCESS_KEY }}
 
       - name: Upload Playwright report
         if: always()

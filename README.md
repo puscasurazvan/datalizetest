@@ -112,14 +112,22 @@ Requires Node 22+, pnpm 10, and Docker.
 
 ```bash
 pnpm install
-docker compose up -d          # Postgres: dev on 5433, throwaway test DB on 5434
+docker compose up -d          # Postgres on 5433/5434, MinIO (object storage) on 9000
 cp .env.example .env.local    # then set BETTER_AUTH_SECRET to 32+ random characters
 pnpm db:migrate
 pnpm dev                      # http://localhost:3000
 ```
 
 `.env.test` is committed and already points at the test database, so the integration suite runs with
-no further setup.
+no further setup. `.env.example`'s `STORAGE_*` values already point at the `docker compose` MinIO —
+leave them as-is in `.env.local` to upload a real CSV in dev. Leaving them unset instead falls back to
+an in-memory store with no presigned URL a browser can actually PUT to
+(`src/modules/storage/index.ts`), which is fine for `pnpm test` but not for using the app.
+
+**Deploying to a real S3 bucket** (not MinIO) needs one thing this repo cannot configure for you: the
+bucket's CORS policy must allow a PUT from the app's own origin, or the browser's presigned upload will
+fail with a bare network error. `docker-compose.yml`'s `MINIO_API_CORS_ALLOW_ORIGIN` is the local
+equivalent — there is no code-level fallback for the production bucket.
 
 | Command                                                 |                                                        |
 | ------------------------------------------------------- | ------------------------------------------------------ |

@@ -34,5 +34,50 @@ services:
       timeout: 3s
       retries: 30
 
+  # S3-compatible object storage for raw CSV uploads (src/modules/storage).
+  # STORAGE_ENDPOINT in .env.local must stay http://localhost:9000, not
+  # http://minio:9000 — the presigned URL is PUT to directly by the
+  # browser on the host, which is outside this compose network and cannot
+  # resolve the `minio` service name.
+  minio:
+    image: minio/minio:RELEASE.2025-04-08T15-41-24Z
+    container_name: datalize-minio
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: datalize
+      MINIO_ROOT_PASSWORD: datalize-dev-secret
+      # Lets the browser (localhost:3000) PUT directly to a presigned URL.
+      # Real-S3 CORS is out-of-band infra this compose file cannot cover —
+      # see README.md's deploy prerequisites.
+      MINIO_API_CORS_ALLOW_ORIGIN: http://localhost:3000
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - datalize-minio:/data
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  # Waits for `minio` to report healthy, then creates the upload bucket and
+  # exits. Nothing else in this compose file depends on it finishing —
+  # `pnpm dev` runs outside compose — so a fresh `docker compose up -d`
+  # still needs the bucket to exist before the first real upload; it
+  # usually does, since `minio-init` finishes in well under a second.
+  minio-init:
+    image: minio/mc:RELEASE.2025-04-08T15-39-49Z
+    container_name: datalize-minio-init
+    depends_on:
+      minio:
+        condition: service_healthy
+    entrypoint: >
+      /bin/sh -c "
+      mc alias set local http://minio:9000 datalize datalize-dev-secret &&
+      mc mb --ignore-existing local/datalize-uploads
+      "
+
 volumes:
   datalize-pgdata:
+  datalize-minio:

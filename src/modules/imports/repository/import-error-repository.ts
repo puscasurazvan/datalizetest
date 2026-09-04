@@ -5,7 +5,7 @@
  * (docs/decisions/06 #5, enforced at the type level: `NewImportError`
  * below has no field a cell value could be assigned to).
  */
-import { eq } from "drizzle-orm"
+import { eq, sql } from "drizzle-orm"
 
 import { db } from "@/db/client"
 import { importErrors } from "@/db/schema"
@@ -34,6 +34,32 @@ export async function deleteImportErrors(context: RequestContext, importId: stri
   await db
     .delete(importErrors)
     .where(scopedWhere(context, importErrors, eq(importErrors.importId, importId)))
+}
+
+/**
+ * H3: the one read this module had none of. `import_errors` is the only
+ * place `AMBIGUOUS_LOCAL_TIME`/`NONEXISTENT_LOCAL_TIME` (load-time facts;
+ * profiling only knows `datetimeOffset: naive | mixed`) end up recorded, so
+ * without this the COMPLETED screen has no way to report them at all —
+ * decisions/06's reporting duty going unmet on the one screen it matters.
+ * Grouped counts only: no row number, no column name, no cell value
+ * (decisions/06 #5) — a caller gets "how many of each", never "which".
+ */
+export async function countImportErrorsByCode(
+  context: RequestContext,
+  importId: string,
+): Promise<Record<string, number>> {
+  const rows = await db
+    .select({ errorCode: importErrors.errorCode, count: sql<number>`count(*)::int` })
+    .from(importErrors)
+    .where(scopedWhere(context, importErrors, eq(importErrors.importId, importId)))
+    .groupBy(importErrors.errorCode)
+
+  const counts: Record<string, number> = {}
+  for (const row of rows) {
+    counts[row.errorCode] = row.count
+  }
+  return counts
 }
 
 /**

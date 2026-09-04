@@ -82,7 +82,12 @@ const INFERENCE_ORDER: readonly Exclude<DatalizeType, "string" | "integer">[] = 
   "timestamptz",
 ]
 
-const SAMPLE_SIZE = 10_000
+// Exported (H9): the confirm screen labels `unparseableCount` "in the first
+// 10,000 sampled rows" from this constant rather than a typed-in literal.
+// `profile.ts` declares its own identical `10_000` for a different job
+// (the streaming ceiling check) — deliberately not deduplicated; see that
+// file's own doc.
+export const SAMPLE_SIZE = 10_000
 const THRESHOLD_NUMERATOR = 19
 const THRESHOLD_DENOMINATOR = 20
 

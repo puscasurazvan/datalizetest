@@ -23,10 +23,18 @@ export type { StartImportDeps, StartImportInput, StartImportResult } from "./int
 export { confirmImport, confirmImportInputSchema } from "./internal/confirm"
 export type { ConfirmImportDeps, ConfirmImportInput, ConfirmImportResult } from "./internal/confirm"
 
+export { getImportView, findOpenImportForDataset } from "./internal/read"
+export type { ImportPhase, ImportView } from "./internal/read"
+
+export { SAMPLE_SIZE, DATALIZE_TYPES } from "./internal/inference"
+
 export type {
+  ColumnDatetimeOffset,
   ColumnOverride,
   ConfirmedSchema,
   ConfirmedSchemaColumn,
+  DatalizeType,
+  HeaderIssue,
   ProposedSchema,
   ProposedSchemaColumn,
 } from "./internal/schema-types"

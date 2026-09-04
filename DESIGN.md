@@ -165,7 +165,9 @@ product stays honest.
 Currently in this category: the Dashboard, Query Builder and Audit Vault nav items; the search /
 Command-K button; the rail's Live Telemetry, Schema Defenses, Sync Pipelines and Compliance Logs
 nav; the audit-integrity and SHA-256 readouts; latency and p99; the concurrency slot meter; the
-data-perimeter and zero-drift figures; the plan badge; the refusals count.
+data-perimeter and zero-drift figures; the plan badge; the refusals count; the confirm screen's
+Refuse / Abandon button — `CANCELLED` exists in `dataset_version_status` and the load path honours
+it, but nothing writes it yet.
 
 Where a slot **can** be filled with something true, fill it: active workspace name, applied
 timezone, Dataset count, Dataset Version number, row count, column count, import status, Column

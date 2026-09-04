@@ -48,20 +48,32 @@ function VersionEntry({
   isActive: boolean
 }) {
   const rows = version.rowCount === null ? "—" : version.rowCount.toLocaleString()
+  // "Superseded" means a later version replaced a version that itself
+  // succeeded — true only for a non-active COMPLETED entry. A non-active
+  // RUNNING or FAILED version never reached COMPLETED, so it was never
+  // superseded; striking it through would read as "this succeeded, then
+  // was replaced", which is false.
+  const isSuperseded = !isActive && version.status === "COMPLETED"
 
   return (
     <div
       className={cn(
         "flex flex-wrap items-center justify-between gap-space-md rounded-xl border px-space-md py-space-sm",
-        isActive ? "border-cyan bg-cyan/5" : "border-hairline text-ink-faint line-through",
+        isActive
+          ? "border-cyan bg-cyan/5"
+          : isSuperseded
+            ? "border-hairline text-ink-faint line-through"
+            : "border-hairline",
       )}
     >
       <span className="flex items-center gap-space-sm">
-        <span className={cn("font-mono text-code-md font-semibold", isActive && "text-ink")}>
+        <span className={cn("font-mono text-code-md font-semibold", !isSuperseded && "text-ink")}>
           v{version.versionNumber}
         </span>
-        {isActive ? (
-          <Badge variant={statusVariant(version.status)}>Active · {version.status}</Badge>
+        {!isSuperseded ? (
+          <Badge variant={statusVariant(version.status)}>
+            {isActive ? `Active · ${version.status}` : version.status}
+          </Badge>
         ) : null}
       </span>
       <span className="font-mono text-code-sm tabular-nums">{rows} rows</span>

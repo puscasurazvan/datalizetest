@@ -29,8 +29,11 @@ test("import a sample CSV and see its schema and rows", async ({ page }) => {
   await expect(page).toHaveURL(/\/datasets\/[^/]+$/, { timeout: 60_000 })
   await expect(page.getByRole("heading", { name: /Stripe transactions/ })).toBeVisible()
 
-  // The schema the inferencer actually produced, not a fixture of it.
-  await expect(page.getByText("Schema · version 1")).toBeVisible()
+  // The schema the inferencer actually produced, not a fixture of it. Column
+  // count, not a literal "version 1": page.tsx titles the schema Sheet
+  // "Schema · N columns · vN" (Stitch design integration), which this
+  // assertion had drifted from.
+  await expect(page.getByRole("heading", { name: /Schema · \d+ columns · v1/ })).toBeVisible()
   await expect(page.getByRole("cell", { name: "amount", exact: true })).toBeVisible()
   await expect(page.getByRole("cell", { name: "currency", exact: true })).toBeVisible()
 
@@ -39,12 +42,19 @@ test("import a sample CSV and see its schema and rows", async ({ page }) => {
   const amountRow = page.getByRole("row").filter({ hasText: "amount" }).first()
   await expect(amountRow).toContainText("decimal")
 
-  // Rows came back from the analytical store.
-  await expect(page.getByText("Rows", { exact: true })).toBeVisible()
-  await expect(page.getByText(/Showing|SHOWING/)).toBeVisible()
+  // Rows came back from the analytical store. One heading carries both facts
+  // (page.tsx: "Rows · showing N of M") — this had drifted to two separate,
+  // now-stale assertions.
+  await expect(page.getByRole("heading", { name: /Rows · showing \d+ of 1,000/ })).toBeVisible()
 
-  // And the dataset is listed on the way back.
-  await page.getByRole("link", { name: "DATASETS", exact: true }).click()
+  // And the dataset is listed on the way back. Scoped to the primary nav:
+  // the page body also has its own "Datasets" back-link (app-shell.tsx's
+  // sidebar copy is title case now, not "DATASETS", and there are two
+  // matches for the bare name).
+  await page
+    .getByRole("navigation", { name: "Primary" })
+    .getByRole("link", { name: "Datasets", exact: true })
+    .click()
   await expect(page).toHaveURL("/datasets")
   await expect(page.getByRole("heading", { name: "1 dataset", exact: true })).toBeVisible()
 })

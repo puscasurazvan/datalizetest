@@ -66,7 +66,16 @@ export async function confirmImport(
     })),
   }
 
-  await recordConfirmedSchema(context, input.importId, confirmedSchema)
+  // The pre-read check above is the fast path; this is the correctness
+  // guarantee under concurrency (plan H1). A second confirm racing this one
+  // can still pass the pre-read before either writes — `recordConfirmedSchema`'s
+  // WHERE re-checks status at the moment of the write, so at most one of two
+  // concurrent calls updates a row. The loser gets the same VALIDATION error
+  // the pre-read check gives a call that arrives after the fact.
+  const updatedRowCount = await recordConfirmedSchema(context, input.importId, confirmedSchema)
+  if (updatedRowCount === 0) {
+    throw new AppError("VALIDATION", "This import is not awaiting confirmation.")
+  }
 
   const jobReference = await deps.jobDispatcher.enqueue(
     "IMPORT_LOAD",

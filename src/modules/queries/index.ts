@@ -31,3 +31,18 @@ export type {
 
 export { executeQuery } from "./service"
 export type { QueryResult, QueryResultColumn } from "./schema/query-result"
+
+export {
+  countFailedExecutions,
+  createSavedQuery,
+  deleteSavedQuery,
+  executeSavedQuery,
+  getSavedQuery,
+  listSavedQueries,
+  updateSavedQuery,
+} from "./saved-query-service"
+export type {
+  SavedQueryDetail,
+  SavedQueryInput,
+  SavedQuerySummary,
+} from "./saved-query-service"

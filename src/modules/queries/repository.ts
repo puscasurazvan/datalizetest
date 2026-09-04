@@ -6,13 +6,20 @@
  * the `public` schema, not `analytical`, and is written by `service.ts`,
  * not by the store.
  */
+import { count, eq } from "drizzle-orm"
+
 import { db } from "@/db/client"
 import { queryExecutions } from "@/db/schema"
 import type { RequestContext } from "@/shared/context/request-context"
-import { withOrganizationId } from "@/shared/repository"
+import { scopedWhere, withOrganizationId } from "@/shared/repository"
 
 export interface NewQueryExecution {
   readonly datasetVersionId: string
+  /** The Saved Query this execution ran, or `null` for an ad-hoc
+   * builder/AI-generated query (docs/decisions/02(b)). Required, not
+   * optional: every caller states its case explicitly rather than one
+   * relying on the field being left off. */
+  readonly savedQueryId: string | null
   readonly organizationTimezone: string
   readonly status: "success" | "failed"
   readonly startedAt: Date
@@ -38,4 +45,14 @@ export async function insertQueryExecution(
     throw new Error("invariant violated: insert into query_executions returned no row")
   }
   return row.id
+}
+
+/** This Organization's failed `query_executions` rows — feeds a dashboard
+ * tile that used to read "—"; a real count, never an estimate. */
+export async function countFailedQueryExecutions(context: RequestContext): Promise<number> {
+  const [row] = await db
+    .select({ n: count() })
+    .from(queryExecutions)
+    .where(scopedWhere(context, queryExecutions, eq(queryExecutions.status, "failed")))
+  return row?.n ?? 0
 }

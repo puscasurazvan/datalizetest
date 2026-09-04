@@ -43,15 +43,18 @@ export type ValueFormat = (typeof VALUE_FORMATS)[number]
 
 export interface TableVisualizationConfig {
   readonly type: "table"
-  readonly title?: string
+  // exactOptionalPropertyTypes: widened to agree with config-schema.ts's
+  // `z.infer` of an `.optional()` field, which is `string | undefined`, not
+  // merely absent-or-string — see config-schema.test.ts's compile-time check.
+  readonly title?: string | undefined
 }
 
 export interface BarVisualizationConfig {
   readonly type: "bar"
-  readonly title?: string
+  readonly title?: string | undefined
   readonly categoryField: FieldRef
   readonly valueField: FieldRef
-  readonly format?: ValueFormat
+  readonly format?: ValueFormat | undefined
 }
 
 /**

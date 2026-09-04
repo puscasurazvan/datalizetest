@@ -1,10 +1,11 @@
 "use client"
 
 import { useRouter } from "next/navigation"
-import { useState, type ChangeEvent, type FormEvent } from "react"
+import { useState, type FormEvent } from "react"
 import { z } from "zod"
 
 import { Button } from "@/components/ui/button"
+import { CsvDropzone, formatBytes } from "@/components/data/csv-dropzone"
 import {
   Dialog,
   DialogContent,
@@ -119,9 +120,17 @@ export function ImportCsvButton({ datasetId }: ImportCsvButtonProps) {
     }
   }
 
-  function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
-    const selected = event.target.files?.[0]
-    if (selected === undefined) {
+  function handleFileSelected(selected: File) {
+    // The `accept` attribute only filters the file picker — a drop bypasses it
+    // entirely, so the check has to live here. Extension OR MIME, never MIME
+    // alone: Windows reports a CSV as `application/vnd.ms-excel`.
+    if (!/\.csv$/i.test(selected.name) && selected.type !== "text/csv") {
+      setFile(null)
+      setPhase({
+        status: "error",
+        message: `"${selected.name}" is not a CSV. Datalize reads .csv files only.`,
+        fieldErrors: {},
+      })
       return
     }
     // Advisory only — `start.ts`'s `statObject` check is what actually
@@ -131,7 +140,7 @@ export function ImportCsvButton({ datasetId }: ImportCsvButtonProps) {
       setFile(null)
       setPhase({
         status: "error",
-        message: `File exceeds the ${MAX_UPLOAD_BYTES}-byte limit (size ${selected.size} bytes). Choose a smaller file.`,
+        message: `"${selected.name}" is larger than the ${formatBytes(MAX_UPLOAD_BYTES)} limit. Choose a smaller file.`,
         fieldErrors: {},
       })
       return
@@ -239,7 +248,9 @@ export function ImportCsvButton({ datasetId }: ImportCsvButtonProps) {
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger render={triggerButton}>{triggerLabel}</DialogTrigger>
-      <DialogContent>
+      {/* Wider than the dialog default: a drop target at `sm:max-w-sm` reads as
+          a cramped box rather than something you would aim a file at. */}
+      <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>{dialogTitle}</DialogTitle>
           <DialogDescription>{dialogDescription}</DialogDescription>
@@ -249,18 +260,12 @@ export function ImportCsvButton({ datasetId }: ImportCsvButtonProps) {
           className="flex flex-col gap-space-lg"
           noValidate
         >
-          <div className="flex flex-col gap-space-sm">
-            <Label htmlFor="import-csv-file">CSV file</Label>
-            <Input
-              id="import-csv-file"
-              name="file"
-              type="file"
-              accept=".csv,text/csv"
-              required
-              disabled={isBusy}
-              onChange={handleFileChange}
-            />
-          </div>
+          <CsvDropzone
+            file={file}
+            disabled={isBusy}
+            maxBytes={MAX_UPLOAD_BYTES}
+            onSelect={handleFileSelected}
+          />
           {datasetId === undefined ? (
             <div className="flex flex-col gap-space-sm">
               <Label htmlFor="import-dataset-name">Dataset name</Label>

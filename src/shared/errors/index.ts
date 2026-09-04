@@ -16,6 +16,7 @@ export type AppErrorCode =
   | "CONCURRENCY_LIMIT"
   | "IMPORT_LIMIT_EXCEEDED"
   | "VALIDATION"
+  | "CONFLICT"
 
 export interface AppErrorInit {
   /** The underlying error, if any. Chained via the standard `Error.cause` —
@@ -85,6 +86,8 @@ export function statusForErrorCode(code: SafeErrorCode): number {
       return 404
     case "VALIDATION":
       return 400
+    case "CONFLICT":
+      return 409
     case "SCHEMA_INCOMPATIBLE":
     case "QUERY_TIMEOUT":
     case "CONCURRENCY_LIMIT":

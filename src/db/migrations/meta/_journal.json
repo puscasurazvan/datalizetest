@@ -43,6 +43,13 @@
       "when": 1788468086500,
       "tag": "0005_woozy_spacker_dave",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1788518480651,
+      "tag": "0006_round_nekra",
+      "breakpoints": true
     }
   ]
 }

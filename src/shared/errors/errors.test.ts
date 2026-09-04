@@ -54,6 +54,7 @@ describe("toSafeDto", () => {
       "CONCURRENCY_LIMIT",
       "IMPORT_LIMIT_EXCEEDED",
       "VALIDATION",
+      "CONFLICT",
     ] as const
 
     for (const code of codes) {
@@ -85,6 +86,7 @@ describe("statusForErrorCode", () => {
       ["FORBIDDEN", 403],
       ["NOT_FOUND", 404],
       ["VALIDATION", 400],
+      ["CONFLICT", 409],
       ["SCHEMA_INCOMPATIBLE", 422],
       ["QUERY_TIMEOUT", 422],
       ["CONCURRENCY_LIMIT", 422],

@@ -81,7 +81,7 @@ function dimensionColumnType(
 
 // Dimensions then measures, keyed by the same name `ExecuteResult.keys` used for that
 // row position — a Column ID for a dimension, the measure's own alias otherwise.
-function resultColumns(resolved: ResolvedQuery): readonly QueryResultColumn[] {
+export function resultColumns(resolved: ResolvedQuery): readonly QueryResultColumn[] {
   return [
     ...resolved.dimensions.map((dimension) => ({
       name: dimension.column.id,
@@ -94,7 +94,56 @@ function resultColumns(resolved: ResolvedQuery): readonly QueryResultColumn[] {
   ]
 }
 
-export async function executeQuery(context: RequestContext, ast: QueryAst): Promise<QueryResult> {
+/**
+ * Validates `ast` against the Dataset's CURRENT schema (`columns`) and
+ * returns the resolved query, or throws `AppError("SCHEMA_INCOMPATIBLE", ...)`
+ * — the one place that builds that message, shared by `executeQuery`'s
+ * try block below and by `saved-query-service.ts`'s pre-save shape check
+ * (contract decision 3), so neither duplicates `describeSchemaIssue`.
+ */
+function resolveAgainstSchema(ast: QueryAst, columns: DatasetColumn[]): ResolvedQuery {
+  const validation = validateQueryAgainstDataset(ast, columns)
+  if (!validation.ok) {
+    throw new AppError("SCHEMA_INCOMPATIBLE", schemaIssueMessage(validation.error.issues), {
+      internal: { issues: validation.error.issues },
+    })
+  }
+  return validation.query
+}
+
+/**
+ * The same schema resolution `executeQuery` runs, reused by
+ * `saved-query-service.ts` to check a Saved Query's `ast` and
+ * `visualization` fit the Dataset's CURRENT schema at create/update time
+ * — without executing the query (contract decision 3: "rejects when
+ * `ast.datasetId` ... and when `validateVisualizationConfig` says the
+ * config does not fit the query's own result shape"). Not itself part of
+ * this module's public surface (`./index.ts`) — a same-module sibling
+ * import, not a cross-module one.
+ */
+export async function resolveSavedQueryShape(
+  context: RequestContext,
+  ast: QueryAst,
+): Promise<{ resolved: ResolvedQuery; columns: readonly QueryResultColumn[] }> {
+  const schema = await getDatasetSchema(context, ast.datasetId)
+  const datasetColumns = schema.columns.map(toDatasetColumn)
+  const resolved = resolveAgainstSchema(ast, datasetColumns)
+  return { resolved, columns: resultColumns(resolved) }
+}
+
+/**
+ * `savedQueryId` is `null` for an ad-hoc builder/AI-generated query
+ * (docs/decisions/02(b): "Absent for ad-hoc builder queries and
+ * AI-generated queries") and threaded into the audit row on both the
+ * success and failure branches below — an optional third parameter with a
+ * default so every existing two-argument call site keeps working
+ * unchanged (queries/CLAUDE.md's own contract for this change).
+ */
+export async function executeQuery(
+  context: RequestContext,
+  ast: QueryAst,
+  savedQueryId: string | null = null,
+): Promise<QueryResult> {
   assertCan(toPolicyContext(context), "query:execute")
 
   // Captured once, before the Dataset Version even resolves: this is "when the
@@ -111,13 +160,7 @@ export async function executeQuery(context: RequestContext, ast: QueryAst): Prom
   const columns = schema.columns.map(toDatasetColumn)
 
   try {
-    const validation = validateQueryAgainstDataset(ast, columns)
-    if (!validation.ok) {
-      throw new AppError("SCHEMA_INCOMPATIBLE", schemaIssueMessage(validation.error.issues), {
-        internal: { issues: validation.error.issues },
-      })
-    }
-    const resolved = validation.query
+    const resolved = resolveAgainstSchema(ast, columns)
 
     const refusal = singleCurrencyRefusal(resolved, columns)
     if (refusal !== null) {
@@ -135,6 +178,7 @@ export async function executeQuery(context: RequestContext, ast: QueryAst): Prom
 
     const queryId = await insertQueryExecution(context, {
       datasetVersionId: schema.datasetVersionId,
+      savedQueryId,
       organizationTimezone: context.organizationTimezone,
       status: "success",
       startedAt,
@@ -157,6 +201,7 @@ export async function executeQuery(context: RequestContext, ast: QueryAst): Prom
   } catch (error) {
     await insertQueryExecution(context, {
       datasetVersionId: schema.datasetVersionId,
+      savedQueryId,
       organizationTimezone: context.organizationTimezone,
       status: "failed",
       startedAt,

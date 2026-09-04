@@ -13,5 +13,9 @@ export * from "./auth"
 // and the analytical store's own registry — see src/db/schema/datasets.ts.
 export * from "./datasets"
 
-// Query pipeline: the query_executions audit trail — see src/db/schema/queries.ts.
+// Query pipeline: saved queries and the query_executions audit trail — see
+// src/db/schema/queries.ts.
 export * from "./queries"
+
+// Dashboards: named layouts of Saved Query widgets — see src/db/schema/dashboards.ts.
+export * from "./dashboards"

@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import "@testing-library/jest-dom/vitest"
-import { cleanup, render, screen, waitFor } from "@testing-library/react"
+import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import { afterEach, describe, expect, it, vi } from "vitest"
 
@@ -57,6 +57,22 @@ function withSize(file: File, sizeBytes: number): File {
   return file
 }
 
+/** The dropzone's `<label>` names the input, so this is the accessible query for it. */
+function csvInput(): HTMLElement {
+  return screen.getByLabelText(/drop a csv here/i)
+}
+
+/**
+ * `user.upload` cannot drive a drop. RTL's `createEvent` copies `dataTransfer`
+ * straight off the init object, which is the only way to carry files in jsdom —
+ * it has no `DataTransfer` constructor.
+ */
+function dropFile(file: File) {
+  const zone = screen.getByTestId("csv-dropzone")
+  fireEvent.dragOver(zone, { dataTransfer: { files: [file], types: ["Files"] } })
+  fireEvent.drop(zone, { dataTransfer: { files: [file], types: ["Files"] } })
+}
+
 async function openDialog(name: RegExp) {
   const user = userEvent.setup()
   await user.click(screen.getByRole("button", { name }))
@@ -69,14 +85,38 @@ describe("ImportCsvButton", () => {
     const user = await openDialog(/import csv/i)
 
     const oversized = withSize(makeCsvFile(), MAX_UPLOAD_BYTES + 1)
-    const fileInput = screen.getByLabelText("CSV file")
+    const fileInput = csvInput()
     await user.upload(fileInput, oversized)
 
     expect(screen.getByRole("alert")).toHaveTextContent(
-      `File exceeds the ${MAX_UPLOAD_BYTES}-byte limit`,
+      '"sales.csv" is larger than the 50 MB limit. Choose a smaller file.',
     )
     expect(fetchMock).not.toHaveBeenCalled()
     expect(startImportActionMock).not.toHaveBeenCalled()
+  })
+
+  it("accepts a dropped CSV and names it in the zone", async () => {
+    render(<ImportCsvButton />)
+    await openDialog(/import csv/i)
+
+    dropFile(makeCsvFile("dropped.csv"))
+
+    expect(screen.getByText("dropped.csv")).toBeInTheDocument()
+    expect(screen.getByRole("button", { name: "Import" })).toBeEnabled()
+    expect(screen.queryByRole("alert")).not.toBeInTheDocument()
+  })
+
+  it("refuses a dropped non-CSV — the `accept` attribute never sees a drop", async () => {
+    render(<ImportCsvButton />)
+    await openDialog(/import csv/i)
+
+    dropFile(new File(["\u0089PNG"], "chart.png", { type: "image/png" }))
+
+    expect(screen.getByRole("alert")).toHaveTextContent(
+      '"chart.png" is not a CSV. Datalize reads .csv files only.',
+    )
+    expect(screen.getByRole("button", { name: "Import" })).toBeDisabled()
+    expect(fetchMock).not.toHaveBeenCalled()
   })
 
   it("recovers to an enabled Import button when the presign fetch itself rejects", async () => {
@@ -84,7 +124,7 @@ describe("ImportCsvButton", () => {
 
     render(<ImportCsvButton />)
     const user = await openDialog(/import csv/i)
-    await user.upload(screen.getByLabelText("CSV file"), makeCsvFile())
+    await user.upload(csvInput(), makeCsvFile())
     await user.click(screen.getByRole("button", { name: "Import" }))
 
     await waitFor(() =>
@@ -108,7 +148,7 @@ describe("ImportCsvButton", () => {
 
     render(<ImportCsvButton />)
     const user = await openDialog(/import csv/i)
-    await user.upload(screen.getByLabelText("CSV file"), makeCsvFile())
+    await user.upload(csvInput(), makeCsvFile())
     await user.click(screen.getByRole("button", { name: "Import" }))
 
     await waitFor(() =>
@@ -125,7 +165,7 @@ describe("ImportCsvButton", () => {
 
     render(<ImportCsvButton />)
     const user = await openDialog(/import csv/i)
-    await user.upload(screen.getByLabelText("CSV file"), makeCsvFile())
+    await user.upload(csvInput(), makeCsvFile())
     await user.click(screen.getByRole("button", { name: "Import" }))
 
     await waitFor(() =>
@@ -147,7 +187,7 @@ describe("ImportCsvButton", () => {
 
     render(<ImportCsvButton />)
     const user = await openDialog(/import csv/i)
-    await user.upload(screen.getByLabelText("CSV file"), makeCsvFile())
+    await user.upload(csvInput(), makeCsvFile())
     await user.click(screen.getByRole("button", { name: "Import" }))
 
     await waitFor(() =>
@@ -166,7 +206,7 @@ describe("ImportCsvButton", () => {
 
     render(<ImportCsvButton />)
     const user = await openDialog(/import csv/i)
-    await user.upload(screen.getByLabelText("CSV file"), makeCsvFile())
+    await user.upload(csvInput(), makeCsvFile())
     await user.click(screen.getByRole("button", { name: "Import" }))
 
     await waitFor(() => expect(pushMock).toHaveBeenCalledWith("/imports/imp_123"))
@@ -186,7 +226,7 @@ describe("ImportCsvButton", () => {
 
     expect(screen.queryByLabelText("Dataset name")).not.toBeInTheDocument()
 
-    await user.upload(screen.getByLabelText("CSV file"), makeCsvFile())
+    await user.upload(csvInput(), makeCsvFile())
     await user.click(screen.getByRole("button", { name: "Import" }))
 
     await waitFor(() => expect(pushMock).toHaveBeenCalledWith("/imports/imp_456"))
